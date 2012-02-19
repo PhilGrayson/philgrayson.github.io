@@ -1,0 +1,71 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+	<header class="jumbotron subhead">
+			<h1>Misc tools</h1>
+			<p class="lead">A bunch of simple tools I frequently need when doing web devel</p>
+	</header>
+	<div class="row" id="first-tools-row">
+		<div class="span7">
+			<h2>Base64 convertor</h2>
+			<div class="row">
+				<div class="span2">
+					<form>
+						<input type="text" class="span2" id="base64-input" placeholder="Input"/>
+					</form>
+				</div>
+				<div class="span2">
+					<div class="btn-group base64">
+						<a class="btn btn-primary" href="#">Encode</a>
+						<a class="btn" href="#">Decode</a>
+					</div>
+				</div>
+				<div class="span3">
+					<input type="text" class="span3" id="base64-result" placeholder="Result"/>
+				</div>
+			</div>
+		</div>
+		<div class="span5">
+			<h2>String Length</h2>
+			<div class="row">
+				<div class="span4">
+					<form>
+						<textarea class="span4" rows="3" id="stringlength-input"></textarea>
+					</form>
+				</div>
+				<div class="span1">
+					<h2 id="stringlength-result">0</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" id="second-tools-row">
+		<div class="span7">
+			<h2>PHP String concatenator</h2>
+			<p>This is not very smart at the moment</p>
+			<textarea class="span7 code" id="php-concat-input" rows="7">
+$query = 'SELECT u.firstName, '.
+                'u.lastName, '.
+                'l.county '.
+           'FROM Users.user AS u '.
+     'INNER JOIN Users.location AS l ON u.locationId = l.locationId '.
+          'WHERE l.country = "United Kingdom" '.
+       'ORDER BY l.county, u.lastName ASC';
+			</textarea>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary" id="php-concat-submit">Concatenate</button>
+				<button type="reset" class="btn" id="php-concat-reset">Clear</button>
+			</div>
+		</div> 
+		<div class="span5" id="php-concat-result">
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	{{ parent() }}
+	<script src="js/base64.js"></script>
+	<script src="js/app.js"></script>
+{% endblock %}
+
+

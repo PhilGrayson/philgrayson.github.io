@@ -1,0 +1,51 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+	<header class="jumbotron subhead">
+			<h1>4Chan post graphs</h1>
+			<p class="lead">Graph the total number of posts and post frequency for each 4chan board</p>
+	</header>
+		<div class="row">
+	{% for category, list  in boards %}
+		{% if loop.index % 3 == 1 %}
+			{% set dataParent = loop.index %}
+			<div class="span6">
+				<div class="accordion" id="accordion_{{dataParent}}">
+		{% endif %}
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_{{dataParent}}" href="#accordionGroup_{{loop.index}}">
+					<h2>{{category}}</h2>
+				</a>
+			</div>
+			<div class="accordion-body collapse" id="accordionGroup_{{loop.index}}">
+				<div class="accordion-inner">
+					{% for name, board in list %}
+							<a class="btn btn-primary span2" id="{{board}}" style="margin:1px" href="#" data-toggle="button">
+								{{name}}
+							</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		{% if loop.index % 3 == 0 %}
+				</div>
+			</div>
+		{% endif %}	
+	{% endfor %}
+	</div>
+	<div class"row">
+		<div class="span12">
+			<div id="graphContainer"></div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	{{ parent() }}
+	<script src="js/bootstrap-button.js"></script>
+	<script src="js/bootstrap-collapse.js"></script>
+
+	<script src="js/4chanGraph/Highcharts-2.2.0/highcharts.js"></script>
+	<script src="js/4chanGraph/app.js"></script>
+{% endblock %}
