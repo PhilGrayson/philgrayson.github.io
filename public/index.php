@@ -6,7 +6,7 @@
 
 	// Setup twig
 	$app->register(new Silex\Provider\TwigServiceProvider(), array(
-		'twig.path'       => root_dir . 'Application/views',
+		'twig.path'       => root_dir . 'Application/Views',
 		'twig.class_path' => root_dir . 'Application/vendor/twig/lib',
 	));
 
