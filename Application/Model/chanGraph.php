@@ -85,11 +85,45 @@
 					$query = 'SELECT number, date '.
 					           'FROM posts '.
 										'WHERE board = :board '.
-										'ORDER BY date '.
-										'DESC LIMIT 1';
+								 'ORDER BY date DESC '.
+										'LIMIT 1';
 					return $this->app['db']->fetchAssoc($query, array('board' => $board));
 				}
 
 				return false;
+			}
+
+			public function getPosts(array $boards = array(), 
+														 \DateTime $from = null,
+			                         \DateTime $to = null) {
+
+				if (empty($boards)) {
+					foreach(\Application\Model\chanGraph::$boards as $category => $list) {
+						$boards	= array_merge($boards, array_values($list));
+					}
+				}
+
+				if (!($from && $to)) {
+					$from = new \DateTime('14 day ago');
+					$to   = new \DateTime();
+				}
+
+				$query = 'SELECT number, board, date '.
+				           'FROM posts '.
+									'WHERE board IN (:boards) '.
+									  "AND date >= :from ".
+										"AND date <= :to ".
+							 'ORDER BY board, date DESC';
+
+				$params = array('boards' => $boards,
+				                  'from' => $from,
+							              'to' => $to);
+				
+				$types = array('boards' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY,
+				               'from'   => \Doctrine\DBAL\Types\Type::DATETIME,
+				               'to'     => \Doctrine\DBAL\Types\Type::DATETIME);
+
+				return $this->app['db']->executeQuery($query, $params, $types)
+				                        ->fetchAll(\PDO::FETCH_ASSOC);
 			}
 		};

@@ -10,6 +10,7 @@
 		'twig.class_path' => root_dir . 'Application/vendor/twig/lib',
 	));
 
+	// Setup Doctrine
 	$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 		'db.options' => array(
 			  'driver' => 'pdo_mysql',
@@ -34,6 +35,13 @@
 	// 4chan graph routes
 	$app->get('/4chan-graph', function() use ($app) {
 		$controller = new Application\Controller\chanGraph($app);
+
+		$contentTypes = $app['request']->getAcceptableContentTypes();
+		
+		if ($contentTypes[0] == 'application/json') {
+			return $controller->jsonResponder();
+		}
+		
 		return $controller->index();
 	});
 
