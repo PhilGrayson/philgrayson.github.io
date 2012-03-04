@@ -32,20 +32,29 @@
 			}
 
 			if (!($from && $to)) {
+				// Set a default time range
 				$from = new \DateTime('1 day ago');
 				$to   = new \DateTime();
 			}
 
-			$rows    = $this->model->getPosts($boards, $from, $to);
+			$counts  = $this->model->getPostCount($boards);
+			$posts   = $this->model->getPosts($boards, $from, $to);
 			$content = array();
-
-			if (count($rows) > 0) {
-
-				foreach($rows as $row) {
-					$content['data'][$row['board']][] = array('count' => $row['number'], 'date' => $row['date']);
+			
+			// Build the response
+			if (count($counts) > 0 && count($posts) > 0) {
+				foreach ($counts as $board => $count) {
+						if (!empty($count['number'])) {
+							$content['boards'][$board]['total'] = $count;
+						}
 				}
 
-				$content['boards'] = array_keys($content['data']);
+				foreach($posts as $post) {
+					if (!empty($post)) {
+						$content['boards'][$post['board']]['posts'][] = array('count' => $post['number'],
+						                                                      'date' => $post['date']);
+					}
+				}
 			}
 			
 			return new Response(json_encode($content), 200, array('Content-Type' => 'application/json'));

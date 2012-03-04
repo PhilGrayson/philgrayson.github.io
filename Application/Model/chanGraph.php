@@ -80,31 +80,46 @@
 				return false;
 			}
 
-			public function getPostCount($board) {
-				if (Board::isValid($board)) {
-					$query = 'SELECT number, date '.
-					           'FROM posts '.
-										'WHERE board = :board '.
-								 'ORDER BY date DESC '.
-										'LIMIT 1';
-					return $this->app['db']->fetchAssoc($query, array('board' => $board));
+			public function getPostCount(array $boards) {
+				$valid = array();
+				foreach ($boards as $board) {
+					if (chanGraph::isValid($board)) {
+						$valid[] = $board;
+					}
 				}
 
-				return false;
+				$result = array();
+				if (count($valid) > 0) {
+						$query = 'SELECT MAX(number) as number, '.
+						                'date '.
+						           'FROM posts '.
+											'WHERE board = :board';
+
+						$stmt = $this->app['db']->prepare($query);
+
+						foreach ($valid as $board) {
+							$stmt->execute(array('board' => $board));
+							$data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+							$result[$board] = $data[0];
+					}
+				}
+
+				return $result;
 			}
 
-			public function getPosts(array $boards = array(), 
+			public function getPosts(array $boards, 
 														 \DateTime $from = null,
 			                         \DateTime $to = null) {
 
-				if (empty($boards)) {
-					foreach(\Application\Model\chanGraph::$boards as $category => $list) {
-						$boards	= array_merge($boards, array_values($list));
+				$valid = array();
+				foreach ($boards as $board) {
+					if (chanGraph::isValid($board)) {
+						$valid[] = $board;
 					}
 				}
 
 				if (!($from && $to)) {
-					$from = new \DateTime('14 day ago');
+					$from = new \DateTime('1 day ago');
 					$to   = new \DateTime();
 				}
 
@@ -115,14 +130,14 @@
 										"AND date <= :to ".
 							 'ORDER BY board, date DESC';
 
-				$params = array('boards' => $boards,
+				$params = array('boards' => $valid,
 				                  'from' => $from,
 							              'to' => $to);
 				
 				$types = array('boards' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY,
 				               'from'   => \Doctrine\DBAL\Types\Type::DATETIME,
 				               'to'     => \Doctrine\DBAL\Types\Type::DATETIME);
-
+				
 				return $this->app['db']->executeQuery($query, $params, $types)
 				                        ->fetchAll(\PDO::FETCH_ASSOC);
 			}

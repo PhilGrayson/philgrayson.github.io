@@ -2,31 +2,40 @@ $(document).ready(function() {
 	var drawGraph = function(result) {
 		var options = {
 			chart : {
-				renderTo: 'graphContainer',
-				defaultSeriesType: 'spline',
+				renderTo: 'graphContainer'
+			},
+			title: {
+				text: ''
 			},
 			yAxis: {
 				title: {
 					text: 'Number of posts'
 				}
 			},
-			xAxis: {
-				title: {
-					text: 'Date'
-				},
-				type: 'datetime'
-			},
+			xAxis: {},
 			series: []
 		};
 
 		if (!$.isEmptyObject(result)) {
-			$.each(result.boards, function(index, board) {
-				var series = result.data[board].map(function(point) {
+			var xAxis  = [];
+			var column = {type: 'column', name: 'post count', data: []};
+			$.each(result.boards, function(board, data) {
+				xAxis.push(board);
+			});
+
+			options.xAxis.categories = xAxis;
+
+			$.each(result.boards, function(board, data) {
+				column.data.push(parseInt(data.total.number));
+
+				var series = data.posts.map(function(point) {
 					return [Date.parse(point.date), parseInt(point.count)];
 				});
 
-				options.series.push({name: board, data: series});
+				//options.series.push({type: 'spline', name: board, data: series});
 			});
+
+			options.series.push(column);
 		}
 		
 		new Highcharts.Chart(options);
@@ -43,16 +52,19 @@ $(document).ready(function() {
 
 		now  = new Date();
 		then = new Date();
-		then.setDate(then.getDate() - 8);
+		// Default to one day ago
+		then.setDate(then.getDate() - 1);
 
 		data.from = then.toJSON();
 		data.to =  now.toJSON();
 
+		// Build boards array
 		var boards = [];
 		$('.boardToggle.active').each(function(index, elem) {
 			boards.push(elem.id);
 		});
 
+		// Convert to comma seperated list
 		if (boards.length > 0) {
 			data.boards = boards.reduce(function(prev, curr, index) {
 				return prev + ',' + curr;
