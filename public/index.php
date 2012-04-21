@@ -17,7 +17,7 @@
 			  'dbname' => '4changraph',
 			    'user' => 'dev-user',
 			'password' => 'user-dev',
-			    'host' => 'philgrayson.com',
+			    'host' => '178.79.189.205',
 		),
 		'db.dbal.class_path'   => root_dir . 'Application/vendor/doctrine-dbal/lib',
 		'db.common.class_path' => root_dir . 'Application/vendor/doctrine-common/lib',
