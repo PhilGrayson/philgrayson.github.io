@@ -12,14 +12,6 @@ BOOTSTRAP_RESPONSIVE_LESS = ${BOOTSTRAP_DIR}/less/responsive.less
 #
 
 bootstrap:
-	mkdir -p ${PUBLIC_DIR}/img
-	mkdir -p ${PUBLIC_DIR}/css
-	mkdir -p ${PUBLIC_DIR}/js
-	cp ${BOOTSTRAP_DIR}/img/* ${PUBLIC_DIR}/img/
-	cp ${BOOTSTRAP_DIR}/js/*.js ${PUBLIC_DIR}/js/
-	cp ${BOOTSTRAP_DIR}/js/tests/vendor/jquery.js ${PUBLIC_DIR}/js/
-	cp ${BOOTSTRAP_DIR}/js/tests/vendor/jquery.js ${PUBLIC_DIR}/js/
-	
 	lessc ${BOOTSTRAP_LESS} > ${BOOTSTRAP}
 	lessc ${BOOTSTRAP_RESPONSIVE_LESS} > ${BOOTSTRAP_RESPONSIVE}
 	lessc ${BOOTSTRAP_DIR}/less/custom.less > ${PUBLIC_DIR}/css/custom.css
