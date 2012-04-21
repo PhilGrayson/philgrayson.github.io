@@ -3,6 +3,6 @@
 
 {% block content %}
 	<h1>{{ title }}</h1>
-	<h2>Posted on {{ date }}</h2>
+	<h2>Posted on {{ date.string }}</h2>
 	{{ content | raw }}
 {% endblock %}
