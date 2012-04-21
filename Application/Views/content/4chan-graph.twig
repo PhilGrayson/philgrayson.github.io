@@ -1,5 +1,11 @@
 {% extends "layout.twig" %}
 
+{% block styles %}
+	{{ parent() }}
+
+	<link href="css/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
 	<header class="jumbotron subhead">
 			<h1>4Chan post graphs</h1>
@@ -56,9 +62,12 @@
 
 {% block scripts %}
 	{{ parent() }}
+	<script src="js/jquery-ui-1.8.19.custom.min.js"></script>
+
 	<script src="js/bootstrap-button.js"></script>
 	<script src="js/bootstrap-collapse.js"></script>
 
 	<script src="js/4chanGraph/Highcharts-2.2.0/highcharts.js"></script>
+
 	<script src="js/4chanGraph/app.js"></script>
 {% endblock %}
