@@ -1,9 +1,9 @@
 <?php
-	namespace Application\Controller;
+  namespace Application\Controller;
 
-	class miscTools extends Controller {
-		function index() {
-			$vars = array('title' => 'Misc Tools');
-			return $this->app['twig']->render('content/misc-tools.twig', $vars);
-		}
-	}
+  class miscTools extends Controller {
+    function index() {
+      $vars = array('title' => 'Misc Tools');
+      return $this->app['twig']->render('content/misc-tools.twig', $vars);
+    }
+  }

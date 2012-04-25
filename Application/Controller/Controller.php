@@ -1,10 +1,10 @@
 <?php
-	namespace Application\Controller;
+  namespace Application\Controller;
 
-	class Controller {
-		public $model;
+  class Controller {
+    public $model;
 
-		public function __construct(\Silex\Application $app) {
-			$this->app = $app;
-		}
-	}
+    public function __construct(\Silex\Application $app) {
+      $this->app = $app;
+    }
+  }
