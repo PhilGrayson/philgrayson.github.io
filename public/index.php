@@ -1,13 +1,13 @@
 <?php
 	define('root_dir', __DIR__ . '/../');
-	require_once root_dir . 'Application/vendor/silex.phar';
+	require_once root_dir . 'vendor/silex.phar';
 
 	$app = new Silex\Application();
 
 	// Setup twig
 	$app->register(new Silex\Provider\TwigServiceProvider(), array(
 		'twig.path'       => root_dir . 'Application/Views',
-		'twig.class_path' => root_dir . 'Application/vendor/twig/lib',
+		'twig.class_path' => root_dir . 'vendor/twig/lib',
 	));
 
 	// Setup Doctrine
@@ -19,8 +19,8 @@
 			'password' => 'user-dev',
 			    'host' => '178.79.189.205',
 		),
-		'db.dbal.class_path'   => root_dir . 'Application/vendor/doctrine-dbal/lib',
-		'db.common.class_path' => root_dir . 'Application/vendor/doctrine-common/lib',
+		'db.dbal.class_path'   => root_dir . 'vendor/doctrine-dbal/lib',
+		'db.common.class_path' => root_dir . 'vendor/doctrine-common/lib',
 	));
 
 	// Add Application namespace to autoloader

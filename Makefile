@@ -1,11 +1,11 @@
 ROOT_DIR      = /home/phil/Documents/Programming/Web/philgrayson.com
 PUBLIC_DIR    = ${ROOT_DIR}/public
-BOOTSTRAP_DIR = ${ROOT_DIR}/bootstrap
+BOOTSTRAP_DIR = ${ROOT_DIR}/data/bootstrap
 
 BOOTSTRAP      = ${PUBLIC_DIR}/css/bootstrap.css
-BOOTSTRAP_LESS = ${BOOTSTRAP_DIR}/less/bootstrap.less
+BOOTSTRAP_LESS = ${BOOTSTRAP_DIR}/bootstrap.less
 BOOTSTRAP_RESPONSIVE      = ${PUBLIC_DIR}/css/bootstrap-responsive.css
-BOOTSTRAP_RESPONSIVE_LESS = ${BOOTSTRAP_DIR}/less/responsive.less
+BOOTSTRAP_RESPONSIVE_LESS = ${BOOTSTRAP_DIR}/responsive.less
 
 #
 # BUILD SIMPLE BOOTSTRAP DIRECTORY
