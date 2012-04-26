@@ -17,29 +17,17 @@
       $sorted = array();
       if (count($posts) > 0) {
         foreach($posts as $post) {
-          $year  = $post['date']['year'];
-          $month = $post['date']['month'];
-          $day   = $post['date']['day'];
+          $year  = (int) $post['date']['year'];
+          $month = (int) $post['date']['month'];
+          $day   = (int) $post['date']['day'];
           $sorted[$year][$month][$day][] = $post;
         }
 
-        // Reverse the arrays to the latest post is first
-        foreach($sorted as $year => $yearPosts) {
-          foreach($yearPosts as $month => $monthPosts) {
-            foreach ($monthPosts as $day => $dayPosts) {
-              // Reverse days
-              $dayPosts = array_reverse($dayPosts, true);
-              $sorted[$year][$month][$day] = $dayPosts;
-            }
-            // Reverse months
-            $monthPosts =  array_reverse($monthPosts, true);
-            $sorted[$year][$month] = $monthPosts;
-          }
-        }
+        // Arrange to be latest first
+        krsort($sorted[$year][$month][$day]);
+        krsort($sorted[$year][$month]);
+        krsort($sorted[$year]);
       }
-
-      // Reverse years  
-      $sorted = array_reverse($sorted, true);
 
       return $this->app['twig']->render('content/blog/index.twig', array('title' => 'Phil Grayson blog', 'posts' => $sorted));
     }
