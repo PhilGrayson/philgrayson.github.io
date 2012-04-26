@@ -13,8 +13,14 @@
 
   $console->register('update')
           ->setDescription('Update the supplied board\'s post count')
-          ->addOption('dry-run', null, INPUTOPTION::VALUE_NONE, 'Don\'t insert into the DB')
-          ->addOption('boards', null, INPUTOPTION::VALUE_OPTIONAL, 'Space seperated list of boards to update')
+          ->addOption('dry-run',
+                      null,
+                      INPUTOPTION::VALUE_NONE,
+                      'Don\'t insert into the DB')
+          ->addOption('boards',
+                      null,
+                      INPUTOPTION::VALUE_REQUIRED,
+                      'Space seperated list of boards to update')
           ->setCode(function(InputInterface $input, OutputInterface $output) use ($app) {
             //
             // Loop through the supplied boards and grab the post count
@@ -113,6 +119,7 @@
                 }
               }
             }
+            $output->writeln('');
           });
 
   $console->run();
