@@ -15,19 +15,21 @@
           ->setCode(function(InputInterface $input, OutputInterface $output) use ($console) {
             $dialog  = $console->getHelperSet()->get('dialog');
 
+            // Dates (for path/sorting)
             $date  = date('Y-m-d');
             $year  = date('Y');
             $month = date('m');
             $day   = date('d');
 
-            
+            // Title
             do {
               $title = $dialog->ask($output, 'Title : ', '');
               if (empty($title)) {
                 $output->writeln('<error>Invalid title. Please at least provide something.</error>');
               }
             } while (empty($title));
-            
+
+            // Url (unique identifier)
             do {
               $url = $dialog->ask($output, 'Url : ', '');
               $url = strtolower($url);
@@ -43,11 +45,12 @@
                 $url = '';
                 $output->writeln('<error>Invalid url. Forward slashes are not allowed.</error>');
               } else if (file_exists($path)) {
-                $url = '';  // Force loop
+                $url = '';
                 $output->writeln('<error>Invalid url. It already exists</error>');
               }
             } while (empty($url));
 
+            // Blurb
             do {
               $blurb = $dialog->ask($output, 'Blurb : ', '');
 
@@ -59,6 +62,7 @@
               }
             } while (!$confirm);
 
+            // Content
             do {
               $content = $dialog->ask($output, 'Content : ', '');
 
@@ -67,7 +71,7 @@
               }
             } while (empty($content));
 
-            // At this point we should have everything required to build the post yaml
+            // At this point we have everything required to build the post yaml
             $arrPost = array('title' => $title,
                              'url' => "$postUrl",
                              'date' => array (
@@ -91,7 +95,6 @@
 
               fclose($file);
             }
-
           });
 
   $console->run();
