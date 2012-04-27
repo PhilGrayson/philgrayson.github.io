@@ -30,10 +30,7 @@
     private function parsePost($path) {
 
       if (file_exists($path)) {
-        $contents = file_get_contents($path);
-        $contents = \yaml_parse($contents);
-        
-        return $contents;
+        return \yaml_parse_url($path); 
       }
 
       return false;
