@@ -13,3 +13,12 @@
 [submodule "doctrine2-common"]
 	path = doctrine2-common
 	url = git://github.com/doctrine/common.git
+[submodule "vendor/doctrine2-dbal/lib/vendor/Symfony/Component/Console"]
+	path = vendor/doctrine2-dbal/lib/vendor/Symfony/Component/Console
+	url = https://github.com/symfony/Console.git
+[submodule "vendor/doctrine2-dbal/lib/vendor/doctrine-build-common"]
+	path = vendor/doctrine2-dbal/lib/vendor/doctrine-build-common
+	url = git://github.com/doctrine/doctrine-build-common.git
+[submodule "vendor/doctrine2-dbal/lib/vendor/doctrine-common"]
+	path = vendor/doctrine2-dbal/lib/vendor/doctrine-common
+	url = git://github.com/doctrine/common.git
