@@ -7,3 +7,9 @@
 [submodule "vendor/Twig"]
 	path = vendor/Twig
 	url = git://github.com/fabpot/Twig.git
+[submodule "vendor/doctrine2-common"]
+	path = vendor/doctrine2-common
+	url = git://github.com/doctrine/common.git
+[submodule "doctrine2-common"]
+	path = doctrine2-common
+	url = git://github.com/doctrine/common.git

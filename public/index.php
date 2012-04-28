@@ -14,14 +14,14 @@
   // Setup twig
   $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path'       => root_dir . 'Application/Views',
-    'twig.class_path' => root_dir . 'vendor/twig/lib',
+    'twig.class_path' => root_dir . 'vendor/Twig/lib',
   ));
 
   // Setup Doctrine
   $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'dbs.options' => $config['live']['doctrine'],
-    'db.dbal.class_path'   => root_dir . 'vendor/doctrine-dbal/lib',
-    'db.common.class_path' => root_dir . 'vendor/doctrine-common/lib',
+    'db.dbal.class_path'   => root_dir . 'vendor/doctrine2-dbal/lib',
+    'db.common.class_path' => root_dir . 'vendor/doctrine2-common/lib',
   ));
 
   $app->get('/', function() use ($app) {
