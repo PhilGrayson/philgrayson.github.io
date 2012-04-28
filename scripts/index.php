@@ -14,8 +14,8 @@
   // Setup Doctrine
   $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'dbs.options' => $config['live']['doctrine'],
-    'db.dbal.class_path'   => root_dir . 'vendor/doctrine-dbal/lib',
-    'db.common.class_path' => root_dir . 'vendor/doctrine-common/lib',
+    'db.dbal.class_path'   => root_dir . 'vendor/doctrine2-dbal/lib',
+    'db.common.class_path' => root_dir . 'vendor/doctrine2-common/lib',
   ));
 
   return $app;
