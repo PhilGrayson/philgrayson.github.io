@@ -138,7 +138,7 @@
                        'from'   => \Doctrine\DBAL\Types\Type::DATETIME,
                        'to'     => \Doctrine\DBAL\Types\Type::DATETIME);
         
-        return $this->app['db']->executeQuery($query, $params, $types)
-                                ->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->app['dbs']['4changraph']->executeQuery($query, $params, $types)
+                                              ->fetchAll(\PDO::FETCH_ASSOC);
       }
     };

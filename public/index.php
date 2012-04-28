@@ -4,6 +4,13 @@
 
   $app = new Silex\Application();
 
+  // Add namespaces
+  $app['autoloader']->registerNamespace('Application', root_dir);
+  $app['autoloader']->registerNamespace('Symfony', root_dir . '/vendor');
+
+  // Application configs
+  $config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
+
   // Setup twig
   $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path'       => root_dir . 'Application/Views',
@@ -12,21 +19,11 @@
 
   // Setup Doctrine
   $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-    'db.options' => array(
-        'driver' => 'pdo_mysql',
-        'dbname' => '4changraph',
-          'user' => 'dev-user',
-      'password' => 'user-dev',
-          'host' => '178.79.189.205',
-    ),
+    'dbs.options' => $config['live']['doctrine'],
     'db.dbal.class_path'   => root_dir . 'vendor/doctrine-dbal/lib',
     'db.common.class_path' => root_dir . 'vendor/doctrine-common/lib',
   ));
 
-  // Add Application namespace to autoloader
-  $app['autoloader']->registerNamespace('Application', root_dir);
-  $app['autoloader']->registerNamespace('Symfony', root_dir . '/vendor');
-  
   $app->get('/', function() use ($app) {
     $controller = new Application\Controller\Blog($app);
     return $controller->index();
@@ -53,7 +50,7 @@
     if ($contentTypes[0] == 'application/json') {
       return $controller->jsonResponder();
     }
-    
+
     return $controller->index();
   });
 

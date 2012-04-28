@@ -1,0 +1,13 @@
+core:
+  domain: 'philgrayson.com'
+  static: 'static.philgrayson.com'
+  path  : '/home/phil/Documents/Programming/Web/philgrayson.com'
+
+live:
+  doctrine:
+    4changraph:
+      driver   : 'pdo_mysql'
+      dbname   : '4changraph'
+      user     : 'dev-user',
+      password : 'user-dev',
+      host     : '178.79.189.205'

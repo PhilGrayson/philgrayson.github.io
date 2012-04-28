@@ -40,7 +40,7 @@
               if (!is_array($boards)) {
                 // Not found... Grab it from the DB and update redis
                 $query   = 'SELECT handle FROM boards';
-                $stmt    = $app['db']->executeQuery($query);
+                $stmt    = $app['dbs']['4changraph']->executeQuery($query);
                 $records = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
                 $boards  = array();
@@ -117,7 +117,7 @@
                   if (!$boardId > 0) {
                     // Not found... Grab it from the DB and update redis
                     $query   = 'SELECT id FROM boards WHERE handle = :handle';
-                    $record  = $app['db']->fetchAssoc($query, array('handle' => $board));
+                    $record  = $app['dbs']['4changraph']->fetchAssoc($query, array('handle' => $board));
                     $boardId = $record['id'];
 
                     $redis->set("board:name:$boardId", $board);
@@ -125,7 +125,7 @@
                   }
 
                   // Perform the insert
-                  $app['db']->insert('posts', array('board_id' => $boardId,
+                  $app['dbs']['4changraph']->insert('posts', array('board_id' => $boardId,
                                                       'number' => $count));
 
                   $redis->set("board:$board:total", $count);
