@@ -6,11 +6,11 @@ server {
   listen 80;
   listen [::]:80 default ipv6only=on;
 
-  server_name philgrayson.com;
+  server_name {domain-name};
 
-  # Redirect static file requests to static.philgrayson.com
+  # Redirect static file requests to {static-domain-name}
   location ~* \.(gif|jpg|jpeg|png|html|htm|js|css)$ {
-    rewrite (.*) http://static.philgrayson.com:80/$1;
+    rewrite (.*) http://{static-domain-name}:80/$1;
   }
 
   location / {
@@ -19,21 +19,20 @@ server {
 
     proxy_set_header Host $host;
 
-    proxy_pass http://philgrayson.com:8080;
+    proxy_pass http://{domain-name}:8080;
   }
 }
 
 server {
   listen 80;
-  server_name static.philgrayson.com;
+  server_name {static-domain-name};
 
   location ~* \.(gif|jpg|jpeg|png|html|htm|js|css)$ {
-    root /home/phil/Documents/Programming/Web/philgrayson.com/public;
-
-    try_files $uri @philgrayson;
+    root {document-root}/public;
+    try_files $uri @{domain-name};
   }
 
-  location @philgrayson.com {
-    rewrite . http://philgrayson.com;
+  location @{domain-name} {
+    rewrite . http://{domain-name};
   }
 }
