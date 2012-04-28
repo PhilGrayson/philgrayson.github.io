@@ -1,18 +1,33 @@
 Deployment:
   Requisites:
+    git
+      apt-get install git-core
     Apache
-      sudo apt-get install apache2
+      apt-get install apache2
     Nginx
-      sudo apt-get install nginx
+      apt-get install nginx
     php
-      sudo apt-get install php5 php5-mysql php-pear libapache2-mod-php5
+      apt-get install php5 php5-mysql php-pear libapache2-mod-php5
+    mysql
+      apt-get install mysql-server
     libyaml
-      sudo apt-get install libyaml-dev
+      apt-get install libyaml-dev
     phing
       pear channel-discover pear.phing.info
       pear install --alldeps phing/phing
+    node.js
+      git clone git://github.com/ry/node.git
+      cd node
+      ./configure
+      make
+      sudo make install
+    lessc
+      npm -g install less
 
   Steps:
     1. Copy repo to a directory readable to apache and nginx
-    2. Update config/config.ini with relevant information
-    3. Run cd scripts/deploy && sudo phing
+    2. Run git submodule init
+    3. Run git submodule update --recursive
+    4. Enable apache2 mod_rewrite (a2enmod rewrite)
+    5. Update config/config.ini with relevant information
+    6. Run cd scripts/deploy && sudo phing

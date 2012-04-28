@@ -11,6 +11,7 @@
     <chmod file="/usr/sbin/nginx_dissite" mode="755" />
 
     <echo>Creating ${core.domain} apache config</echo>
+    <delete file="${core.apache2.conf}/default}" />
     <copy file="config/apache2/${core.domain}" tofile="${core.apache2.conf}/${core.domain}" overwrite="true">
       <filterchain>
         <replaceregexp>
@@ -22,6 +23,7 @@
     </copy>
 
     <echo>Creating ${core.domain} nginx config</echo>
+    <delete file="${core.nginx.conf}/default}" />
     <copy file="config/nginx/${core.domain}" tofile="${core.nginx.conf}/${core.domain}" overwrite="true">
       <filterchain>
         <replaceregexp>
