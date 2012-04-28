@@ -75,17 +75,29 @@
                 continue;
               }
 
-              $numbers     = array();
-              $xpath       = new DomXPath($dom);
-              $postNumbers = $xpath->query("//*[@class='reply']/@id");
+              $numbers = array();
+              $xpath   = new DomXPath($dom);
+              $query   = "//div[contains(@class, 'postContainer')]/div[contains(@class, 'post')]/@id";
+              $postNumbers = @$xpath->query($query);
+              if (empty($postNumbers)) {
+                $output->write('<error>Script failed to find the parse the HTML correctly.</error>');
+                $output->writeln('');
+                continue;
+              }
 
               foreach ($postNumbers as $post) {
                 try {
-                  $numbers[] = $post->nodeValue;
-                } catch (Exception $e) {}
+                  // Post IDs start with p...
+                  if (strpos($post->nodeValue, 'p') === 0) {
+                    $numbers[] = substr($post->nodeValue, 1);
+                  }
+                } catch (Exception $e) 
+                {}
               }
 
               if (empty($numbers)) {
+                $output->write('<error>Script failed to find the post numbers.</error>');
+                $output->writeln('');
                 continue;
               }
 
@@ -100,7 +112,7 @@
               if (count($posts) > 0) {
                 foreach ($posts as $board => $count) {
                   // Check Redis for the board Id
-                  $boardId = $redis->get("board:handle:$board");
+                  $boardId = $redis->get("board:id:$board");
 
                   if (!$boardId > 0) {
                     // Not found... Grab it from the DB and update redis
@@ -108,13 +120,15 @@
                     $record  = $app['db']->fetchAssoc($query, array('handle' => $board));
                     $boardId = $record['id'];
 
+                    $redis->set("board:name:$boardId", $board);
                     $redis->set("board:id:$board", $boardId);
-                    $redis->set("board:handle:$boardId", $board);
                   }
 
                   // Perform the insert
                   $app['db']->insert('posts', array('board_id' => $boardId,
                                                       'number' => $count));
+
+                  $redis->set("board:$board:total", $count);
                 }
               }
             }
