@@ -1,4 +1,7 @@
 $(document).ready(function() {
+  $('[name="from"]').datepicker();
+  $('[name="to"]').datepicker();
+
   var drawGraph = function(result) {
     var options = {
       chart : {

@@ -3,6 +3,6 @@ live:
     4changraph:
       driver   : 'pdo_mysql'
       dbname   : '4changraph'
-      user     : 'dev-user',
-      password : 'user-dev',
+      user     : 'dev-user'
+      password : 'user-dev'
       host     : '178.79.189.205'
