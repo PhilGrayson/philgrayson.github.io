@@ -8,6 +8,8 @@
   use Symfony\Component\Console\Input\InputInterface;
   use Symfony\Component\Console\Output\OutputInterface;
 
+  use Symfony\Component\Yaml\Yaml;
+
   $console = new Application();
 
   $console->register('new')
@@ -73,17 +75,17 @@
 
             // At this point we have everything required to build the post yaml
             $arrPost = array('title' => $title,
-                             'url' => "$postUrl",
-                             'date' => array (
-                               'string' => $date,
+                             'url'   => "$postUrl",
+                             'date'  => array (
+                               'string' => "$date",
                                'year'   => $year,
                                'month'  => $month,
                                'day'    => $day,
                              ),
-                             'blurb' => $blurb,
+                             'blurb'   => $blurb,
                              'content' => $content);
 
-            $yaml = \yaml_emit($arrPost);
+            $yaml = Yaml::dump($arrPost, 2);
 
             if (!file_exists($path)) {
               $file = fopen($path, 'w');

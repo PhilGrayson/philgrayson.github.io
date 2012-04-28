@@ -25,6 +25,7 @@
 
   // Add Application namespace to autoloader
   $app['autoloader']->registerNamespace('Application', root_dir);
+  $app['autoloader']->registerNamespace('Symfony', root_dir . '/vendor');
   
   $app->get('/', function() use ($app) {
     $controller = new Application\Controller\Blog($app);

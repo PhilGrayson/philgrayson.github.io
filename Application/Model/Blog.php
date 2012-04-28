@@ -1,6 +1,8 @@
 <?php
   namespace Application\Model;
 
+  use Symfony\Component\Yaml\Yaml;
+
   class blog extends Model {
     public function getAll() {
       $basePath = '../data/blog';
@@ -30,7 +32,7 @@
     private function parsePost($path) {
 
       if (file_exists($path)) {
-        return \yaml_parse_url($path); 
+        return Yaml::parse($path);
       }
 
       return false;
