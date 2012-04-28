@@ -32,8 +32,18 @@
       </filterchain>
     </copy>
 
+    <echo>Creating Makefile</echo>
+    <copy file="config/Makefile" tofile="Makefile" overwrite="true">
+      <filterchain>
+        <replaceregexp>
+          <regexp pattern="{document-root}" replace="${core.path}" />
+        </replaceregexp>
+      </filterchain>
+    </copy>
 
     <echo>Enabling config files and restarting webservers</echo>
+    <exec command="make" />
+
     <exec command="a2ensite ${core.domain}" />
     <exec command="nginx_ensite ${core.domain}" />
 
