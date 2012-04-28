@@ -1,1 +1,18 @@
-This repo is intended to replace the 4chan-grap and misc-tools repo. More to come
+Deployment:
+  Requisites:
+    Apache
+      sudo apt-get install apache2
+    Nginx
+      sudo apt-get install nginx
+    php
+      sudo apt-get install php5 php5-mysql php-pear libapache2-mod-php5
+    libyaml
+      sudo apt-get install libyaml-dev
+    phing
+      pear channel-discover pear.phing.info
+      pear install --alldeps phing/phing
+
+  Steps:
+    1. Copy repo to a directory readable to apache and nginx
+    2. Update config/config.ini with relevant information
+    3. Run cd scripts/deploy && sudo phing
