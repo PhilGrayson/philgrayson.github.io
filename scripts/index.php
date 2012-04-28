@@ -9,7 +9,7 @@
   $app['autoloader']->registerNamespace('Predis', root_dir . 'vendor');
 
   // Application configs
-  $config \Syfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
+  $config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
 
   // Setup Doctrine
   $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
