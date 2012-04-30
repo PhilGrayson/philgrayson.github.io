@@ -77,7 +77,7 @@
 
               $numbers = array();
               $xpath   = new DomXPath($dom);
-              $query   = "//div[contains(@class, 'postContainer')]/div[contains(@class, 'post')]/@id";
+              $query   = "//*[contains(@class, 'op') or contains(@class, 'reply')]/@id";
               $postNumbers = @$xpath->query($query);
               if (empty($postNumbers)) {
                 $output->write('<error>Script failed to find the parse the HTML correctly.</error>');
@@ -87,10 +87,7 @@
 
               foreach ($postNumbers as $post) {
                 try {
-                  // Post IDs start with p...
-                  if (strpos($post->nodeValue, 'p') === 0) {
-                    $numbers[] = substr($post->nodeValue, 1);
-                  }
+                  $numbers[] = substr($post->nodeValue, 1);
                 } catch (Exception $e) 
                 {}
               }
