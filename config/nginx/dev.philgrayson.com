@@ -4,7 +4,7 @@ server {
 
   server_name dev.{domain-name};
 
-  # Redirect static file requests to {static-domain-name}
+  # Redirect static file requests to {static}.{domain-name}
   location ~* \.(gif|jpg|jpeg|png|html|htm|js|css)$ {
     allow {dev-ip};
     deny all;
@@ -23,7 +23,7 @@ server {
 
     proxy_set_header Host $host;
 
-    proxy_pass http://{domain-name}:8080;
+    proxy_pass http://dev.{domain-name}:8080;
   }
 }
 
@@ -34,10 +34,10 @@ server {
 
   location ~* \.(gif|jpg|jpeg|png|html|htm|js|css)$ {
     root {document-root}/public;
-    try_files $uri @{domain-name};
+    try_files $uri @dev.{domain-name};
   }
 
-  location @{domain-name} {
-    rewrite . http://{domain-name};
+  location @dev.{domain-name} {
+    rewrite . http://dev.{domain-name};
   }
 }
