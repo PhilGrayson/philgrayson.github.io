@@ -6,11 +6,14 @@ server {
 
   # Redirect static file requests to {static-domain-name}
   location ~* \.(gif|jpg|jpeg|png|html|htm|js|css)$ {
+    allow {dev-ip};
+    deny all;
+
     rewrite (.*) http://{static}.dev.{domain-name}:80/$1;
   }
 
   location / {
-    allow 127.0.0.1;
+    allow {dev-ip};
     deny all;
     ##
     # Route dynamic requests through to apache listening on 8080

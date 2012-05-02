@@ -5,10 +5,10 @@
   DocumentRoot {document-root}/public
   <Directory />
     AllowOverride All
-    
-    Order allow,deny
-    allow from localhost
+
+    Order deny,allow
     deny from all
+    allow from {dev-ip}
   </Directory>
  
   # Possible values include: debug, info, notice, warn, error, crit,

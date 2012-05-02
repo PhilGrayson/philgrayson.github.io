@@ -15,6 +15,7 @@
           <regexp pattern="{domain-name}" replace="${core.domain}" />
           <regexp pattern="{server-admin}" replace="${core.email}" />
           <regexp pattern="{document-root}" replace="${core.path}" />
+          <regexp pattern="{dev-ip}" replace="${core.dev-ip}" />
         </replaceregexp>
       </filterchain>
     </copy>
@@ -30,6 +31,7 @@
           <regexp pattern="{domain-name}" replace="${core.domain}" />
           <regexp pattern="{static}" replace="${core.static}" />
           <regexp pattern="{document-root}" replace="${core.path}" />
+          <regexp pattern="{dev-ip}" replace="${core.dev-ip}" />
         </replaceregexp>
       </filterchain>
     </copy>
