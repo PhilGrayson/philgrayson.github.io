@@ -4,15 +4,12 @@
   <property file="config/config.ini" />
 
   <target name="deploy" description="Build config files and start services">
-    <echo>Copying scripts</echo>
-    <copy file="scripts/deploy/nginx_ensite" tofile="/usr/sbin/nginx_ensite" overwrite="true" />
-    <chmod file="/usr/sbin/nginx_ensite" mode="755" />
-    <copy file="scripts/deploy/nginx_dissite" tofile="/usr/sbin/nginx_dissite" overwrite="true" />
-    <chmod file="/usr/sbin/nginx_dissite" mode="755" />
-
-    <echo>Creating ${core.domain} apache config</echo>
+    <echo>Creating apache configs</echo>
     <delete file="${core.apache2.conf}/default}" />
-    <copy file="config/apache2/${core.domain}" tofile="${core.apache2.conf}/${core.domain}" overwrite="true">
+    <copy todir="${core.apache2.conf}" overwrite="true">
+      <fileset dir="config/apache2">
+        <include name="**" />
+      </fileset>
       <filterchain>
         <replaceregexp>
           <regexp pattern="{domain-name}" replace="${core.domain}" />
@@ -22,13 +19,16 @@
       </filterchain>
     </copy>
 
-    <echo>Creating ${core.domain} nginx config</echo>
+    <echo>Creating nginx configs</echo>
     <delete file="${core.nginx.conf}/default}" />
-    <copy file="config/nginx/${core.domain}" tofile="${core.nginx.conf}/${core.domain}" overwrite="true">
+    <copy todir="${core.nginx.conf}" overwrite="true">
+      <fileset dir="config/nginx">
+        <include name="**" />
+      </fileset>
       <filterchain>
         <replaceregexp>
           <regexp pattern="{domain-name}" replace="${core.domain}" />
-          <regexp pattern="{static-domain-name}" replace="${core.static}" />
+          <regexp pattern="{static}" replace="${core.static}" />
           <regexp pattern="{document-root}" replace="${core.path}" />
         </replaceregexp>
       </filterchain>
@@ -45,9 +45,6 @@
 
     <echo>Enabling config files and restarting webservers</echo>
     <exec command="make" />
-
-    <exec command="a2ensite ${core.domain}" />
-    <exec command="nginx_ensite ${core.domain}" />
 
     <exec command="/etc/init.d/apache2 restart"/>
     <exec command="/etc/init.d/nginx restart"/>
