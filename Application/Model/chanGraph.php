@@ -143,7 +143,7 @@
           $date_format = '%Y-%m-%d %H';
         }
 
-        $query = 'SELECT SUM(number) AS number, board, date '.
+        $query = 'SELECT MAX(number) - MIN(number) AS number, board, date '.
                    'FROM posts '.
                   'WHERE board IN (:boards) '.
                     "AND date >= :from ".

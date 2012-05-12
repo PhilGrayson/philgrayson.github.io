@@ -1,4 +1,19 @@
 $(document).ready(function() {
+
+  var commaFormat = function(nStr) {
+    nStr += '';
+    var x = nStr.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+
+    return x1 + x2;
+  };
+
   $('[name="from"]').datepicker();
   $('[name="to"]').datepicker();
 
@@ -16,6 +31,13 @@ $(document).ready(function() {
           marker: {
             enabled: false
           }
+        }
+      },
+      tooltip: {
+        formatter: function() {
+          var date = new Date(this.x);
+          return date.toDateString() + '<br />' +
+                 '<b>/' + this.series.name  + '/</b> : ' + commaFormat(this.y);
         }
       },
       yAxis: [],
