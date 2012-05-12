@@ -46,7 +46,7 @@
     $controller = new Application\Controller\chanGraph($app);
 
     $contentTypes = $app['request']->getAcceptableContentTypes();
-    
+
     if ($contentTypes[0] == 'application/json') {
       return $controller->jsonResponder();
     }

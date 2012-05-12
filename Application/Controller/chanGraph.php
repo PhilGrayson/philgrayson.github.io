@@ -39,6 +39,7 @@
 
       $counts  = $this->model->getPostCount($boards);
       $posts   = $this->model->getPosts($boards, $from, $to);
+
       $content = array();
       
       // Build the response

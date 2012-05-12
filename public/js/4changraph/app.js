@@ -8,11 +8,17 @@ $(document).ready(function() {
         renderTo: 'graphContainer',
         defaultSeriesType: 'spline',
       },
-      yAxis: {
-        title: {
-          text: 'Number of posts'
+      title: {
+        text: null
+      },
+      plotOptions: {
+        spline: {
+          marker: {
+            enabled: false
+          }
         }
       },
+      yAxis: [],
       xAxis: {
         title: {
           text: 'Date'
@@ -23,15 +29,34 @@ $(document).ready(function() {
     };
 
     if (!$.isEmptyObject(result)) {
+
       $.each(result.boards, function(index, board) {
-        var series = result.data[board].map(function(point) {
+        var series = board.posts.map(function(point) {
           return [Date.parse(point.date), parseInt(point.count)];
         });
 
-        options.series.push({name: board, data: series});
+        options.series.push({name: index, data: series});
+        options.yAxis.push({
+          title: {
+            text:null
+          },
+          labels: {
+            enabled: false
+          },
+          gridLineWidth: 0
+        });
       });
     }
-    
+
+    var count = options.series.length;
+    $.each(options.series, function(index, series) {
+      (function(index, series) {
+        if (index < count) {
+          series.yAxis = index;
+        }
+      }(index + 1, series));
+    });
+
     new Highcharts.Chart(options);
   };
 
@@ -44,9 +69,16 @@ $(document).ready(function() {
   $('#graph').click(function() {
     var data = {};
 
-    now  = new Date();
+    now = new Date();
+    if ($('[name="to"]').val().length > 0) {
+      now  = new Date($('[name="to"]').val());
+    }
+
     then = new Date();
     then.setDate(then.getDate() - 8);
+    if ($('[name="from"]').val().length > 0) {
+      then = new Date($('[name="from"]').val());
+    }
 
     data.from = then.toJSON();
     data.to =  now.toJSON();

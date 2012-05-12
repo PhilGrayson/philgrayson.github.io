@@ -121,22 +121,45 @@
         if (!($from && $to)) {
           $from = new \DateTime('1 day ago');
           $to   = new \DateTime();
+        } else if ($from > $to) {
+          $tmp  = $to;
+          $to   = $from;
+          $from = $tmp;
         }
 
-        $query = 'SELECT number, board, date '.
+        $delta = $from->diff($to);
+        if ($delta->y > 0) {
+          // Group by month
+          $date_format = '%Y-%m';
+        } else if ($delta->m > 0) {
+          // Group by Days
+          $date_format = '%Y-%m-%d';
+        } else if ($delta->d > 0) {
+          // Group by Half days
+          // TBC
+          $date_format = '%Y-%m-%d';
+        } else {
+          // Group by hour
+          $date_format = '%Y-%m-%d %H';
+        }
+
+        $query = 'SELECT SUM(number) AS number, board, date '.
                    'FROM posts '.
                   'WHERE board IN (:boards) '.
                     "AND date >= :from ".
                     "AND date <= :to ".
-               'ORDER BY board, date DESC';
+               'GROUP BY board, DATE_FORMAT(date, :date_format) '.
+               'ORDER BY board, date ASC';
 
         $params = array('boards' => $valid,
                           'from' => $from,
-                            'to' => $to);
-        
+                            'to' => $to,
+                   'date_format' => $date_format);
+
         $types = array('boards' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY,
                        'from'   => \Doctrine\DBAL\Types\Type::DATETIME,
-                       'to'     => \Doctrine\DBAL\Types\Type::DATETIME);
+                       'to'     => \Doctrine\DBAL\Types\Type::DATETIME,
+                  'date_format' => \Doctrine\DBAL\Types\Type::STRING);
         
         return $this->app['dbs']['4changraph']->executeQuery($query, $params, $types)
                                               ->fetchAll(\PDO::FETCH_ASSOC);
