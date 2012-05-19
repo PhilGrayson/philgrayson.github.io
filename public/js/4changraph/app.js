@@ -14,8 +14,7 @@ $(document).ready(function() {
     return x1 + x2;
   };
 
-  $('[name="from"]').datepicker();
-  $('[name="to"]').datepicker();
+  $('[name="from"], [name="to"]').datepicker({dateFormat: 'yy-mm-dd'});
 
   var drawGraph = function(result) {
     var options = {
@@ -97,13 +96,13 @@ $(document).ready(function() {
     }
 
     then = new Date();
-    then.setDate(then.getDate() - 8);
+    then.setDate(then.getDate() - 7);
     if ($('[name="from"]').val().length > 0) {
       then = new Date($('[name="from"]').val());
     }
 
-    data.from = then.toJSON();
-    data.to =  now.toJSON();
+    data.from = then.toDateString();
+    data.to =  now.toDateString();
 
     var boards = [];
     $('.boardToggle.active').each(function(index, elem) {

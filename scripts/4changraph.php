@@ -77,7 +77,7 @@
 
               $numbers = array();
               $xpath   = new DomXPath($dom);
-              $query   = "//*[contains(@class, 'op') or contains(@class, 'reply')]/@id";
+              $query   = "//*[contains(@class, 'post reply')]/@id";
               $postNumbers = @$xpath->query($query);
               if (empty($postNumbers)) {
                 $output->write('<error>Script failed to find the parse the HTML correctly.</error>');

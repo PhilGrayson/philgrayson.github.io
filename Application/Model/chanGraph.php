@@ -90,10 +90,11 @@
 
         $result = array();
         if (count($valid) > 0) {
-            $query = 'SELECT MAX(number) as number, '.
-                            'date '.
-                       'FROM posts '.
-                      'WHERE board = :board';
+            $query = 'SELECT MAX(p.number) as number, '.
+                            'p.date '.
+                       'FROM posts AS p'.
+                 'INNER JOIN boards AS b ON b.id = p.board_id '.
+                      'WHERE b.handle = :board';
 
             $stmt = $this->app['db']->prepare($query);
 
@@ -143,13 +144,14 @@
           $date_format = '%Y-%m-%d %H';
         }
 
-        $query = 'SELECT MAX(number) - MIN(number) AS number, board, date '.
-                   'FROM posts '.
-                  'WHERE board IN (:boards) '.
-                    "AND date >= :from ".
-                    "AND date <= :to ".
-               'GROUP BY board, DATE_FORMAT(date, :date_format) '.
-               'ORDER BY board, date ASC';
+        $query = 'SELECT MAX(p.number) - MIN(p.number) AS number, p.board, p.date '.
+                   'FROM posts AS p '.
+             'INNER JOIN boards AS b ON b.id = p.board_id '.
+                  'WHERE b.handle IN (:boards) '.
+                    "AND p.date >= :from ".
+                    "AND p.date <= :to ".
+               'GROUP BY b.handle, DATE_FORMAT(p.date, :date_format) '.
+               'ORDER BY b.handle, p.date ASC';
 
         $params = array('boards' => $valid,
                           'from' => $from,
