@@ -92,7 +92,7 @@
         if (count($valid) > 0) {
             $query = 'SELECT MAX(p.number) as number, '.
                             'p.date '.
-                       'FROM posts AS p'.
+                       'FROM posts AS p '.
                  'INNER JOIN boards AS b ON b.id = p.board_id '.
                       'WHERE b.handle = :board';
 
@@ -144,7 +144,7 @@
           $date_format = '%Y-%m-%d %H';
         }
 
-        $query = 'SELECT MAX(p.number) - MIN(p.number) AS number, p.board, p.date '.
+        $query = 'SELECT MAX(p.number) - MIN(p.number) AS number, b.handle AS board, p.date '.
                    'FROM posts AS p '.
              'INNER JOIN boards AS b ON b.id = p.board_id '.
                   'WHERE b.handle IN (:boards) '.
