@@ -148,8 +148,8 @@
                    'FROM posts AS p '.
              'INNER JOIN boards AS b ON b.id = p.board_id '.
                   'WHERE b.handle IN (:boards) '.
-                    "AND p.date >= :from ".
-                    "AND p.date <= :to ".
+                    "AND DATE_FORMAT(p.date, :date_format) > DATE_FORMAT(:from, :date_format) ".
+                    "AND DATE_FORMAT(p.date, :date_format) < DATE_FORMAT(:to, :date_format) ".
                'GROUP BY b.handle, DATE_FORMAT(p.date, :date_format) '.
                'ORDER BY b.handle, p.date ASC';
 

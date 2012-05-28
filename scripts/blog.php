@@ -88,6 +88,9 @@
             $yaml = Yaml::dump($arrPost, 2);
 
             if (!file_exists($path)) {
+              if (!is_dir(dirname($path))) {
+                mkdir(dirname($path), '777', true);
+              }
               $file = fopen($path, 'w');
               if (fwrite($file, $yaml)) {
                 $output->writeln('');
