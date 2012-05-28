@@ -1,0 +1,29 @@
+title: 'Checking Date equality in Javascript'
+url: 2012/05/js-date-equality
+date:
+    string: '2012-05-28'
+    year: '2012'
+    month: '05'
+    day: '28'
+blurb: 'My date comparisons always return false!'
+content: |
+  <p>Basically, use .getTime() to compare Date objects for equality as == checks object reference.</p>
+  <pre class="prettyprint linenums">var a = new Date(),
+      b = new Date();
+
+      a.getTime() == b.getTime(); // true</pre>
+  <p>This baffled me for a good while. Javascript overloads all equality comparisons except for <code>==</code>,
+  meaning you can use <code><, <=, >, >=</code> to check if one Date is before or after another Date.</p>
+  <p>Internally these operators use the Dates valueOf function which is an alias for getTime(),
+  a function that returns the number of milliseconds since UNIX epoch and the date represented in the Date object.
+  From there its a simple case of checking if one integer is greather than another.</p>
+  <p><code>==</code> on the other hand falls back to being a regular equality comparison, in this case checking the object reference address.</p>
+  <pre class="prettyprint linenums">var a = new Date(),
+      b = new Date();
+
+      a < b;  // false
+      a <= b; // true
+      a > b;  // false
+      a >= b; // true
+
+      a == b; // false (object's references are not equal)</pre>
