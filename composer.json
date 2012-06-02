@@ -1,0 +1,14 @@
+{
+  "require": {
+    "silex/silex": "dev-master",
+    "twig/twig": "1.8.2",
+    "doctrine/dbal": "2.2.*"
+    },
+  "autoload": {
+    "psr-0": {
+      "Application": "src/",
+      "Symfony\\Component\\Yaml": "vendor/symfony/yaml",
+      "Symfony\\Component\\Console": "vendor/symfony/console"
+    }
+  }
+}
