@@ -1,19 +1,15 @@
 <?php
 define('root_dir', __DIR__ . '/../');
-require_once root_dir . 'vendor/silex.phar';
+require_once root_dir . 'vendor/autoload.php';
 
 $app = new Silex\Application();
 
-// Add namespaces
-$app['autoloader']->registerNamespace('Application', root_dir);
-$app['autoloader']->registerNamespace('Symfony', root_dir . '/vendor');
-
 // Application configs
-$config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
+$config = Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
 
 // Setup twig
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-  'twig.path'       => root_dir . 'Application/Views',
+  'twig.path'       => root_dir . 'src/Application/Views',
   'twig.class_path' => root_dir . 'vendor/Twig/lib',
 ));
 
