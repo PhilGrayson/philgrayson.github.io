@@ -22,5 +22,12 @@ $app->mount('/misc-tools', new Application\Controller\miscTools());
 // 4chan graph routes
 $app->mount('/4chan-graph', new Application\Controller\chanGraph());
 
+// Default error handler
+// This will most likey run when a NotFoundHttpException is thrown
+$app->error(function(\Exception $e) use ($app)
+{
+  return $app->redirect('/');
+});
+
 $app['debug'] = true;
 $app->run();
