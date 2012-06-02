@@ -1,12 +1,8 @@
 <?php
 define('root_dir', __DIR__ . '/../');
-require_once root_dir . 'vendor/silex.phar';
+require_once root_dir . 'vendor/autoload.php';
 
 $app = new Silex\Application();
-
-// Add namespaces
-$app['autoloader']->registerNamespace('Application', root_dir);
-$app['autoloader']->registerNamespace('Symfony', root_dir . '/vendor');
 
 // Application configs
 $config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
