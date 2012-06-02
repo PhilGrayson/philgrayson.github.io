@@ -10,6 +10,9 @@ class chanGraph implements ControllerProviderInterface
   {
     $chanGraph = new ControllerCollection();
 
+    $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
+      'dbs.options' => $app['app_config']['live']['doctrine']
+    ));
 
     /**
      * index action
