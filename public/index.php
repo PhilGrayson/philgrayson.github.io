@@ -1,58 +1,37 @@
 <?php
-  define('root_dir', __DIR__ . '/../');
-  require_once root_dir . 'vendor/silex.phar';
+define('root_dir', __DIR__ . '/../');
+require_once root_dir . 'vendor/silex.phar';
 
-  $app = new Silex\Application();
+$app = new Silex\Application();
 
-  // Add namespaces
-  $app['autoloader']->registerNamespace('Application', root_dir);
-  $app['autoloader']->registerNamespace('Symfony', root_dir . '/vendor');
+// Add namespaces
+$app['autoloader']->registerNamespace('Application', root_dir);
+$app['autoloader']->registerNamespace('Symfony', root_dir . '/vendor');
 
-  // Application configs
-  $config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
+// Application configs
+$config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
 
-  // Setup twig
-  $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path'       => root_dir . 'Application/Views',
-    'twig.class_path' => root_dir . 'vendor/Twig/lib',
-  ));
+// Setup twig
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+  'twig.path'       => root_dir . 'Application/Views',
+  'twig.class_path' => root_dir . 'vendor/Twig/lib',
+));
 
-  // Setup Doctrine
-  $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-    'dbs.options' => $config['live']['doctrine'],
-    'db.dbal.class_path'   => root_dir . 'vendor/doctrine2-dbal/lib',
-    'db.common.class_path' => root_dir . 'vendor/doctrine2-common/lib',
-  ));
+// Setup Doctrine
+$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+  'dbs.options' => $config['live']['doctrine'],
+  'db.dbal.class_path'   => root_dir . 'vendor/doctrine2-dbal/lib',
+  'db.common.class_path' => root_dir . 'vendor/doctrine2-common/lib',
+));
 
-  $app->get('/', function() use ($app) {
-    $controller = new Application\Controller\Blog($app);
-    return $controller->index();
-  });
+// Homepage/Blog routes
+$app->mount('/', new Application\Controller\Blog());
 
-  $app->get('/{year}/{month}/{name}', function($year, $month, $name) use ($app) {
-    $controller = new Application\Controller\Blog($app);
-    return $controller->show($year, $month, $name);
-  })->assert('year', '\d{4}')
-    ->assert('month', '\d{2}');
+// Misc tools routes
+$app->mount('/misc-tools', new Application\Controller\miscTools());
 
-  // Misc tools routes
-  $app->get('/misc-tools', function() use ($app) {
-    $controller = new Application\Controller\miscTools($app);
-    return $controller->index();
-  });
+// 4chan graph routes
+$app->mount('/4chan-graph', new Application\Controller\chanGraph());
 
-  // 4chan graph routes
-  $app->get('/4chan-graph', function() use ($app) {
-    $controller = new Application\Controller\chanGraph($app);
-
-    $contentTypes = $app['request']->getAcceptableContentTypes();
-
-    if ($contentTypes[0] == 'application/json') {
-      return $controller->jsonResponder();
-    }
-
-    return $controller->index();
-  });
-
-  $app['debug'] = true;
-  $app->run();
+$app['debug'] = true;
+$app->run();

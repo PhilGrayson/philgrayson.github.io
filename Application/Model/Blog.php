@@ -3,8 +3,8 @@
 
   use Symfony\Component\Yaml\Yaml;
 
-  class blog extends Model {
-    public function getAll() {
+  class Blog {
+    public static function getAll() {
       $basePath = '../data/blog';
       
       $directoryIterator = new \RecursiveDirectoryIterator($basePath);
@@ -14,9 +14,10 @@
                                               '/.yaml$/');
       
       $posts = array();
+      $blog  = new Blog();
       foreach ($fileIterator as $file)
       {
-        $posts[] = $this->parsePost($file);
+        $posts[] = $blog->parsePost($file);
       }
 
       return $posts;
@@ -25,8 +26,9 @@
     public function get($year, $month, $name) {
       $basePath = '../data/blog/';
       $path = $basePath . $year . '/' . $month . '/' . $name . '.yaml';
-      
-      return $this->parsePost($path);
+
+      $blog = new Blog();
+      return $blog->parsePost($path);
     }
 
     private function parsePost($path) {
@@ -37,5 +39,4 @@
 
       return false;
     }
-
   }

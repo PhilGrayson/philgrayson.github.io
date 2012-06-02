@@ -115,7 +115,7 @@ $(document).ready(function() {
       });
 
       $.ajax({
-        url: '/4chan-graph',
+        url: '/4chan-graph/search',
         data: data,
         success: drawGraph,
         dataType: 'json'

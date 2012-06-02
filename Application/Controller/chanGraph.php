@@ -1,27 +1,32 @@
 <?php
-  namespace Application\Controller;
+namespace Application\Controller;
 
-  use Symfony\Component\HttpFoundation\Response;
+use \Silex\ControllerProviderInterface;
+use \Silex\ControllerCollection;
 
-  class chanGraph extends Controller {
-    function __construct($app) {
-      parent::__construct($app);
-    
-      $this->model  = new \Application\Model\chanGraph($this->app);
-    }
+class chanGraph implements ControllerProviderInterface
+{
+  public function connect(\Silex\Application $app)
+  {
+    $chanGraph = new ControllerCollection();
 
-    function index() {
-      $boards = \Application\Model\chanGraph::$boards;
-      $vars   = array ('title' => 'Misc Tools', 'boards' => $boards);
-      return $this->app['twig']->render('content/4chan-graph.twig', $vars);
-    }
 
-    function jsonResponder() {
-      $boards = $this->app['request']->get('boards');
+    /**
+     * index action
+     * Provide controls to query the board post counts
+     */
+    $chanGraph->get('/', function() use ($app)
+    {
+      $vars = array ('title' => 'Misc Tools',
+                     'boards' => \Application\Model\chanGraph::$boards);
+
+      return $app['twig']->render('chanGraph/index.twig', $vars);
+    });
+
+    $chanGraph->get('/search', function() use ($app)
+    {
+      $boards = $app['request']->get('boards');
       $boards = str_getcsv($boards);
-      
-      $from   = new \DateTime($this->app['request']->get('from'));
-      $to     = new \DateTime($this->app['request']->get('to'));
 
       if (empty($boards)) {
         // Get all boards
@@ -31,17 +36,21 @@
         }
       }
 
+      $from = new \DateTime($app['request']->get('from'));
+      $to   = new \DateTime($app['request']->get('to'));
+
       if (!($from && $to)) {
         // Set a default time range
         $from = new \DateTime('1 day ago');
         $to   = new \DateTime();
       }
 
-      $counts  = $this->model->getPostCount($boards);
-      $posts   = $this->model->getPosts($boards, $from, $to);
+      $chanGraph = new \Application\Model\chanGraph($app['dbs']['chanGraph']);
+      $content   = array();
 
-      $content = array();
-      
+      $counts  = $chanGraph->getPostCount($boards);
+      $posts   = $chanGraph->getPosts($boards, $from, $to);
+
       // Build the response
       if (count($counts) > 0 && count($posts) > 0) {
         foreach ($counts as $board => $count) {
@@ -52,12 +61,18 @@
 
         foreach($posts as $post) {
           if (!empty($post)) {
-            $content['boards'][$post['board']]['posts'][] = array('count' => $post['number'],
-                                                                  'date' => $post['date']);
+            $postData = array('count' => $post['number'],
+                              'date' => $post['date']);
+
+            $content['boards'][$post['board']]['posts'][] = $postData;
           }
         }
       }
-      
-      return new Response(json_encode($content), 200, array('Content-Type' => 'application/json'));
-    }
+
+
+      return $app->json($content);
+    });
+
+    return $chanGraph;
   }
+}

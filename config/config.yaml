@@ -1,8 +1,8 @@
 live:
   doctrine:
-    4changraph:
+    chanGraph:
       driver   : 'pdo_mysql'
       dbname   : '4changraph'
       user     : 'dev-user'
       password : 'user-dev'
-      host     : '178.79.189.205'
+      host     : '176.58.101.130'

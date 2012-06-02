@@ -1,9 +1,24 @@
 <?php
-  namespace Application\Controller;
+namespace Application\Controller;
 
-  class miscTools extends Controller {
-    function index() {
+use \Silex\ControllerProviderInterface;
+use \Silex\ControllerCollection;
+
+class miscTools implements ControllerProviderInterface
+{
+  public function connect(\Silex\Application $app)
+  {
+    $miscTools = new ControllerCollection();
+
+    /**
+     * index action
+     */
+     $miscTools->get('/', function() use ($app)
+     {
       $vars = array('title' => 'Misc Tools');
-      return $this->app['twig']->render('content/misc-tools.twig', $vars);
-    }
+      return $app['twig']->render('miscTools/index.twig', $vars);
+    });
+
+     return $miscTools;
   }
+}
