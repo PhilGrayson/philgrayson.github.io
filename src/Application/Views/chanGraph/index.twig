@@ -1,10 +1,4 @@
-{% extends "layout.twig" %}
-
-{% block styles %}
-  {{ parent() }}
-
-  <link href="/css/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
-{% endblock %}
+{% extends "chanGraph/chanGraph.twig" %}
 
 {% block content %}
   <header class="jumbotron subhead">
@@ -63,12 +57,6 @@
 {% block scripts %}
   {{ parent() }}
 
-  <script src="/js/jquery-ui-1.8.19.custom.min.js"></script>
-
   <script src="/js/bootstrap-button.js"></script>
   <script src="/js/bootstrap-collapse.js"></script>
-
-  <script src="/js/Highcharts-2.2.0/highcharts.js"></script>
-
-  <script src="/js/chanGraph/app.js"></script>
 {% endblock %}

@@ -16,7 +16,11 @@ class Blog implements ControllerProviderInterface
      */
     $blog->get('/', function() use($app)
     {
-      $posts = \Application\Model\Blog::getAll();
+      try {
+        $posts = \Application\Model\Blog::getAll();
+      } catch (\Exception $e) {
+        throw new Exception\BlogException('500');
+      }
 
       // Place the posts into an array of arrays based on year month day
       $sorted = array();
@@ -45,30 +49,33 @@ class Blog implements ControllerProviderInterface
      */
     $blog->get('/{year}/{month}/{name}', function($year, $month, $name) use ($app)
     {
-       $post = \Application\Model\Blog::get($year, $month, $name);
+      try {
+        $post = \Application\Model\Blog::get($year, $month, $name);
+      } catch (\Exception $e) {
+        // Something terrible has happened
+        throw new Exception\BlogException('500');
+      }
 
       if (is_array($post)) {
         return $app['twig']->render('Blog/show.twig', $post);
       }
 
-      $app->abort(404, "Blog post doesn't exist");
-    })
-    ->assert('year', '\d{4}')
-    ->assert('month', '\d{2}');
+      // Cannot find that post
+      throw new Exception\BlogException('404');
+    });
 
     /**
      * Error handler
-     * Currently uses for all controllers. I'm looking for a way to have
-     * controller specific error handlers, possibly through custom Exceptions
      */
-    $app->error(function(\Exception $e, $code) use($app)
+    $app->error(function(Exception\BlogException $e) use($app)
     {
+      $code = $e->getMessage();
       switch ($code) {
-      case 404:
-        $vars = array('title' => 'Cannot find content');  
+      case '404':
+        $vars = array('title' => 'I cannot find that post!');
         break;
       default:
-        $vars = array('title' => "It's all gone horribly wrong!");
+        $vars = array('title' => "It's all gone horribly wrong! I recommend panicing");
       }
 
       return $app['twig']->render('Blog/404.twig', $vars);

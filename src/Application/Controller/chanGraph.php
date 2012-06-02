@@ -20,39 +20,56 @@ class chanGraph implements ControllerProviderInterface
      */
     $chanGraph->get('/', function() use ($app)
     {
-      $vars = array ('title' => 'Misc Tools',
-                     'boards' => \Application\Model\chanGraph::$boards);
+      try {
+        $vars = array ('title' => 'Misc Tools',
+                       'boards' => \Application\Model\chanGraph::$boards);
+      } catch (\Exception $e) {
+        throw new Exception\chanGraphException('500');
+      }
 
       return $app['twig']->render('chanGraph/index.twig', $vars);
     });
 
     $chanGraph->get('/search', function() use ($app)
     {
-      $boards = $app['request']->get('boards');
-      $boards = str_getcsv($boards);
+      try {
+        $boards = $app['request']->get('boards');
+        $boards = str_getcsv($boards);
 
-      if (empty($boards)) {
-        // Get all boards
-        $boards = array();
-        foreach(\Application\Model\chanGraph::$boards as $category => $list) {
-          $boards = array_merge($boards, array_values($list));
+        if (empty($boards)) {
+          // Get all boards
+          $boards = array();
+          foreach(\Application\Model\chanGraph::$boards as $category => $list) {
+            $boards = array_merge($boards, array_values($list));
+          }
         }
+
+        $from = new \DateTime($app['request']->get('from'));
+        $to   = new \DateTime($app['request']->get('to'));
+
+        if (!($from && $to)) {
+          // Set a default time range
+          $from = new \DateTime('1 day ago');
+          $to   = new \DateTime();
+        }
+      } catch (\Exception $e) {
+        throw new Exception\chanGraphException('500');
       }
 
-      $from = new \DateTime($app['request']->get('from'));
-      $to   = new \DateTime($app['request']->get('to'));
-
-      if (!($from && $to)) {
-        // Set a default time range
-        $from = new \DateTime('1 day ago');
-        $to   = new \DateTime();
+      try {
+        $chanGraph = new \Application\Model\chanGraph($app['dbs']['chanGraph']);
+      } catch (\Exception $e) {
+        throw new Exception\chanGraphException('500');
       }
 
-      $chanGraph = new \Application\Model\chanGraph($app['dbs']['chanGraph']);
       $content   = array();
 
-      $counts  = $chanGraph->getPostCount($boards);
-      $posts   = $chanGraph->getPosts($boards, $from, $to);
+      try {
+        $counts  = $chanGraph->getPostCount($boards);
+        $posts   = $chanGraph->getPosts($boards, $from, $to);
+      } catch (\Exception $e) {
+        throw new Exception\chanGraphException('500');
+      }
 
       // Build the response
       if (count($counts) > 0 && count($posts) > 0) {
@@ -72,8 +89,18 @@ class chanGraph implements ControllerProviderInterface
         }
       }
 
-
       return $app->json($content);
+    });
+
+    $app->error(function(Exception\chanGraphException $e) use($app)
+    {
+      $code = $e->getMessage();
+      switch ($code) {
+      default:
+        $vars = array('title' => "It's all gone horribly wrong! I recommend panicing");
+      }
+
+      return $app['twig']->render('chanGraph/404.twig', $vars);
     });
 
     return $chanGraph;
