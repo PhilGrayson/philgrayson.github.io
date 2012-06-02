@@ -1,10 +1,13 @@
 {
-    "require": {
-        "silex/silex": "dev-master"
+  "require": {
+    "silex/silex": "dev-master",
+    "twig/twig": "dev-master"
     },
-    "autoload" : {
-      "psr-0": {
-        "Application" : "src/"
-      }
+  "autoload": {
+    "psr-0": {
+      "Application": "src/",
+      "Symfony\\Component\\Yaml": "vendor/symfony/yaml",
+      "Symfony\\Component\\Console": "vendor/symfony/console"
     }
+  }
 }

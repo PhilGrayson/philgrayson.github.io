@@ -5,11 +5,11 @@ require_once root_dir . 'vendor/autoload.php';
 $app = new Silex\Application();
 
 // Application configs
-$config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
+$config = Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
 
 // Setup twig
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-  'twig.path'       => root_dir . 'Application/Views',
+  'twig.path'       => root_dir . 'src/Application/Views',
   'twig.class_path' => root_dir . 'vendor/Twig/lib',
 ));
 
