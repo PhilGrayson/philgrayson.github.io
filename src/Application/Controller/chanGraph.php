@@ -1,14 +1,11 @@
 <?php
 namespace Application\Controller;
 
-use \Silex\ControllerProviderInterface;
-use \Silex\ControllerCollection;
-
-class chanGraph implements ControllerProviderInterface
+class chanGraph implements \Silex\ControllerProviderInterface
 {
   public function connect(\Silex\Application $app)
   {
-    $chanGraph = new ControllerCollection();
+    $chanGraph = new \Silex\ControllerCollection();
 
     $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
       'dbs.options' => $app['app_config']['live']['doctrine']
@@ -92,6 +89,9 @@ class chanGraph implements ControllerProviderInterface
       return $app->json($content);
     });
 
+    /**
+     * Error handler
+     */
     $app->error(function(Exception\chanGraphException $e) use($app)
     {
       $code = $e->getMessage();

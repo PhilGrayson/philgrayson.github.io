@@ -1,16 +1,13 @@
 <?php
 namespace Application\Controller;
 
-use \Silex\ControllerProviderInterface;
-use \Silex\ControllerCollection;
-
-class Blog implements ControllerProviderInterface
+class Blog implements \Silex\ControllerProviderInterface
 {
   public function connect(\Silex\Application $app)
   {
-    $blog = new ControllerCollection();
+    $blog = new \Silex\ControllerCollection();
 
-    /*
+    /**
      * index action
      * Display all blog posts
      */
@@ -43,7 +40,7 @@ class Blog implements ControllerProviderInterface
                                         'posts' => $sorted));
     });
 
-    /*
+    /**
      * Show action
      * Display an individual blog entry
      */

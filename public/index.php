@@ -9,8 +9,7 @@ $app['app_config'] = Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/confi
 
 // Setup twig
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-  'twig.path'       => root_dir . 'src/Application/Views',
-  'twig.class_path' => root_dir . 'vendor/Twig/lib',
+  'twig.path'       => root_dir . 'src/Application/Views'
 ));
 
 // Homepage/Blog routes
