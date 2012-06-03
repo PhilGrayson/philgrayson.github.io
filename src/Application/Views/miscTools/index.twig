@@ -1,4 +1,4 @@
-{% extends "layout.twig" %}
+{% extends "miscTools/miscTools.twig" %}
 
 {% block content %}
   <header class="jumbotron subhead">
@@ -61,11 +61,3 @@ $query = 'SELECT u.firstName, '.
     </div>
   </div>
 {% endblock %}
-
-{% block scripts %}
-  {{ parent() }}
-  <script src="/js/base64.js"></script>
-  <script src="/js/misc-tools/app.js"></script>
-{% endblock %}
-
-

@@ -1,13 +1,12 @@
-{% extends "layout.twig" %}
+{% extends "base.twig" %}
 
 {% block styles %}
   {{ parent() }}
-
   <link href="/css/prettify.css" rel="stylesheet" />
 {% endblock %}
+
 {% block scripts %}
   {{ parent() }}
-
   <script src="/js/prettify.js"></script>
   <script src="/js/blog/app.js"></script>
 {% endblock %}
