@@ -1,14 +1,11 @@
 <?php
 namespace Application\Controller;
 
-use \Silex\ControllerProviderInterface;
-use \Silex\ControllerCollection;
-
-class miscTools implements ControllerProviderInterface
+class miscTools implements \Silex\ControllerProviderInterface
 {
   public function connect(\Silex\Application $app)
   {
-    $miscTools = new ControllerCollection();
+    $miscTools = new \Silex\ControllerCollection();
 
     /**
      * index action
