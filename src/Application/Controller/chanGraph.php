@@ -51,12 +51,14 @@ class chanGraph implements \Silex\ControllerProviderInterface
           $to   = new \DateTime();
         }
       } catch (\Exception $e) {
+        $app['monolog']->addCritical($e->getMessage());
         throw new Exception\chanGraphException('500');
       }
 
       try {
         $chanGraph = new \Application\Model\chanGraph($app['dbs']['chanGraph']);
       } catch (\Exception $e) {
+        $app['monolog']->addCritical($e->getMessage());
         throw new Exception\chanGraphException('500');
       }
 
@@ -66,6 +68,7 @@ class chanGraph implements \Silex\ControllerProviderInterface
         $counts  = $chanGraph->getPostCount($boards);
         $posts   = $chanGraph->getPosts($boards, $from, $to);
       } catch (\Exception $e) {
+        $app['monolog']->addCritical($e->getMessage());
         throw new Exception\chanGraphException('500');
       }
 
