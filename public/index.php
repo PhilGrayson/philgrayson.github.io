@@ -22,8 +22,7 @@ $app->register(new Application\Provider\MonologServiceProvider(), array(
   'monolog.name'    => 'philgrayson.com',
   'monolog.handler' => function($app) {
     $streamLogger = new \Monolog\Handler\StreamHandler($app['monolog.logfile']);
-    //$streamLogger->pushProcessor(new \Monolog\Processor\WebProcessor());
-    //$streamLogger->setFormatter(new \Monolog\Formatter\NormalizerFormatter());
+    $streamLogger->pushProcessor(new \Monolog\Processor\WebProcessor());
 
     return $streamLogger;
   }
@@ -50,8 +49,7 @@ $app->finish(function(\Symfony\Component\HttpFoundation\Request $request,
 use ($app)
 {
   // Log the request via monolog
-  $app['monolog']->addInfo('phil');
-  //$app['monolog']->addInfo($_SESSION);
+  $app['monolog']->addInfo('');
 });
 
 $app['debug'] = true;

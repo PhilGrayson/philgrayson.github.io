@@ -23,3 +23,58 @@ ArrayArrayArrayArrayArray[2012-06-09 12:47:49] philgrayson.com.INFO: phil [] {"u
 [2012-06-10 11:27:41] philgrayson.com.INFO: phil [] []
 [2012-06-10 11:27:42] philgrayson.com.INFO: phil [] []
 [2012-06-10 11:27:42] philgrayson.com.INFO: phil [] []
+[2012-06-10 11:34:00] philgrayson.com.INFO: phil [] []
+[2012-06-10 11:34:01] philgrayson.com.INFO: phil [] []
+[2012-06-10 11:34:01] philgrayson.com.INFO: phil [] []
+[2012-06-10 11:34:55] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:34:56] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:34:56] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:38:33] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:38:33] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:38:33] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:38:37] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:38:38] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:38:38] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:38:58] philgrayson.com.INFO:  [] {"url":"/misc-tools","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:38:58] philgrayson.com.INFO:  [] {"url":"/misc-tools/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:39:07] philgrayson.com.INFO:  [] {"url":"/misc-tools/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:39:11] philgrayson.com.INFO:  [] {"url":"/misc-tools/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:39:13] philgrayson.com.INFO:  [] {"url":"/4chan-graph","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/misc-tools/"}
+[2012-06-10 11:39:13] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/misc-tools/"}
+[2012-06-10 11:39:14] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:39:14] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:40:09] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/misc-tools/"}
+[2012-06-10 11:40:12] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:41:00] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:41:00] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:42:07] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:42:07] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:42:18] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:42:22] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:42:28] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:42:28] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:42:49] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:43:00] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:43:01] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:43:21] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:43:21] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:43:56] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:43:57] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:45:26] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:45:26] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:46:07] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:46:07] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:46:26] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:46:26] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:46:26] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:52:42] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:52:43] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:52:50] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:52:54] philgrayson.com.INFO:  [] {"url":"/misc-tools","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/"}
+[2012-06-10 11:52:54] philgrayson.com.INFO:  [] {"url":"/misc-tools/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/"}
+[2012-06-10 11:52:57] philgrayson.com.INFO:  [] {"url":"/misc-tools/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:52:59] philgrayson.com.INFO:  [] {"url":"/4chan-graph","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/misc-tools/"}
+[2012-06-10 11:52:59] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/misc-tools/"}
+[2012-06-10 11:52:59] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}
+[2012-06-10 11:53:07] philgrayson.com.INFO:  [] {"url":"/4chan-graph/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"NULL"}
+[2012-06-10 11:53:08] philgrayson.com.INFO:  [] {"url":"/","ip":"127.0.0.1","http_method":"GET","server":"philgrayson.com","referrer":"http://philgrayson.com/4chan-graph/"}

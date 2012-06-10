@@ -25,6 +25,7 @@ class chanGraph implements \Silex\ControllerProviderInterface
       }
 
       return $app['twig']->render('chanGraph/index.twig', $vars);
+      return '';
     });
 
     $chanGraph->get('/search', function() use ($app)

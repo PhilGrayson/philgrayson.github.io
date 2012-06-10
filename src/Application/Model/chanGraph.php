@@ -42,6 +42,7 @@ class chanGraph {
                                   'Toys'                  => 'toy',
                                   '3DCG'                  => '3',
                                   'Do-It-Yourself'        => 'diy',
+                                  'Worksafe GIF'          => 'wsg',
                                  ),
            'Adult (18+)' => array(
                                   'Sexy Beautiful Women'  => 's',

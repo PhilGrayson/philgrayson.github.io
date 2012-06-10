@@ -21,8 +21,16 @@ use Silex\ServiceProviderInterface;
  */
 class SymfonyBridgesServiceProvider implements ServiceProviderInterface
 {
+    public function __construct()
+    {
+        throw new \RuntimeException('You tried to create a SymfonyBridgesServiceProvider. However, it has been removed from Silex. Make sure that the Symfony bridge you want to use is autoloadable, and it will get loaded automatically. You should remove the creation of the SymfonyBridgesServiceProvider, as it is no longer needed.');
+    }
+
     public function register(Application $app)
     {
-        $app['symfony_bridges'] = true;
+    }
+
+    public function boot(Application $app)
+    {
     }
 }

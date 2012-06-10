@@ -14,7 +14,7 @@ namespace Silex\Provider;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\FileSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -37,7 +37,7 @@ class SessionServiceProvider implements ServiceProviderInterface
         });
 
         $app['session.storage.handler'] = $app->share(function () use ($app) {
-            return new NativeFileSessionHandler(
+            return new FileSessionHandler(
                 isset($app['session.storage.save_path']) ? $app['session.storage.save_path'] : null
             );
         });
@@ -48,8 +48,6 @@ class SessionServiceProvider implements ServiceProviderInterface
                 $app['session.storage.handler']
             );
         });
-
-        $app['dispatcher']->addListener(KernelEvents::REQUEST, array($this, 'onKernelRequest'), 128);
 
         if (!isset($app['session.storage.options'])) {
             $app['session.storage.options'] = array();
@@ -69,5 +67,10 @@ class SessionServiceProvider implements ServiceProviderInterface
         if ($request->hasPreviousSession()) {
             $request->getSession()->start();
         }
+    }
+
+    public function boot(Application $app)
+    {
+        $app['dispatcher']->addListener(KernelEvents::REQUEST, array($this, 'onKernelRequest'), 128);
     }
 }

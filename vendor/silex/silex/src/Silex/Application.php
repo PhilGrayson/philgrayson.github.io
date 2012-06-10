@@ -48,12 +48,21 @@ class Application extends \Pimple implements HttpKernelInterface, EventSubscribe
 {
     const VERSION = '@package_version@';
 
+    private $providers = array();
+    private $booted = false;
+
     /**
      * Constructor.
      */
     public function __construct()
     {
         $app = $this;
+
+        $this['logger'] = null;
+
+        $this['autoloader'] = function () {
+            throw new \RuntimeException('You tried to access the autoloader service. The autoloader has been removed from Silex. It is recommended that you use Composer to manage your dependencies and handle your autoloading. See http://getcomposer.org for more information.');
+        };
 
         $this['routes'] = $this->share(function () {
             return new RouteCollection();
@@ -74,13 +83,13 @@ class Application extends \Pimple implements HttpKernelInterface, EventSubscribe
             $urlMatcher = new LazyUrlMatcher(function () use ($app) {
                 return $app['url_matcher'];
             });
-            $dispatcher->addSubscriber(new RouterListener($urlMatcher));
+            $dispatcher->addSubscriber(new RouterListener($urlMatcher, $app['logger']));
 
             return $dispatcher;
         });
 
         $this['resolver'] = $this->share(function () use ($app) {
-            return new ControllerResolver($app);
+            return new ControllerResolver($app, $app['logger']);
         });
 
         $this['kernel'] = $this->share(function () use ($app) {
@@ -145,7 +154,20 @@ class Application extends \Pimple implements HttpKernelInterface, EventSubscribe
             $this[$key] = $value;
         }
 
+        $this->providers[] = $provider;
+
         $provider->register($this);
+    }
+
+    public function boot()
+    {
+        if (!$this->booted) {
+            foreach ($this->providers as $provider) {
+                $provider->boot($this);
+            }
+
+            $this->booted = true;
+        }
     }
 
     /**
@@ -437,6 +459,10 @@ class Application extends \Pimple implements HttpKernelInterface, EventSubscribe
      */
     public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
     {
+        if (!$this->booted) {
+            $this->boot();
+        }
+
         $this->beforeDispatched = false;
 
         $current = HttpKernelInterface::SUB_REQUEST === $type ? $this['request'] : $this['request_error'];
@@ -579,7 +605,7 @@ class Application extends \Pimple implements HttpKernelInterface, EventSubscribe
     /**
      * {@inheritdoc}
      */
-    static public function getSubscribedEvents()
+    public static function getSubscribedEvents()
     {
         return array(
             KernelEvents::REQUEST    => array(
