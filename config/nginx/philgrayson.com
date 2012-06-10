@@ -5,11 +5,11 @@
 server {
   listen 80;
 
-  server_name {domain-name};
+  server_name {live-domain-name};
 
-  # Redirect static file requests to {static}.{domain-name}
+  # Redirect static file requests to {live-static}.{live-domain-name}
   location ~* \.(gif|jpg|jpeg|png|html|htm|js|css)$ {
-    rewrite (.*) http://{static}.{domain-name}:80/$1;
+    rewrite (.*) http://{live-static}.{live-domain-name}:80/$1;
   }
 
   location / {
@@ -18,20 +18,20 @@ server {
 
     proxy_set_header Host $host;
 
-    proxy_pass http://{domain-name}:8080;
+    proxy_pass http://{live-domain-name}:8080;
   }
 }
 
 server {
   listen 80;
-  server_name {static}.{domain-name};
+  server_name {live-static}.{live-domain-name};
 
   location ~* \.(gif|jpg|jpeg|png|html|htm|js|css)$ {
-    root {document-root}/public;
-    try_files $uri @{domain-name};
+    root {live-document-root}/public;
+    try_files $uri @{live-domain-name};
   }
 
-  location @{domain-name} {
-    rewrite . http://{domain-name};
+  location @{live-domain-name} {
+    rewrite . http://{live-domain-name};
   }
 }

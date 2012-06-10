@@ -1,8 +1,8 @@
 <VirtualHost *:8080>
-  ServerName {domain-name}
+  ServerName {live-domain-name}
   ServerAdmin {server-admin}
 
-  DocumentRoot {document-root}/public
+  DocumentRoot {live-document-root}/public
   <Directory />
     AllowOverride All
     

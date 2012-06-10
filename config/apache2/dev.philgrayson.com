@@ -1,8 +1,8 @@
 <VirtualHost *:8080>
-  ServerName {domain-name}
+  ServerName {dev-domain-name}
   ServerAdmin {server-admin}
 
-  DocumentRoot {document-root}/public
+  DocumentRoot {dev-document-root}/public
   <Directory />
     AllowOverride All
 
