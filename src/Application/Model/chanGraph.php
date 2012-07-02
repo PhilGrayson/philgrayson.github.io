@@ -55,6 +55,7 @@ class chanGraph {
                                   'Torrents'              => 't',
                                   'High Resolution'       => 'hr',
                                   'Animated GIF'          => 'gif',
+                                  'Handsome Men'          => 'hm',
                                  ),
                  'Other' => array(
                                   'Travel'                => 'tv',
@@ -145,7 +146,7 @@ class chanGraph {
     } else if ($delta->m > 0) {
       // Group by Days
       $date_format = '%Y-%m-%d';
-    } else if ($delta->d > 0) {
+    } else if ($delta->d > 1) {
       // Group by Half days
       // TBC
       $date_format = '%Y-%m-%d';
@@ -153,6 +154,8 @@ class chanGraph {
       // Group by hour
       $date_format = '%Y-%m-%d %H';
     }
+
+    error_log($date_format);
 
     $query = 'SELECT MAX(p.number) - MIN(p.number) AS number, b.handle AS board, p.date '.
                'FROM posts AS p '.
