@@ -45,8 +45,9 @@ Registering
 
 .. note::
 
-    Monolog does not come with the ``silex`` archives, so you need to add it
-    as a dependency to your ``composer.json`` file:
+    Monolog comes with the "fat" Silex archive but not with the regular one.
+    If you are using Composer, add it as a dependency to your
+    ``composer.json`` file:
 
     .. code-block:: json
 
@@ -59,7 +60,7 @@ Usage
 
 The MonologServiceProvider provides a ``monolog`` service. You can use it to
 add log entries for any logging level through ``addDebug()``, ``addInfo()``,
-``addWarning()`` and ``addError()``:
+``addWarning()`` and ``addError()``::
 
     use Symfony\Component\HttpFoundation\Response;
 
@@ -70,6 +71,17 @@ add log entries for any logging level through ``addDebug()``, ``addInfo()``,
 
         return new Response('', 201);
     });
+
+Traits
+------
+
+``Silex\Application\MonologTrait`` adds the following shortcuts:
+
+* **log**: Logs a message.
+
+.. code-block:: php
+
+    $app->log(sprintf("User '%s' registered.", $username));
 
 For more information, check out the `Monolog documentation
 <https://github.com/Seldaek/monolog>`_.

@@ -22,9 +22,6 @@ Parameters
   * **encryption**: SMTP encryption, defaults to null.
   * **auth_mode**: SMTP authentication mode, defaults to null.
 
-* **swiftmailer.class_path** (optional): Path to where the Swift Mailer
-  library is located.
-
 Services
 --------
 
@@ -56,14 +53,13 @@ Registering
 
 .. code-block:: php
 
-    $app->register(new Silex\Provider\SwiftmailerServiceProvider(), array(
-        'swiftmailer.class_path'  => __DIR__.'/vendor/swiftmailer/swiftmailer/lib/classes',
-    ));
+    $app->register(new Silex\Provider\SwiftmailerServiceProvider());
 
 .. note::
 
-    SwiftMailer does not come with the ``silex`` archives, so you need to add
-    it as a dependency to your ``composer.json`` file:
+    SwiftMailer comes with the "fat" Silex archive but not with the regular
+    one. If you are using Composer, add it as a dependency to your
+    ``composer.json`` file:
 
     .. code-block:: json
 
@@ -74,7 +70,7 @@ Registering
 Usage
 -----
 
-The Swiftmailer provider provides a ``mailer`` service:
+The Swiftmailer provider provides a ``mailer`` service::
 
     $app->post('/feedback', function () use ($app) {
         $request = $app['request'];
@@ -89,6 +85,21 @@ The Swiftmailer provider provides a ``mailer`` service:
 
         return new Response('Thank you for your feedback!', 201);
     });
+
+Traits
+------
+
+``Silex\Application\SwiftmailerTrait`` adds the following shortcuts:
+
+* **mail**: Sends an email.
+
+.. code-block:: php
+
+    $app->mail(\Swift_Message::newInstance()
+        ->setSubject('[YourSite] Feedback')
+        ->setFrom(array('noreply@yoursite.com'))
+        ->setTo(array('feedback@yoursite.com'))
+        ->setBody($request->get('message')));
 
 For more information, check out the `Swift Mailer documentation
 <http://swiftmailer.org>`_.

@@ -3,13 +3,15 @@
     "silex/silex": "dev-master",
     "twig/twig": "dev-master",
     "doctrine/dbal": ">=2.2.0",
-    "monolog/monolog": ">=1.0.0"
+    "monolog/monolog": ">=1.0.0",
+    "symfony/event-dispatcher": "dev-master",
+    "symfony/console": "dev-master",
+    "symfony/yaml": "dev-master"
     },
   "autoload": {
     "psr-0": {
       "Application": "src/",
-      "Symfony\\Component\\Yaml": "vendor/symfony/yaml",
-      "Symfony\\Component\\Console": "vendor/symfony/console"
+      "Server": "src/"
     }
   }
 }

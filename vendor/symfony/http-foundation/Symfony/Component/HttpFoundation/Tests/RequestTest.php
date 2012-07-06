@@ -336,7 +336,17 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             'http://hostname:8080/ba%20se/index_dev.php/foo%20bar/in+fo?query=string',
             $request->getUri()
         );
-   }
+
+        // with user info
+
+        $server['PHP_AUTH_USER'] = 'fabien';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+        $this->assertEquals('http://fabien@hostname:8080/ba%20se/index_dev.php/foo%20bar/in+fo?query=string', $request->getUri());
+
+        $server['PHP_AUTH_PW'] = 'symfony';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+        $this->assertEquals('http://fabien:symfony@hostname:8080/ba%20se/index_dev.php/foo%20bar/in+fo?query=string', $request->getUri());
+    }
 
     /**
      * @covers Symfony\Component\HttpFoundation\Request::getUriForPath
@@ -436,6 +446,61 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('http://servername/some/path', $request->getUriForPath('/some/path'), '->getUriForPath() with rewrite, default port without HOST_HEADER');
         $this->assertEquals('servername', $request->getHttpHost());
+
+        // with user info
+
+        $server['PHP_AUTH_USER'] = 'fabien';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+        $this->assertEquals('http://fabien@servername/some/path', $request->getUriForPath('/some/path'));
+
+        $server['PHP_AUTH_PW'] = 'symfony';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+        $this->assertEquals('http://fabien:symfony@servername/some/path', $request->getUriForPath('/some/path'));
+    }
+
+    /**
+     * @covers Symfony\Component\HttpFoundation\Request::getUserInfo
+     */
+    public function testGetUserInfo()
+    {
+        $request = new Request();
+
+        $server['PHP_AUTH_USER'] = 'fabien';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+        $this->assertEquals('fabien', $request->getUserInfo());
+
+        $server['PHP_AUTH_USER'] = '0';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+        $this->assertEquals('0', $request->getUserInfo());
+
+        $server['PHP_AUTH_PW'] = '0';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+        $this->assertEquals('0:0', $request->getUserInfo());
+    }
+
+    /**
+     * @covers Symfony\Component\HttpFoundation\Request::getSchemeAndHttpHost
+     */
+    public function testGetSchemeAndHttpHost()
+    {
+        $request = new Request();
+
+        $server['SERVER_NAME'] = 'servername';
+        $server['SERVER_PORT'] = '90';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+        $this->assertEquals('http://servername:90', $request->getSchemeAndHttpHost());
+
+        $server['PHP_AUTH_USER'] = 'fabien';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+        $this->assertEquals('http://fabien@servername:90', $request->getSchemeAndHttpHost());
+
+        $server['PHP_AUTH_USER'] = '0';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+        $this->assertEquals('http://0@servername:90', $request->getSchemeAndHttpHost());
+
+        $server['PHP_AUTH_PW'] = '0';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+        $this->assertEquals('http://0:0@servername:90', $request->getSchemeAndHttpHost());
     }
 
     /**
@@ -552,7 +617,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $request = new Request();
         $this->assertEquals('', $request->getClientIp());
-        $this->assertEquals('', $request->getClientIp(true));
 
         $server = array('REMOTE_ADDR' => $remoteAddr);
         if (null !== $httpClientIp) {
@@ -584,6 +648,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             array('2620:0:1cfe:face:b00c::3', true, '::1', '2620:0:1cfe:face:b00c::3', null),
             array('2620:0:1cfe:face:b00c::3', true, '::1', null, '2620:0:1cfe:face:b00c::3, ::1'),
             array('88.88.88.88', true, '123.45.67.89', null, '88.88.88.88, 87.65.43.21, 127.0.0.1'),
+            array('88.88.88.88', true, '123.45.67.89', null, 'unknown, 88.88.88.88'),
         );
     }
 

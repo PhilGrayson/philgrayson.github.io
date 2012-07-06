@@ -92,8 +92,11 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
             return new Service();
         };
 
+        $pimple['null'] = null;
+
         $this->assertTrue(isset($pimple['param']));
         $this->assertTrue(isset($pimple['service']));
+        $this->assertTrue(isset($pimple['null']));
         $this->assertFalse(isset($pimple['non_existent']));
     }
 
@@ -202,6 +205,7 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
 
         $pimple->extend('shared_service', function($sharedService) use ($value) {
             $sharedService->value = $value;
+
             return $sharedService;
         });
 

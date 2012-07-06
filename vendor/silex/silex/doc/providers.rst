@@ -3,8 +3,8 @@ Providers
 
 Providers allow the developer to reuse parts of an application into another
 one. Silex provides two types of providers defined by two interfaces:
-`ServiceProviderInterface` for services and `ControllerProviderInterface` for
-controllers.
+``ServiceProviderInterface`` for services and ``ControllerProviderInterface``
+for controllers.
 
 Service Providers
 -----------------
@@ -53,12 +53,12 @@ the ``Silex\Provider`` namespace:
 * :doc:`MonologServiceProvider <providers/monolog>`
 * :doc:`SessionServiceProvider <providers/session>`
 * :doc:`SwiftmailerServiceProvider <providers/swiftmailer>`
-* :doc:`SymfonyBridgesServiceProvider <providers/symfony_bridges>`
 * :doc:`TwigServiceProvider <providers/twig>`
 * :doc:`TranslationServiceProvider <providers/translation>`
 * :doc:`UrlGeneratorServiceProvider <providers/url_generator>`
 * :doc:`ValidatorServiceProvider <providers/validator>`
 * :doc:`HttpCacheServiceProvider <providers/http_cache>`
+* :doc:`FormServiceProvider <providers/form>`
 
 Third party providers
 ~~~~~~~~~~~~~~~~~~~~~
@@ -146,7 +146,7 @@ controllers under a path::
     $app->mount('/blog', new Acme\BlogControllerProvider());
 
 All controllers defined by the provider will now be available under the
-`/blog` path.
+``/blog`` path.
 
 Creating a provider
 ~~~~~~~~~~~~~~~~~~~
@@ -170,7 +170,8 @@ Here is an example of such a provider::
     {
         public function connect(Application $app)
         {
-            $controllers = new ControllerCollection();
+            // creates a new controller based on the default route
+            $controllers = $app['controllers_factory'];
 
             $controllers->get('/', function (Application $app) {
                 return $app->redirect('/hello');

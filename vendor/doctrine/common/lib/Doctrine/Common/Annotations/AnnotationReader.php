@@ -35,7 +35,7 @@ use ReflectionProperty;
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-final class AnnotationReader implements Reader
+class AnnotationReader implements Reader
 {
     /**
      * Global map for imports.
@@ -68,6 +68,7 @@ final class AnnotationReader implements Reader
         'codeCoverageIgnore' => true, 'codeCoverageIgnoreStart' => true, 'codeCoverageIgnoreEnd' => true,
         'Required' => true, 'Attribute' => true, 'Attributes' => true,
         'Target' => true, 'SuppressWarnings' => true,
+        'ingroup' => true, 'code' => true, 'endcode' => true
     );
 
     /**

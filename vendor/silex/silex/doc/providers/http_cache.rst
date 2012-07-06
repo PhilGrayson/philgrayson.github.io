@@ -43,7 +43,7 @@ setting Response HTTP cache headers::
 
 .. tip::
 
-    If you want Silex to trust the `X-Forwarded-For*` headers from your
+    If you want Silex to trust the ``X-Forwarded-For*`` headers from your
     reverse proxy, you will need to run your application like this::
 
         use Symfony\Component\HttpFoundation\Request;
@@ -52,7 +52,7 @@ setting Response HTTP cache headers::
         $app->run();
 
 This provider allows you to use the Symfony2 reverse proxy natively with
-Silex applications by using the `http_cache` service::
+Silex applications by using the ``http_cache`` service::
 
     $app['http_cache']->run();
 
@@ -81,6 +81,18 @@ The provider also provides ESI support::
     });
 
     $app['http_cache']->run();
+
+.. tip::
+
+    To help you debug caching issues, set your application ``debug`` to true.
+    Symfony automatically adds a ``X-Symfony-Cache`` header to each response
+    with useful information about cache hits and misses.
+
+    If you are *not* using the Symfony Session provider, you might want to set
+    the PHP ``session.cache_limiter`` setting to an empty value to avoid the
+    default PHP behavior.
+
+    Finally, check that your Web server does not override your caching strategy.
 
 For more information, consult the `Symfony2 HTTP Cache documentation
 <http://symfony.com/doc/current/book/http_cache.html>`_.

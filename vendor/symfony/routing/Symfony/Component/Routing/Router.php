@@ -13,6 +13,7 @@ namespace Symfony\Component\Routing;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\ConfigCache;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 /**
  * The Router class is an example of the integration of all pieces of the
@@ -29,6 +30,7 @@ class Router implements RouterInterface
     protected $collection;
     protected $resource;
     protected $options;
+    protected $logger;
 
     /**
      * Constructor.
@@ -37,11 +39,13 @@ class Router implements RouterInterface
      * @param mixed           $resource The main resource to load
      * @param array           $options  An array of options
      * @param RequestContext  $context  The context
+     * @param LoggerInterface $logger   A logger instance
      */
-    public function __construct(LoaderInterface $loader, $resource, array $options = array(), RequestContext $context = null)
+    public function __construct(LoaderInterface $loader, $resource, array $options = array(), RequestContext $context = null, LoggerInterface $logger = null)
     {
         $this->loader = $loader;
         $this->resource = $resource;
+        $this->logger = $logger;
         $this->context = null === $context ? new RequestContext() : $context;
         $this->setOptions($options);
     }
@@ -73,6 +77,7 @@ class Router implements RouterInterface
             'matcher_dumper_class'   => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper',
             'matcher_cache_class'    => 'ProjectUrlMatcher',
             'resource_type'          => null,
+            'strict_parameters'      => true,
         );
 
         // check option names and live merge, if errors are encountered Exception will be thrown
@@ -128,9 +133,7 @@ class Router implements RouterInterface
     }
 
     /**
-     * Gets the RouteCollection instance associated with this Router.
-     *
-     * @return RouteCollection A RouteCollection instance
+     * {@inheritdoc}
      */
     public function getRouteCollection()
     {
@@ -142,9 +145,7 @@ class Router implements RouterInterface
     }
 
     /**
-     * Sets the request context.
-     *
-     * @param RequestContext $context The context
+     * {@inheritdoc}
      */
     public function setContext(RequestContext $context)
     {
@@ -155,9 +156,7 @@ class Router implements RouterInterface
     }
 
     /**
-     * Gets the request context.
-     *
-     * @return RequestContext The context
+     * {@inheritdoc}
      */
     public function getContext()
     {
@@ -225,24 +224,30 @@ class Router implements RouterInterface
         }
 
         if (null === $this->options['cache_dir'] || null === $this->options['generator_cache_class']) {
-            return $this->generator = new $this->options['generator_class']($this->getRouteCollection(), $this->context);
+            $this->generator = new $this->options['generator_class']($this->getRouteCollection(), $this->context, $this->logger);
+        } else {
+            $class = $this->options['generator_cache_class'];
+            $cache = new ConfigCache($this->options['cache_dir'].'/'.$class.'.php', $this->options['debug']);
+            if (!$cache->isFresh($class)) {
+                $dumper = new $this->options['generator_dumper_class']($this->getRouteCollection());
+
+                $options = array(
+                    'class'      => $class,
+                    'base_class' => $this->options['generator_base_class'],
+                );
+
+                $cache->write($dumper->dump($options), $this->getRouteCollection()->getResources());
+            }
+
+            require_once $cache;
+
+            $this->generator = new $class($this->context, $this->logger);
         }
 
-        $class = $this->options['generator_cache_class'];
-        $cache = new ConfigCache($this->options['cache_dir'].'/'.$class.'.php', $this->options['debug']);
-        if (!$cache->isFresh($class)) {
-            $dumper = new $this->options['generator_dumper_class']($this->getRouteCollection());
-
-            $options = array(
-                'class'      => $class,
-                'base_class' => $this->options['generator_base_class'],
-            );
-
-            $cache->write($dumper->dump($options), $this->getRouteCollection()->getResources());
+        if (false === $this->options['strict_parameters']) {
+            $this->generator->setStrictParameters(false);
         }
 
-        require_once $cache;
-
-        return $this->generator = new $class($this->context);
+        return $this->generator;
     }
 }

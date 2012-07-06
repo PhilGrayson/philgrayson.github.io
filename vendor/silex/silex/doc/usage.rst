@@ -6,9 +6,8 @@ This chapter describes how to use Silex.
 Installation
 ------------
 
-If you want to get started fast, download either the `silex.zip`_ or the
-`silex.tgz`_ archive and extract it, you should have the following directory
-structure:
+If you want to get started fast, `download`_ Silex as an archive and extract
+it, you should have the following directory structure:
 
 .. code-block:: text
 
@@ -26,7 +25,7 @@ If you want more flexibility, use Composer instead. Create a
 
     {
         "require": {
-            "silex/silex": "dev-master"
+            "silex/silex": "1.0.*"
         }
     }
 
@@ -35,7 +34,15 @@ And run Composer to install Silex and all its dependencies:
 .. code-block:: bash
 
     $ curl -s http://getcomposer.org/installer | php
-    $ composer.phar install
+    $ php composer.phar install
+
+Upgrading
+---------
+
+Upgrading Silex to the latest version is as easy as running the ``update``
+command::
+
+    $ php composer.phar update
 
 Bootstrap
 ---------
@@ -54,8 +61,8 @@ definitions, call the ``run`` method on your application::
 
     $app->run();
 
-Then, you have to configure your web server (read below hints for Apache and
-IIS).
+Then, you have to configure your web server (read the dedicated chapter for
+more information).
 
 .. tip::
 
@@ -419,8 +426,13 @@ Route middlewares
 -----------------
 
 Route middlewares are PHP callables which are triggered when their associated
-route is matched. They are fired just before the route callback, but after the
-application ``before`` filters.
+route is matched:
+
+* ``before`` middlewares are fired just before the route callback, but after
+  the application ``before`` filters;
+
+* ``after`` middlewares are fired just after the route callback, but before
+  the application ``after`` filters.
 
 This can be used for a lot of use cases; for instance, here is a simple
 "anonymous/logged user" check::
@@ -440,33 +452,36 @@ This can be used for a lot of use cases; for instance, here is a simple
     $app->get('/user/subscribe', function () {
         ...
     })
-    ->middleware($mustBeAnonymous);
+    ->before($mustBeAnonymous);
 
     $app->get('/user/login', function () {
         ...
     })
-    ->middleware($mustBeAnonymous);
+    ->before($mustBeAnonymous);
 
     $app->get('/user/my-profile', function () {
         ...
     })
-    ->middleware($mustBeLogged);
+    ->before($mustBeLogged);
 
-The ``middleware`` function can be called several times for a given route, in
-which case they are triggered in the same order as you added them to the
-route.
+The ``before`` and ``after`` methods can be called several times for a given
+route, in which case they are triggered in the same order as you added them to
+the route.
 
-For convenience, the route middlewares functions are triggered with the
-current ``Request`` instance as their only argument.
+For convenience, the ``before`` middlewares are called with the current
+``Request`` instance as an argument and the ``after`` middlewares are called
+with the current ``Request`` and ``Response`` instance as arguments.
 
-If any of the route middlewares returns a Symfony HTTP Response, it will
+If any of the before middlewares returns a Symfony HTTP Response, it will
 short-circuit the whole rendering: the next middlewares won't be run, neither
 the route callback. You can also redirect to another page by returning a
 redirect response, which you can create by calling the Application
 ``redirect`` method.
 
-If a route middleware does not return a Symfony HTTP Response or ``null``, a
-``RuntimeException`` is thrown.
+.. note::
+
+    If a before middleware does not return a Symfony HTTP Response or
+    ``null``, a ``RuntimeException`` is thrown.
 
 Global Configuration
 --------------------
@@ -481,7 +496,7 @@ middleware, a requirement, or a default value), you can configure it on
         ->requireHttps()
         ->method('get')
         ->convert('id', function () { // ... })
-        ->middleware(function () { // ... })
+        ->before(function () { // ... })
     ;
 
 These settings are applied to already registered controllers and they become
@@ -602,9 +617,9 @@ round-trip to the browser (as for a redirect), use an internal sub-request::
 
 .. tip::
 
-If you are using ``UrlGeneratorProvider``, you can also generate the URI::
+    If you are using ``UrlGeneratorProvider``, you can also generate the URI::
 
-    $request = Request::create($app['url_generator']->generate('hello'), 'GET');
+        $request = Request::create($app['url_generator']->generate('hello'), 'GET');
 
 Modularity
 ----------
@@ -612,17 +627,15 @@ Modularity
 When your application starts to define too many controllers, you might want to
 group them logically::
 
-    use Silex\ControllerCollection;
-
     // define controllers for a blog
-    $blog = new ControllerCollection();
+    $blog = $app['controllers_factory'];
     $blog->get('/', function () {
         return 'Blog home page';
     });
     // ...
 
     // define controllers for a forum
-    $forum = new ControllerCollection();
+    $forum = $app['controllers_factory'];
     $forum->get('/', function () {
         return 'Forum home page';
     });
@@ -635,9 +648,20 @@ group them logically::
     $app->mount('/blog', $blog);
     $app->mount('/forum', $forum);
 
+.. note::
+
+    ``$app['controllers_factory']`` is a factory that returns a new instance
+    of ``ControllerCollection`` when used.
+
 ``mount()`` prefixes all routes with the given prefix and merges them into the
 main Application. So, ``/`` will map to the main home page, ``/blog/`` to the
 blog home page, and ``/forum/`` to the forum home page.
+
+.. caution::
+
+    When mounting a route collection under ``/blog``, it is not possible to
+    define a route for the ``/blog`` URL. The shortest possible URL is
+    ``/blog/``.
 
 .. note::
 
@@ -649,10 +673,10 @@ Another benefit is the ability to apply settings on a set of controllers very
 easily. Building on the example from the middleware section, here is how you
 would secure all controllers for the backend collection::
 
-    $backend = new ControllerCollection();
+    $backend = $app['controllers_factory'];
 
     // ensure that all controllers require logged-in users
-    $backend->middleware($mustBeLogged);
+    $backend->before($mustBeLogged);
 
 .. tip::
 
@@ -660,9 +684,7 @@ would secure all controllers for the backend collection::
     separate file::
 
         // blog.php
-        use Silex\ControllerCollection;
-
-        $blog = new ControllerCollection();
+        $blog = $app['controllers_factory'];
         $blog->get('/', function () { return 'Blog home page'; });
 
         return $blog;
@@ -722,6 +744,47 @@ after every chunk::
         fclose($fh);
     };
 
+Traits
+------
+
+Silex comes with PHP traits that define shortcut methods.
+
+.. caution::
+
+    You need to use PHP 5.4 or later to benefit from this feature.
+
+Almost all built-in service providers have some corresponding PHP traits. To
+use them, define your own Application class and include the traits you want::
+
+    use Silex\Application;
+
+    class MyApplication extends Application
+    {
+        use Application\TwigTrait;
+        use Application\SecurityTrait;
+        use Application\FormTrait;
+        use Application\UrlGeneratorTrait;
+        use Application\SwiftmailerTrait;
+        use Application\MonologTrait;
+        use Application\TranslationTrait;
+    }
+
+You can also define your own Route class and use some traits::
+
+    use Silex\Route;
+
+    class MyRoute extends Route
+    {
+        use Route\SecurityTrait;
+    }
+
+To use your newly defined route, override the ``$app['route_class']``
+setting::
+
+    $app['route_class'] = 'MyRoute';
+
+Read each provider chapter to learn more about the added methods.
+
 Security
 --------
 
@@ -753,66 +816,4 @@ to prevent Cross-Site-Scripting attacks.
           return $app->json(array('name' => $name));
       });
 
-Apache configuration
---------------------
-
-If you are using Apache you can use a ``.htaccess`` file for this:
-
-.. code-block:: apache
-
-    <IfModule mod_rewrite.c>
-        Options -MultiViews
-
-        RewriteEngine On
-        #RewriteBase /path/to/app
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteRule ^ index.php [L]
-    </IfModule>
-
-.. note::
-
-    If your site is not at the webroot level you will have to uncomment the
-    ``RewriteBase`` statement and adjust the path to point to your directory,
-    relative from the webroot.
-
-Alternatively, if you use Apache 2.2.16 or higher, you can use the
-`FallbackResource directive`_ so make your .htaccess even easier:
-
-.. code-block:: apache
-
-    FallbackResource index.php
-
-IIS configuration
------------------
-
-If you are using the Internet Information Services from Windows, you can use
-this sample ``web.config`` file:
-
-.. code-block:: xml
-
-    <?xml version="1.0"?>
-    <configuration>
-        <system.webServer>
-            <defaultDocument>
-                <files>
-                    <clear />
-                    <add value="index.php" />
-                </files>
-            </defaultDocument>
-            <rewrite>
-                <rules>
-                    <rule name="Silex Front Controller" stopProcessing="true">
-                        <match url="^(.*)$" ignoreCase="false" />
-                        <conditions logicalGrouping="MatchAll">
-                            <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" negate="true" />
-                        </conditions>
-                        <action type="Rewrite" url="index.php" appendQueryString="true" />
-                    </rule>
-                </rules>
-            </rewrite>
-        </system.webServer>
-    </configuration>
-
-.. _FallbackResource directive: http://www.adayinthelifeof.nl/2012/01/21/apaches-fallbackresource-your-new-htaccess-command/
-.. _silex.zip: http://silex.sensiolabs.org/get/silex.zip
-.. _silex.tgz: http://silex.sensiolabs.org/get/silex.tgz
+.. _download: http://silex.sensiolabs.org/download
