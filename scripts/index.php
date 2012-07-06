@@ -1,21 +1,16 @@
 <?php
-  define('root_dir', __DIR__ . '/../');
-  require_once root_dir . 'vendor/silex.phar';
 
-  $app = new Silex\Application();
+define('root_dir', __DIR__ . '/../');
+require_once root_dir . 'vendor/autoload.php';
 
-  // Add namespaces
-  $app['autoloader']->registerNamespace('Symfony', root_dir . 'vendor');
-  $app['autoloader']->registerNamespace('Predis', root_dir . 'vendor');
+$app = new Silex\Application();
 
-  // Application configs
-  $config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
+// Application configs
+$config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
 
-  // Setup Doctrine
-  $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-    'dbs.options' => $config['live']['doctrine'],
-    'db.dbal.class_path'   => root_dir . 'vendor/doctrine2-dbal/lib',
-    'db.common.class_path' => root_dir . 'vendor/doctrine2-common/lib',
-  ));
+// Setup Doctrine
+$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+  'dbs.options' => $config['live']['doctrine']
+));
 
-  return $app;
+return $app;

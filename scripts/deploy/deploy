@@ -1,10 +1,19 @@
-sudo apt-get install git-core apache2 nginx php5 php5-mysql php-pear libapache2-mod-php5 mysql-server libyaml-dev redis-server
-pear channel-discover pear.phing.info
-pear install --alldeps phing/phing
-cd ~/
+sudo apt-get install git-core apache2 nginx php5 php5-mysql php-pear libapache2-mod-php5 mysql-server libyaml-dev redis-server uuid-dev zeromq-dev
+
+echo "extension=zmq.so" > /etc/php5/apache2/php.ini
+echo "extension=zmq.so" > /etc/php5/cli/php.ini
+
+mkdir ~/builds
+cd ~/builds
 git clone git://github.com/ry/node.git
 cd node
 ./configure
 make
 sudo make install
 sudo npm -g install less
+
+sudo pear channel-discover pear.phing.info
+sudo pear channel-discover pear.zero.mq
+sudo pear install --alldeps phing/phing
+
+sudo pecl install zero.mq/zmq-beta
