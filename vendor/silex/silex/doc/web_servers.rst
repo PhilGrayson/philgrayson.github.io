@@ -28,7 +28,12 @@ Alternatively, if you use Apache 2.2.16 or higher, you can use the
 
 .. code-block:: apache
 
-    FallbackResource index.php
+    FallbackResource /index.php
+
+.. note::
+
+    If your site is not at the webroot level you will have to adjust the path to
+    point to your directory, relative from the webroot.
 
 nginx
 -----
@@ -46,7 +51,7 @@ resources to ``index.php``:
         }
 
         location ~ index\.php$ {
-            fastcgi_pass   /var/run/php5-fpm.sock;
+            fastcgi_pass   unix:/var/run/php5-fpm.sock;
             fastcgi_index  index.php;
             include fastcgi_params;
         }
@@ -84,7 +89,7 @@ this sample ``web.config`` file:
     </configuration>
 
 Lighttpd
-~~~~~~~~
+--------
 
 If you are using lighttpd, use this sample ``simple-vhost`` as a starting
 point:
@@ -102,3 +107,36 @@ point:
     )
 
 .. _FallbackResource directive: http://www.adayinthelifeof.nl/2012/01/21/apaches-fallbackresource-your-new-htaccess-command/
+
+PHP 5.4
+-------
+
+PHP 5.4 ships with a built-in webserver for development. This server allows
+you to run silex without any configuration. However, in order to serve static
+files, you'll have to make sure your front controller returns false in that
+case::
+
+    // web/index.php
+
+    $filename = __DIR__.preg_replace('#(\?.*)$#', '', $_SERVER['REQUEST_URI']);
+    if (php_sapi_name() === 'cli-server' && is_file($filename)) {
+        return false;
+    }
+
+    $app = require __DIR__.'/../src/app.php';
+    $app->run();
+
+
+Assuming your front controller is at ``web/index.php``, you can start the
+server from the command-line with this command:
+
+.. code-block:: text
+
+    $ php -S localhost:8080 -t web web/index.php
+
+Now the application should be running at ``http://localhost:8080``.
+
+.. note::
+
+    This server is for development only. It is **not** recommended to use it
+    in production.

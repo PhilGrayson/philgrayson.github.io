@@ -1,19 +1,45 @@
 <?php
+
 namespace Server\Event;
 
-class BoardLoadEvent implements EventInterface
+class BoardLoadEvent implments EventInterface
 {
-  public function handle($data)
+  public function handle(\Silex\Application $app, $data)
   {
-    if (!empty($data['board']) &&
-        \Application\Model\chanGraph::isValid($data['board'])) {
-      $url = 'http://boards.4chan.org/' . $data['board'] . '/';
-      $http = new \Server\Http\chanHttp($url);
+    if (!isset($data['board'])) {
+      throw new \Exception("Missing data key 'board'");
+    }
+    if (!isset($data['contents'])) {
+      throw new \Exception("Missing data key 'contents'");
+    }
 
-      $response = $http->sendRequest();
+    $dom = new \DomDocument();
+    @$dom->loadHTML($data['contents']);
+    $xpath = new \DomXPath($dom);
+    $query = "//*[contains(@class, 'post reply')]/@id";
 
-      return $data['pid'];
-      return "OKAY";
+    $postNumbers = @$xpath->query($query);
+
+    if (empty($postNumbers)) {
+      throw new \Exception("Could not parse HTML for $board");
+    }
+
+    $posts = 0;
+    foreach($postNumbers as $post) {
+      if ($post->nodeValue > $posts) {
+        $posts = $post->nodeValue;
+      }
+    }
+
+    if ($posts === 0) {
+      throw new \Exception("Could not find any posts for $board");
+    }
+
+    if (isset($data['insert']) && $data['insert']) {
+      $query = 'INSERT INTO posts (number, board_id) '.
+                    "SELECT ':number', id FROM boards WHERE handle = :board";
+      $app['dbs']['4changraph']->executeQuery($query, array(':board' => $board,
+                                                            'number' => $count));
     }
   }
 }

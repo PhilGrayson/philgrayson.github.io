@@ -1,6 +1,7 @@
 <?php
 namespace Server\Event;
+
 interface EventInterface
 {
-  public function handle($data);
+  public function handle(\Silex\Application $app, $data);
 }

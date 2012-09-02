@@ -10,7 +10,9 @@ $config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
 
 // Setup Doctrine
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-  'dbs.options' => $config['live']['doctrine']
+  'dbs.options' => $config['dev']['doctrine']
 ));
+
+$app['event'] = new \Server\EventServer($app);
 
 return $app;

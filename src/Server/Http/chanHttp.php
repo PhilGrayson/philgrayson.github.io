@@ -14,7 +14,7 @@ Info: philgrayson.com/chandash/crawler
 Email: phil@philgrayson.com
 EOD;
 
-    $this->setUserAgent(str_replace('\n', '', $userAgent));
+    $this->setUserAgent(str_replace('\n', ' ', $userAgent));
   }
 
 

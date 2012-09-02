@@ -79,7 +79,20 @@ class chanGraph {
     $this->db = $db;
   }
 
-  public function isValid($board)
+  public static function getBoards()
+  {
+    $boards = array();
+    foreach(self::boards as $group)
+    {
+      foreach($group as $name => $id)
+      {
+        $boards[] = $id;
+      }
+    }
+    return $boards;
+  }
+
+  public static function isValid($board)
   {
     foreach(chanGraph::$boards as $category => $boards) {
       if (in_array($board, array_values($boards))) {
