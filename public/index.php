@@ -7,25 +7,13 @@ $app = new \Silex\Application();
 // Application configs
 $app['app_config'] = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
 
-// Setup sessions
-$app->register(new Silex\Provider\SessionServiceProvider());
-$app['session']->Start();
+$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+  'dbs.options' => $config['dev']['doctrine']
+));
 
 // Setup twig
 $app->register(new \Silex\Provider\TwigServiceProvider(), array(
   'twig.path' => root_dir . 'src/Application/Views'
-));
-
-// Setup monolog
-$app->register(new Application\Provider\MonologServiceProvider(), array(
-  'monolog.logfile' => root_dir . 'data/logs/monolog.log',
-  'monolog.name'    => 'philgrayson.com',
-  'monolog.handler' => function($app) {
-    $streamLogger = new \Monolog\Handler\StreamHandler($app['monolog.logfile']);
-    $streamLogger->pushProcessor(new \Monolog\Processor\WebProcessor());
-
-    return $streamLogger;
-  }
 ));
 
 // Homepage/Blog routes
@@ -42,14 +30,6 @@ $app->mount('/4chan-graph', new \Application\Controller\chanGraph());
 $app->error(function(\Exception $e) use ($app)
 {
   return $app->redirect('/');
-});
-
-$app->finish(function(\Symfony\Component\HttpFoundation\Request $request,
-                      \Symfony\Component\HttpFoundation\Response $response)
-use ($app)
-{
-  // Log the request via monolog
-  $app['monolog']->addInfo('');
 });
 
 $app['debug'] = true;

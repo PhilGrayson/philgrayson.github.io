@@ -25,7 +25,3 @@ spl_autoload_register(function($class)
         }
     }
 });
-
-\Doctrine\Common\Annotations\AnnotationRegistry::registerAutoloadNamespace(
-    'Doctrine\Tests\Common\Annotations\Fixtures', __DIR__ . '/../../'
-);

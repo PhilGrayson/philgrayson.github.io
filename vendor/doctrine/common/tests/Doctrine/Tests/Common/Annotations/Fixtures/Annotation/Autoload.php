@@ -5,6 +5,7 @@ namespace Doctrine\Tests\Common\Annotations\Fixtures\Annotation;
 /**
  * @Annotation
  */
-class Autoload
+class Autoload extends \Doctrine\Common\Annotations\Annotation
 {
+    
 }

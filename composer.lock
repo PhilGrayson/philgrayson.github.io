@@ -1,29 +1,23 @@
 {
-    "hash": "9e458eb844b416a26b1ab8c6d2b394bc",
+    "hash": "1e691e59f9d3316ee8a83e9bdac2765d",
     "packages": [
         {
             "package": "doctrine/common",
-            "version": "dev-master",
-            "alias-pretty-version": "2.3.x-dev",
-            "alias-version": "2.3.9999999.9999999-dev"
-        },
-        {
-            "package": "doctrine/common",
-            "version": "dev-master",
-            "source-reference": "d2f8a36b8696b446bf25cfe2b0b3aaf03e0835e6",
-            "commit-date": "1341088911"
+            "version": "2.1.4"
         },
         {
             "package": "doctrine/dbal",
-            "version": "dev-master",
-            "source-reference": "11a2244daa602a02a99bf0fda06921e116802ccc",
-            "commit-date": "1341042163"
+            "version": "2.1.7"
         },
         {
-            "package": "monolog/monolog",
+            "package": "doctrine/orm",
+            "version": "2.1.7"
+        },
+        {
+            "package": "nutwerk/doctrine-orm-provider",
             "version": "dev-master",
-            "source-reference": "6cbdc0410c08fb03d7eee6b69126661fcbb89c41",
-            "commit-date": "1340715384"
+            "source-reference": "d5b6328ac39fb4d133f0838a30dc30624015969d",
+            "commit-date": "1336986829"
         },
         {
             "package": "pimple/pimple",
@@ -40,20 +34,8 @@
         {
             "package": "silex/silex",
             "version": "dev-master",
-            "alias-pretty-version": "1.0.x-dev",
-            "alias-version": "1.0.9999999.9999999-dev"
-        },
-        {
-            "package": "silex/silex",
-            "version": "dev-master",
-            "source-reference": "52c6480be194825489f316d30855645dafa7fae4",
-            "commit-date": "1346332220"
-        },
-        {
-            "package": "symfony/console",
-            "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
+            "source-reference": "73b18ef69f74d878465dba0836ad96affc6c820c",
+            "commit-date": "1346766167"
         },
         {
             "package": "symfony/console",
@@ -112,20 +94,8 @@
         {
             "package": "symfony/yaml",
             "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/yaml",
-            "version": "dev-master",
             "source-reference": "v2.1.0-RC2",
             "commit-date": "1345643321"
-        },
-        {
-            "package": "twig/twig",
-            "version": "dev-master",
-            "alias-pretty-version": "1.9.x-dev",
-            "alias-version": "1.9.9999999.9999999-dev"
         },
         {
             "package": "twig/twig",
@@ -142,7 +112,7 @@
     "stability-flags": {
         "silex/silex": 20,
         "twig/twig": 20,
-        "symfony/event-dispatcher": 20,
+        "nutwerk/doctrine-orm-provider": 20,
         "symfony/console": 20,
         "symfony/yaml": 20
     }

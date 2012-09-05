@@ -1,0 +1,63 @@
+'Japanese Culture':
+    a: 'Anime & Manga'
+    c: Anime/Cute
+    w: Anime/Wallpapers
+    m: Mecha
+    cgl: 'Cosplay & EGL'
+    cm: Cute/Male
+    n: Transportation
+    jp: 'Otaku Culture'
+    vp: Pokèmon
+Interests:
+    v: 'Video Games'
+    vg: 'Video Game Generals'
+    co: 'Comics & Cartoons'
+    g: Technology
+    tv: 'Television & Film'
+    k: Weapons
+    o: Autos
+    an: 'Animals & Nature'
+    tg: 'Traditional Games'
+    sp: Sports
+    sci: 'Science & Math'
+    int: International
+Creative:
+    i: Oekaki
+    po: 'Papercraft & Origami'
+    p: Photography
+    ck: 'Food & Cooking'
+    ic: Artwork/Critique
+    wg: Wallpapers/General
+    mu: Music
+    fa: Fashion
+    toy: Toys
+    3: 3DCG
+    diy: Do-It-Yourself
+    wsg: 'Worksafe GIF'
+Adult:
+    s: 'Sexy Beautiful Women'
+    hc: Hardcore
+    hm: 'Handsome Men'
+    h: Hentai
+    e: Ecchi
+    u: Yuri
+    d: Hentai/Alternative
+    y: Yaoi
+    t: Torrents
+    hr: 'High Resolution'
+    gif: 'Animated GIF'
+Other:
+    q: '4chan Discussion'
+    trv: Travel
+    fit: 'Health & Fitness'
+    x: Paranormal
+    lit: Literature
+    adv: Advice
+    mlp: Pony
+Misc:
+    b: Random
+    r: Request
+    r9k: ROBOT9001
+    pol: 'Politically Incorrect'
+    soc: Social
+    phi: 'Phil''s board'

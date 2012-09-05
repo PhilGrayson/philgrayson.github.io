@@ -13,6 +13,16 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
   'dbs.options' => $config['dev']['doctrine']
 ));
 
-$app['event'] = new \Server\EventServer($app);
+$app->register(new Nutwerk\Provider\DoctrineORMServiceProvider(), array(
+  'db.orm.proxies_dir' => root_dir . 'data/doctrine/proxy',
+  'db.orm.entities' => array(array(
+    'type' => 'yml',
+    'path' => root_dir . 'data/doctrine/entities',
+    'namespace' => 'Application\Model\fourChanDash'
+  ))
+));
+
+$app['event']    = new \Server\EventServer($app);
+$app['data.dir'] = root_dir . '/data/';
 
 return $app;

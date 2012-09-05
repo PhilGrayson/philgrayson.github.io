@@ -7,13 +7,11 @@ use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\DocLexer;
 use Doctrine\Common\Annotations\DocParser;
-use Doctrine\Common\Annotations\PhpParser;
 use Doctrine\Common\Annotations\AnnotationReader;
 
 require_once __DIR__ . '/Fixtures/Annotation/Route.php';
 require_once __DIR__ . '/Fixtures/Annotation/Template.php';
 require_once __DIR__ . '/Fixtures/Annotation/Secure.php';
-require_once __DIR__ . '/Fixtures/SingleClassLOC1000.php';
 
 class PerformanceTest extends \PHPUnit_Framework_TestCase
 {
@@ -61,6 +59,7 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadPerformance()
     {
+        $reader = new AnnotationReader();
         $method = $this->getMethod();
 
         $time = microtime(true);
@@ -92,6 +91,7 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase
             'static', 'var', 'throws', 'inheritdoc',
         );
 
+        $parser = new DocParser();
         $method = $this->getMethod();
         $methodComment = $method->getDocComment();
         $classComment = $method->getDeclaringClass()->getDocComment();
@@ -101,7 +101,6 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase
             $parser = new DocParser();
             $parser->setImports($imports);
             $parser->setIgnoredAnnotationNames($ignored);
-            $parser->setIgnoreNotImportedAnnotations(true);
 
             $parser->parse($methodComment);
             $parser->parse($classComment);
@@ -116,6 +115,7 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testDocLexerPerformance()
     {
+        $lexer = new DocLexer();
         $method = $this->getMethod();
         $methodComment = $method->getDocComment();
         $classComment = $method->getDeclaringClass()->getDocComment();
@@ -129,40 +129,6 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase
         $time = microtime(true) - $time;
 
         $this->printResults('doc-lexer', $time, $c);
-    }
-
-    /**
-     * @group performance
-     */
-    public function testPhpParserPerformanceWithShortCut()
-    {
-        $class = new \ReflectionClass('Doctrine\Tests\Common\Annotations\Fixtures\NamespacedSingleClassLOC1000');
-
-        $time = microtime(true);
-        for ($i=0,$c=500; $i<$c; $i++) {
-            $parser = new PhpParser();
-            $parser->parseClass($class);
-        }
-        $time = microtime(true) - $time;
-
-        $this->printResults('doc-parser-with-short-cut', $time, $c);
-    }
-
-    /**
-     * @group performance
-     */
-    public function testPhpParserPerformanceWithoutShortCut()
-    {
-        $class = new \ReflectionClass('SingleClassLOC1000');
-
-        $time = microtime(true);
-        for ($i=0,$c=500; $i<$c; $i++) {
-            $parser = new PhpParser();
-            $parser->parseClass($class);
-        }
-        $time = microtime(true) - $time;
-
-        $this->printResults('doc-parser-without-short-cut', $time, $c);
     }
 
     private function getMethod()
