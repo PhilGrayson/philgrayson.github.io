@@ -43,7 +43,7 @@ class BoardsAddCommand extends \Application\Command\Command
     $name        = $dialog->ask($output, 'Board id (ie, b, v, sp) : ');
     $description = $dialog->ask($output, 'Board description : ');
 
-    $path = $app['data.dir'] . '/fourChanDash/boards.yml';
+    $path = $app['root_dir'] . '/data/fourChanDash/boards.yml';
     if (!is_writable($path)) {
       $output->writeln("<error>$path is not writable! Not adding board</error");
       return;

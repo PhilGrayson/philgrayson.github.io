@@ -5,7 +5,9 @@ require_once root_dir . 'vendor/autoload.php';
 $app = new \Silex\Application();
 
 // Application configs
-$app['app_config'] = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
+$app['app_config'] = \Symfony\Component\Yaml\Yaml::parse(
+  root_dir . 'data/config/config.yaml'
+);
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
   'dbs.options' => $config['dev']['doctrine']
@@ -23,7 +25,7 @@ $app->mount('/', new \Application\Controller\Blog());
 $app->mount('/misc-tools', new \Application\Controller\miscTools());
 
 // 4chan graph routes
-$app->mount('/4chan-graph', new \Application\Controller\chanGraph());
+$app->mount('/fourchandash', new \Application\Controller\chanGraph());
 
 // Default error handler
 // This will most likey run when a NotFoundHttpException is thrown

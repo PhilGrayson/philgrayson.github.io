@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+
+$app = require 'index.php';
+
+use Symfony\Component\Console;
+use Application\Command\fourChanDash;
+
+$console = new Console\Application();
+
+$console->add(new fourChanDash\BoardsSyncCommand($app));
+$console->add(new fourChanDash\BoardsAddCommand($app));
+$console->add(new fourChanDash\BoardsUpdateCommand($app));
+
+$console->run();

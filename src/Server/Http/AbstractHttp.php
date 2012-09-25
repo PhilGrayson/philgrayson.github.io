@@ -33,7 +33,6 @@ abstract class AbstractHttp
 
   public function sendRequest()
   {
-    return '';
     if (strlen($this->url) > 0) {
       $curl = \curl_init($this->url);
 

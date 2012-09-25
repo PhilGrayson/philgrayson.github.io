@@ -4,9 +4,10 @@ define('root_dir', __DIR__ . '/../');
 require_once root_dir . 'vendor/autoload.php';
 
 $app = new Silex\Application();
+$app['root_dir'] = root_dir;
 
 // Application configs
-$config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'config/config.yaml');
+$config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'data/config/config.yaml');
 
 // Setup Doctrine
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
@@ -22,7 +23,6 @@ $app->register(new Nutwerk\Provider\DoctrineORMServiceProvider(), array(
   ))
 ));
 
-$app['event']    = new \Server\EventServer($app);
-$app['data.dir'] = root_dir . '/data/';
+$app->register(new Application\Provider\EventServiceProvider(), array());
 
 return $app;

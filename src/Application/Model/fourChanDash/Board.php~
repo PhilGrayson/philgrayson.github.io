@@ -25,7 +25,7 @@ class Board
     private $description;
 
     /**
-     * @var Application\Model\fourChanDash\boardGroup
+     * @var Application\Model\fourChanDash\BoardGroup
      */
     private $boardGroup;
 
@@ -83,9 +83,9 @@ class Board
     /**
      * Set boardGroup
      *
-     * @param Application\Model\fourChanDash\boardGroup $boardGroup
+     * @param Application\Model\fourChanDash\BoardGroup $boardGroup
      */
-    public function setBoardGroup(\Application\Model\fourChanDash\boardGroup $boardGroup)
+    public function setBoardGroup(\Application\Model\fourChanDash\BoardGroup $boardGroup)
     {
         $this->boardGroup = $boardGroup;
     }
@@ -93,7 +93,7 @@ class Board
     /**
      * Get boardGroup
      *
-     * @return Application\Model\fourChanDash\boardGroup 
+     * @return Application\Model\fourChanDash\BoardGroup 
      */
     public function getBoardGroup()
     {

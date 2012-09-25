@@ -1,4 +1,4 @@
-ROOT_DIR      = {document-root}
+ROOT_DIR      = /home/phil/Documents/Programming/Web/philgrayson.com
 PUBLIC_DIR    = ${ROOT_DIR}/public
 BOOTSTRAP_DIR = ${ROOT_DIR}/data/bootstrap
 
