@@ -37,11 +37,23 @@ class BoardsUpdateCommand extends \Application\Command\Command
       'Application\Model\fourChanDash\Board'
     );
 
-    foreach($boardRepo->findAll() as $board) {
+    if ($input->getOption('boards')) {
+      $boards = explode(' ', $input->getOption('boards'));
+    } else {
+      $boards = array_map(
+        function($board)
+        {
+          return $board->getName();
+        },
+        $boardRepo->findAll()
+      );
+    }
+
+    foreach($boards as $board) {
       $app['event']->publish(
         'BoardRequest',
         array(
-          'board'   => $board->getName(),
+          'board'   => $board,
           'dry-run' => $dryrun
         )
       );
