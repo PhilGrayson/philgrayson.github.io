@@ -1,5 +1,5 @@
 {
-    "hash": "5e916f992f00653216089c4d837859d2",
+    "hash": "d8bd08e272b64cf49e6285218358efbf",
     "packages": [
         {
             "name": "doctrine/common",
@@ -67,103 +67,6 @@
                 "eventmanager",
                 "annotations",
                 "persistence"
-            ]
-        },
-        {
-            "name": "doctrine/couchdb",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/couchdb-client.git",
-                "reference": "bd5911054f39504c884606db6e290a10b7f05f75"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/doctrine/couchdb-client/zipball/bd5911054f39504c884606db6e290a10b7f05f75",
-                "reference": "bd5911054f39504c884606db6e290a10b7f05f75",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2",
-                "doctrine/common": "*"
-            },
-            "time": "1345228208",
-            "type": "library",
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "Doctrine\\CouchDB": "lib/"
-                }
-            },
-            "license": [
-                "LGPL"
-            ],
-            "authors": [
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Lukas Kahwe Smith",
-                    "email": "smith@pooteeweet.org"
-                }
-            ],
-            "description": "CouchDB Client",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "persistence",
-                "couchdb"
-            ]
-        },
-        {
-            "name": "doctrine/couchdb-odm",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "git://github.com/doctrine/couchdb-odm.git",
-                "reference": "7e877e6d9b359eb6f9384b7af3de7a97415801bb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/doctrine/couchdb-odm/zipball/7e877e6d9b359eb6f9384b7af3de7a97415801bb",
-                "reference": "7e877e6d9b359eb6f9384b7af3de7a97415801bb",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2",
-                "doctrine/couchdb": "*",
-                "symfony/console": ">=2.0",
-                "doctrine/common": ">=2.2.0,<2.3.9999"
-            },
-            "suggest": {
-                "symfony/yaml": ">=2.0"
-            },
-            "time": "1347821510",
-            "type": "library",
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "Doctrine\\ODM\\CouchDB": "lib/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Lukas Kahwe Smith",
-                    "email": "smith@pooteeweet.org"
-                }
-            ],
-            "description": "CouchDB Document Object Mapper",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "persistence",
-                "couchdb"
             ]
         },
         {
@@ -799,8 +702,6 @@
     "stability-flags": {
         "silex/silex": 20,
         "twig/twig": 20,
-        "doctrine/couchdb": 20,
-        "doctrine/couchdb-odm": 20,
         "symfony/console": 20,
         "symfony/yaml": 20
     }

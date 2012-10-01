@@ -6,8 +6,6 @@
     "doctrine/orm": "2.3",
     "doctrine/common": "2.*",
     "doctrine/dbal": "2.*",
-    "doctrine/couchdb": "dev-master",
-    "doctrine/couchdb-odm": "dev-master",
     "symfony/console": "dev-master",
     "symfony/yaml": "dev-master"
     },

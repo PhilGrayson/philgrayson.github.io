@@ -18,9 +18,7 @@ return array(
     'Server' => $baseDir . '/src/',
     'Pimple' => $vendorDir . '/pimple/pimple/lib/',
     'Doctrine\\ORM' => $vendorDir . '/doctrine/orm/lib/',
-    'Doctrine\\ODM\\CouchDB' => $vendorDir . '/doctrine/couchdb-odm/lib/',
     'Doctrine\\DBAL' => $vendorDir . '/doctrine/dbal/lib/',
-    'Doctrine\\CouchDB' => $vendorDir . '/doctrine/couchdb/lib/',
     'Doctrine\\Common' => $vendorDir . '/doctrine/common/lib/',
     'Application' => $baseDir . '/src/',
 );
