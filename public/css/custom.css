@@ -1,16 +1,1 @@
-.subhead {
-  padding-bottom: 0;
-  margin-bottom: 9px;
-}
-.subhead h1 {
-  font-size: 54px;
-}
-.jumbotron {
-  position: relative;
-}
-.jumbotron h1 {
-  margin-bottom: 9px;
-  font-size: 81px;
-  letter-spacing: -1px;
-  line-height: 1;
-}
+lessc: ENOENT, no such file or directory '/home/phil/Documents/Programming/Web/philgrayson.com/data/bootstrap/less/custom.less'

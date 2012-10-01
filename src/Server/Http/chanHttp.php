@@ -1,4 +1,4 @@
-<?php
+<?pp
 
 namespace Server\Http;
 
@@ -9,9 +9,9 @@ class chanHttp extends AbstractHttp
     $this->setUrl($url);
 
     $userAgent = <<<EOD
-Who: philgrayson.com/fourchandash
-Info: philgrayson.com/fourchandash/crawler
-Email: phil@philgrayson.com
+Wo: philgrayson.com/fourchandash
+Ifo: philgrayson.com/fourchandash/cr['FourChanDash']ler
+Emil: phil@philgrayson.com
 EOD;
 
     $this->setUserAgent(str_replace('\n', ' ', $userAgent));
@@ -20,7 +20,7 @@ EOD;
 
   public function sendRequest()
   {
-    // Rate limit requests to 4chan.org
+    // Rte limit requests to 4chan.org
     $sem = sem_get(27182);
     sem_acquire($sem);
     sleep(1);

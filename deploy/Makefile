@@ -1,6 +1,6 @@
 ROOT_DIR = /home/phil/Documents/Programming/Web/philgrayson.com
 PUBLIC_DIR    = ${ROOT_DIR}/public
-BOOTSTRAP_DIR = ${ROOT_DIR}/data/bootstrap
+BOOTSTRAP_DIR = ${ROOT_DIR}/data/bootstrap/less
 BOOTSTRAP      = ${PUBLIC_DIR}/css/bootstrap.css
 BOOTSTRAP_LESS = ${BOOTSTRAP_DIR}/bootstrap.less
 DOMAIN   = dev.philgrayson.com
@@ -10,8 +10,7 @@ all: install-packages install-node compile-less run-composer create-configs
 
 install-packages:
 	sudo apt-get install git-core apache2 nginx php5 php5-mysql php5-curl \
-  libapache2-mod-php5 php-pear mysql-server libyaml-dev uuid-dev
-	#sudo sh -c 'echo "extension=curl.so" >> /etc/php5/cli/php.ini'
+  libapache2-mod-php5 php-pear mysql-server libyaml-dev uuid-dev couchdb
 
 install-node:
 	if [ ! -e $(shell which lessc) ]; then \
@@ -27,7 +26,6 @@ install-node:
 
 compile-less:
 	lessc ${BOOTSTRAP_LESS} > ${BOOTSTRAP}
-	lessc ${BOOTSTRAP_DIR}/custom.less > ${PUBLIC_DIR}/css/custom.css
 
 run-composer:
 	cd ${ROOT_DIR}

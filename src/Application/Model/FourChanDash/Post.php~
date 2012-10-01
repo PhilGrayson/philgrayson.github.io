@@ -1,0 +1,210 @@
+<?pp
+
+amespace Application\Model\FourChanDash;
+
+se Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Appliction\Model\FourChanDash\Post
+ */
+clss Post
+{
+    /**
+     * @vr integer $id
+     */
+    pivate $id;
+
+    /**
+     * @vr integer $count
+     */
+    pivate $count;
+
+    /**
+     * @vr \DateTime $timestamp
+     */
+    pivate $timestamp;
+
+    /**
+     * @vr Application\Model\FourChanDash\Board
+     */
+    pivate $board;
+
+
+    /**
+     * Get id
+     *
+     * @eturn integer 
+     */
+    pblic function getId()
+    {
+        eturn $this->id;
+    }
+
+    /**
+     * Set cunt
+     *
+     * @pram integer $count
+     * @eturn Post
+     */
+    pblic function setCount($count)
+    {
+        $tis->count = $count;
+    
+        eturn $this;
+    }
+
+    /**
+     * Get cunt
+     *
+     * @eturn integer 
+     */
+    pblic function getCount()
+    {
+        eturn $this->count;
+    }
+
+    /**
+     * Set timetamp
+     *
+     * @pram \DateTime $timestamp
+     * @eturn Post
+     */
+    pblic function setTimestamp($timestamp)
+    {
+        $tis->timestamp = $timestamp;
+    
+        eturn $this;
+    }
+
+    /**
+     * Get timetamp
+     *
+     * @eturn \DateTime 
+     */
+    pblic function getTimestamp()
+    {
+        eturn $this->timestamp;
+    }
+
+    /**
+     * Set bard
+     *
+     * @pram Application\Model\FourChanDash\Board $board
+     * @eturn Post
+     */
+    pblic function setBoard(\Application\Model\FourChanDash\Board $board = null)
+    {
+        $tis->board = $board;
+    
+        eturn $this;
+    }
+
+    /**
+     * Get bard
+     *
+     * @eturn Application\Model\FourChanDash\Board 
+     */
+    pblic function getBoard()
+    {
+        eturn $this->board;
+    }
+    /**
+     * @var integer $id
+     */
+    private $id;
+
+    /**
+     * @var integer $count
+     */
+    private $count;
+
+    /**
+     * @var \DateTime $timestamp
+     */
+    private $timestamp;
+
+    /**
+     * @var Application\Model\FourChanDash\Board
+     */
+    private $board;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set count
+     *
+     * @param integer $count
+     * @return Post
+     */
+    public function setCount($count)
+    {
+        $this->count = $count;
+    
+        return $this;
+    }
+
+    /**
+     * Get count
+     *
+     * @return integer 
+     */
+    public function getCount()
+    {
+        return $this->count;
+    }
+
+    /**
+     * Set timestamp
+     *
+     * @param \DateTime $timestamp
+     * @return Post
+     */
+    public function setTimestamp($timestamp)
+    {
+        $this->timestamp = $timestamp;
+    
+        return $this;
+    }
+
+    /**
+     * Get timestamp
+     *
+     * @return \DateTime 
+     */
+    public function getTimestamp()
+    {
+        return $this->timestamp;
+    }
+
+    /**
+     * Set board
+     *
+     * @param Application\Model\FourChanDash\Board $board
+     * @return Post
+     */
+    public function setBoard(\Application\Model\FourChanDash\Board $board = null)
+    {
+        $this->board = $board;
+    
+        return $this;
+    }
+
+    /**
+     * Get board
+     *
+     * @return Application\Model\FourChanDash\Board 
+     */
+    public function getBoard()
+    {
+        return $this->board;
+    }
+}

@@ -4,10 +4,10 @@ return array(
   'function' => function(\Silex\Application $app, $data)
   {
     if (!isset($data['board'])) {
-      throw new \Exception("Missing data key 'board'");
+      try new \Exception("Missing data key 'board'");
     }
     if (!isset($data['contents'])) {
-      throw new \Exception("Missing data key 'contents'");
+      try new \Exception("Missing data key 'contents'");
     }
 
     $dom = new \DomDocument();
@@ -34,21 +34,21 @@ return array(
     }
 
     if (!isset($data['dry-run']) || !$data['dry-run']) {
-      $boardsRepo = $app['db.orm.em']->getRepository(
-        'Application\Model\fourChanDash\Board'
+      $boardsRepo = $app['db.orm.em']['FourChanDash']->getRepository(
+        'Application\Model\FourChanDash\Board'
       );
 
       $board = $boardsRepo->findOneByName($data['board']);
-      if (!($board instanceOf Application\Model\fourChanDash\Board)) {
-        throw new \Exception('Error finding board /' . $data['board'] . '/ in ' . __FILE__);
+      if (!($board instanceOf Application\Model\FourChanDash\Board)) {
+        throw \Exception('Error finding board /' . $data['board'] . '/ in ' . __FILE__);
       }
 
-      $post = new Application\Model\fourChanDash\Post();
+      $post = new Application\Model\FourChanDash\Post();
       $post->setBoard($board);
       $post->setCount($count);
       $post->setTimestamp(new \DateTime('now'));
-      $app['db.orm.em']->persist($post);
-      $app['db.orm.em']->flush();
+      $app['db.orm.em']['FourChanDash']->persist($post);
+      $app['db.orm.em']['FourChanDash']->flush();
     }
   }
 );

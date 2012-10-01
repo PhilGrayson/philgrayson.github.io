@@ -12,11 +12,11 @@ return array(
     }
 
     $board     = $data['board'];
-    $boardRepo = $app['db.orm.em']->getRepository(
-      'Application\Model\fourChanDash\Board'
+    $boardRepo = $app['db.orm.em']['FourChanDash']->getRepository(
+      'Application\Model\FourChanDash\Board'
     );
 
-    if (!($boardRepo->findOneByName($board) instanceOf Application\Model\fourChanDash\Board)) {
+    if (!($boardRepo->findOneByName($board) instanceOf Application\Model\FourChanDash\Board)) {
       throw new \Exception("'$board' is not a valid board");
     }
 
@@ -25,10 +25,13 @@ return array(
 
     $response = $http->sendRequest();
 
-    $app['event']->publish('BoardLoad',
-                           array('board'    => $board,
-                                 'contents' => $response,
-                                 'dry-run'  => $data['dry-run'])
+    $app['event']->publish(
+      'BoardLoad',
+      array(
+        'board'    => $board,
+        'contents' => $response,
+        'dry-run'  => $data['dry-run']
+      )
     );
   }
 );

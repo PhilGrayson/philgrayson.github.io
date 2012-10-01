@@ -5,49 +5,48 @@ class Blog implements \Silex\ControllerProviderInterface
 {
   public function connect(\Silex\Application $app)
   {
-    $blog = new \Silex\ControllerCollection();
+    $blog = $app['controllers_factory'];
 
     /**
      * index action
-     * Display all blog posts
+     * display all blog posts
      */
     $blog->get('/', function() use($app)
     {
       try {
-        $posts = \Application\Model\Blog::getAll();
+        $postRepository = $app['db.orm.em']['Blog']->getRepository(
+          'Application\Model\Blog\Post'
+        );
+        $categoryRepository = $app['db.orm.em']['Blog']->getRepository(
+          'Application\Model\Blog\Category'
+        );
+
+        $posts      = $postRepository->findBy(array(), array('date' => 'DESC'));
+        $categories = $categoryRepository->findAll();
       } catch (\Exception $e) {
-        throw new Exception\BlogException('500');
+        error_log(__CLASS__ . ':' . __LINE__ . ' ' . $e->getMessage());
+        throw new Exception\BlogException();
       }
 
-      // Place the posts into an array of arrays based on year month day
-      $sorted = array();
-      if (count($posts) > 0) {
-        foreach($posts as $post) {
-          $year  = (int) $post['date']['year'];
-          $month = (int) $post['date']['month'];
-          $day   = (int) $post['date']['day'];
-          $sorted[$year][$month][$day][] = $post;
-        }
-
-        // Arrange to be latest first
-        krsort($sorted[$year][$month][$day]);
-        krsort($sorted[$year][$month]);
-        krsort($sorted[$year]);
-      }
-
-      return $app['twig']->render('Blog/index.twig',
-                                  array('title' => 'Phil Grayson blog',
-                                        'posts' => $sorted));
+      return $app['twig']->render(
+        'Blog/index.twig',
+        array(
+          'title'      => 'Phil Grayson blog',
+          'posts'      => $posts,
+          'categories' => $categories
+        )
+      );
     });
 
     /**
      * Show action
-     * Display an individual blog entry
+     * display an individual blog entry
      */
-    $blog->get('/{year}/{month}/{name}', function($year, $month, $name) use ($app)
+    $blog->get('/{category}/{year}/{name}', function($category, $year, $name) use ($app)
     {
       try {
-        $post = \Application\Model\Blog::get($year, $month, $name);
+        $blog = new \Application\Model\Blog($app);
+        $post = $blog->get($year, $name);
       } catch (\Exception $e) {
         // Something terrible has happened
         throw new Exception\BlogException('500');
@@ -57,12 +56,12 @@ class Blog implements \Silex\ControllerProviderInterface
         return $app['twig']->render('Blog/show.twig', $post);
       }
 
-      // Cannot find that post
+      // cannot find that post
       throw new Exception\BlogException('404');
     });
 
     /**
-     * Error handler
+     * Eror handler
      */
     $app->error(function(Exception\BlogException $e) use($app)
     {

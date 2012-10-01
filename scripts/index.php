@@ -7,19 +7,23 @@ $app = new Silex\Application();
 $app['root_dir'] = root_dir;
 
 // Application configs
-$config = \Symfony\Component\Yaml\Yaml::parse(root_dir . 'data/config/config.yaml');
+$app['app_config'] = \Symfony\Component\Yaml\Yaml::parse(
+  root_dir . 'data/config/config.yaml'
+);
 
 // Setup Doctrine
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-  'dbs.options' => $config['dev']['doctrine']
+  'dbs.options' => $app['app_config']['dev']['doctrine']
 ));
 
-$app->register(new Nutwerk\Provider\DoctrineORMServiceProvider(), array(
-  'db.orm.proxies_dir' => root_dir . 'data/doctrine/proxy',
-  'db.orm.entities' => array(array(
-    'type' => 'yml',
-    'path' => root_dir . 'data/doctrine/entities',
-    'namespace' => 'Application\Model\fourChanDash'
+$app->register(new Application\Provider\DoctrineORMServiceProvider(), array(
+  'db.orm.proxies_dir'           => $app['root_dir'] . 'data/doctrine/proxy',
+  'db.orm.proxies_namespace'     => 'Application\Proxies',
+  'db.orm.auto_generate_proxies' => true,
+  'db.orm.entities'              => array(array(
+    'type'      => 'yml',
+    'path'      => $app['root_dir'] . '/data/doctrine/entities',
+    'namespace' => 'Application'
   ))
 ));
 

@@ -18,7 +18,7 @@
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2012-07-02 09:11:17",
+        "time": "2012-07-01 15:11:17",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -91,7 +91,7 @@
             "symfony/dependency-injection": "dev-master",
             "symfony/finder": "dev-master"
         },
-        "time": "2012-07-01 23:37:57",
+        "time": "2012-07-01 05:37:57",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -154,7 +154,7 @@
             "symfony/yaml": "dev-master",
             "doctrine/common": ">=2.2,<2.4-dev"
         },
-        "time": "2012-07-01 10:09:16",
+        "time": "2012-06-30 16:09:16",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -205,7 +205,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2012-07-01 00:38:20",
+        "time": "2012-06-30 06:38:20",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -262,7 +262,7 @@
             "symfony/dependency-injection": "dev-master",
             "symfony/http-kernel": "dev-master"
         },
-        "time": "2012-08-22 07:48:41",
+        "time": "2012-08-21 13:48:41",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -277,127 +277,305 @@
         }
     },
     {
-        "name": "doctrine/common",
-        "version": "2.1.4",
-        "version_normalized": "2.1.4.0",
+        "name": "doctrine/couchdb",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
-            "url": "https://github.com/doctrine/common",
-            "reference": "2.1.4"
+            "url": "https://github.com/doctrine/couchdb-client.git",
+            "reference": "bd5911054f39504c884606db6e290a10b7f05f75"
         },
         "dist": {
             "type": "zip",
-            "url": "https://github.com/doctrine/common/zipball/2.1.4",
-            "reference": "2.1.4",
+            "url": "https://github.com/doctrine/couchdb-client/zipball/bd5911054f39504c884606db6e290a10b7f05f75",
+            "reference": "bd5911054f39504c884606db6e290a10b7f05f75",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2",
+            "doctrine/common": "*"
+        },
+        "time": "2012-08-17 18:30:08",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Doctrine\\CouchDB": "lib/"
+            }
+        },
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Lukas Kahwe Smith",
+                "email": "smith@pooteeweet.org"
+            }
+        ],
+        "description": "CouchDB Client",
+        "homepage": "http://www.doctrine-project.org",
+        "keywords": [
+            "persistence",
+            "couchdb"
+        ]
+    },
+    {
+        "name": "doctrine/couchdb-odm",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "git://github.com/doctrine/couchdb-odm.git",
+            "reference": "7e877e6d9b359eb6f9384b7af3de7a97415801bb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/doctrine/couchdb-odm/zipball/7e877e6d9b359eb6f9384b7af3de7a97415801bb",
+            "reference": "7e877e6d9b359eb6f9384b7af3de7a97415801bb",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2",
+            "doctrine/couchdb": "*",
+            "symfony/console": ">=2.0",
+            "doctrine/common": ">=2.2.0,<2.3.9999"
+        },
+        "suggest": {
+            "symfony/yaml": ">=2.0"
+        },
+        "time": "2012-09-16 18:51:50",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Doctrine\\ODM\\CouchDB": "lib/"
+            }
+        },
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Lukas Kahwe Smith",
+                "email": "smith@pooteeweet.org"
+            }
+        ],
+        "description": "CouchDB Document Object Mapper",
+        "homepage": "http://www.doctrine-project.org",
+        "keywords": [
+            "persistence",
+            "couchdb"
+        ]
+    },
+    {
+        "name": "doctrine/common",
+        "version": "2.3.0",
+        "version_normalized": "2.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/common",
+            "reference": "2.3.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/doctrine/common/zipball/2.3.0",
+            "reference": "2.3.0",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.2"
         },
-        "time": "2011-11-26 08:10:50",
+        "time": "2012-09-20 05:55:18",
         "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.3.x-dev"
+            }
+        },
         "installation-source": "source",
         "autoload": {
             "psr-0": {
                 "Doctrine\\Common": "lib/"
             }
-        }
+        },
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com",
+                "homepage": "http://www.jwage.com/"
+            },
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com",
+                "homepage": "http://jmsyst.com",
+                "role": "Developer of wrapped JMSSerializerBundle"
+            }
+        ],
+        "description": "Common Library for Doctrine projects",
+        "homepage": "http://www.doctrine-project.org",
+        "keywords": [
+            "collections",
+            "spl",
+            "eventmanager",
+            "annotations",
+            "persistence"
+        ]
     },
     {
         "name": "doctrine/dbal",
-        "version": "2.1.7",
-        "version_normalized": "2.1.7.0",
+        "version": "2.3.0",
+        "version_normalized": "2.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/dbal",
-            "reference": "2.1.7"
+            "reference": "2.3.0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://github.com/doctrine/dbal/zipball/2.1.7",
-            "reference": "2.1.7",
+            "url": "https://github.com/doctrine/dbal/zipball/2.3.0",
+            "reference": "2.3.0",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.2",
-            "doctrine/common": "2.*"
+            "doctrine/common": "2.3.*"
         },
-        "time": "2012-05-27 15:17:18",
+        "time": "2012-09-20 05:56:37",
         "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.3.x-dev"
+            }
+        },
         "installation-source": "source",
         "autoload": {
             "psr-0": {
                 "Doctrine\\DBAL": "lib/"
             }
-        }
+        },
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com",
+                "homepage": "http://www.jwage.com/"
+            },
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            }
+        ],
+        "description": "Database Abstraction Layer",
+        "homepage": "http://www.doctrine-project.org",
+        "keywords": [
+            "database",
+            "persistence",
+            "dbal",
+            "queryobject"
+        ]
     },
     {
         "name": "doctrine/orm",
-        "version": "2.1.7",
-        "version_normalized": "2.1.7.0",
+        "version": "2.3.0",
+        "version_normalized": "2.3.0.0",
         "source": {
             "type": "git",
             "url": "git://github.com/doctrine/doctrine2.git",
-            "reference": "2.1.7"
+            "reference": "2.3.0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://github.com/doctrine/doctrine2/zipball/2.1.7",
-            "reference": "2.1.7",
+            "url": "https://github.com/doctrine/doctrine2/zipball/2.3.0",
+            "reference": "2.3.0",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.2",
             "ext-pdo": "*",
-            "doctrine/common": "2.1.*",
-            "doctrine/dbal": "2.1.*"
+            "doctrine/dbal": "2.3.*",
+            "symfony/console": "2.*"
         },
-        "time": "2012-05-27 18:01:53",
+        "suggest": {
+            "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
+        },
+        "time": "2012-09-20 06:03:34",
+        "bin": [
+            "bin/doctrine",
+            "bin/doctrine.php"
+        ],
         "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.3.x-dev"
+            }
+        },
         "installation-source": "source",
         "autoload": {
             "psr-0": {
                 "Doctrine\\ORM": "lib/"
             }
-        }
-    },
-    {
-        "name": "nutwerk/doctrine-orm-provider",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/mjakubowski/nutwerk-orm-extension",
-            "reference": "d5b6328ac39fb4d133f0838a30dc30624015969d"
         },
-        "dist": {
-            "type": "zip",
-            "url": "https://github.com/mjakubowski/nutwerk-orm-extension/zipball/d5b6328ac39fb4d133f0838a30dc30624015969d",
-            "reference": "d5b6328ac39fb4d133f0838a30dc30624015969d",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.2",
-            "doctrine/orm": "2.1.*",
-            "doctrine/common": "2.1.*",
-            "doctrine/dbal": "2.1.*"
-        },
-        "suggest": {
-            "symfony/console": "Necessary if you would like to use the Doctrine CLI tools"
-        },
-        "time": "2012-05-14 05:13:49",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0-dev"
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com",
+                "homepage": "http://www.jwage.com/"
+            },
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
             }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "Nutwerk\\Provider": "lib/"
-            }
-        }
+        ],
+        "description": "Object-Relational-Mapper for PHP",
+        "homepage": "http://www.doctrine-project.org",
+        "keywords": [
+            "database",
+            "orm"
+        ]
     },
     {
         "name": "symfony/yaml",
@@ -407,18 +585,18 @@
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/Yaml",
-            "reference": "f1f0e0fea2bc568492ba1e25c2f88888d38459ca"
+            "reference": "f965c71d0edb97cef36c556f2bda25298fce7e69"
         },
         "dist": {
             "type": "zip",
-            "url": "https://github.com/symfony/Yaml/zipball/f1f0e0fea2bc568492ba1e25c2f88888d38459ca",
-            "reference": "f1f0e0fea2bc568492ba1e25c2f88888d38459ca",
+            "url": "https://github.com/symfony/Yaml/zipball/f965c71d0edb97cef36c556f2bda25298fce7e69",
+            "reference": "f965c71d0edb97cef36c556f2bda25298fce7e69",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2012-09-18 17:05:29",
+        "time": "2012-09-28 07:34:16",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -428,7 +606,7 @@
         "installation-source": "source",
         "autoload": {
             "psr-0": {
-                "Symfony\\Component\\Yaml": ""
+                "Symfony\\Component\\Yaml\\": ""
             }
         },
         "license": [
@@ -455,18 +633,18 @@
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/Console",
-            "reference": "0be8fcc7be5529db08278d21ebc6c51f8216144a"
+            "reference": "c4ed7ef2c51e1a44dc138e16054396860f512e99"
         },
         "dist": {
             "type": "zip",
-            "url": "https://github.com/symfony/Console/zipball/0be8fcc7be5529db08278d21ebc6c51f8216144a",
-            "reference": "0be8fcc7be5529db08278d21ebc6c51f8216144a",
+            "url": "https://github.com/symfony/Console/zipball/c4ed7ef2c51e1a44dc138e16054396860f512e99",
+            "reference": "c4ed7ef2c51e1a44dc138e16054396860f512e99",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2012-09-21 06:34:59",
+        "time": "2012-09-30 14:27:49",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -476,7 +654,7 @@
         "installation-source": "source",
         "autoload": {
             "psr-0": {
-                "Symfony\\Component\\Console": ""
+                "Symfony\\Component\\Console\\": ""
             }
         },
         "license": [
@@ -496,68 +674,18 @@
         "homepage": "http://symfony.com"
     },
     {
-        "name": "twig/twig",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "git://github.com/fabpot/Twig.git",
-            "reference": "b4d1d62b82e83c6fd3d5a6cd46a186de64275bb4"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://github.com/fabpot/Twig/zipball/b4d1d62b82e83c6fd3d5a6cd46a186de64275bb4",
-            "reference": "b4d1d62b82e83c6fd3d5a6cd46a186de64275bb4",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.4"
-        },
-        "time": "2012-09-18 09:38:15",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.10-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "Twig_": "lib/"
-            }
-        },
-        "license": [
-            "BSD-3"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Armin Ronacher",
-                "email": "armin.ronacher@active-4.com"
-            }
-        ],
-        "description": "Twig, the flexible, fast, and secure template language for PHP",
-        "homepage": "http://twig.sensiolabs.org",
-        "keywords": [
-            "templating"
-        ]
-    },
-    {
         "name": "silex/silex",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "git://github.com/fabpot/Silex.git",
-            "reference": "9b63007bbdf6a5f68ab402c76fbaf9df56c67342"
+            "reference": "fc82b4255ef081dd7d464c5320ca93a902f9190f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://github.com/fabpot/Silex/zipball/9b63007bbdf6a5f68ab402c76fbaf9df56c67342",
-            "reference": "9b63007bbdf6a5f68ab402c76fbaf9df56c67342",
+            "url": "https://github.com/fabpot/Silex/zipball/fc82b4255ef081dd7d464c5320ca93a902f9190f",
+            "reference": "fc82b4255ef081dd7d464c5320ca93a902f9190f",
             "shasum": ""
         },
         "require": {
@@ -591,11 +719,11 @@
             "symfony/css-selector": "2.1.*",
             "symfony/dom-crawler": "2.1.*"
         },
-        "time": "2012-09-21 12:12:28",
+        "time": "2012-09-30 13:59:50",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.0-dev"
+                "dev-master": "1.0.x-dev"
             }
         },
         "installation-source": "source",
@@ -622,6 +750,56 @@
         "homepage": "http://silex.sensiolabs.org",
         "keywords": [
             "microframework"
+        ]
+    },
+    {
+        "name": "twig/twig",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "git://github.com/fabpot/Twig.git",
+            "reference": "120cde3fa54c31047edf1cd003752ca119dec9a8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/fabpot/Twig/zipball/120cde3fa54c31047edf1cd003752ca119dec9a8",
+            "reference": "120cde3fa54c31047edf1cd003752ca119dec9a8",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.4"
+        },
+        "time": "2012-09-29 16:33:35",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.10-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Twig_": "lib/"
+            }
+        },
+        "license": [
+            "BSD-3"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Armin Ronacher",
+                "email": "armin.ronacher@active-4.com"
+            }
+        ],
+        "description": "Twig, the flexible, fast, and secure template language for PHP",
+        "homepage": "http://twig.sensiolabs.org",
+        "keywords": [
+            "templating"
         ]
     }
 ]

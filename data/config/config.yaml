@@ -1,16 +1,28 @@
 live:
   doctrine:
-    fourChanDash:
-      driver   : 'pdo_mysql'
+    FourChanDash:
       dbname   : 'fourChanDash'
+      driver   : 'pdo_mysql'
+      user     : 'dev-user'
+      password : 'user-dev'
+      host     : '176.58.101.130'
+    Blog:
+      dbname   : 'blog'
+      driver   : 'pdo_mysql'
       user     : 'dev-user'
       password : 'user-dev'
       host     : '176.58.101.130'
 dev:
   doctrine:
-    fourChanDash:
-      driver   : 'pdo_mysql'
+    FourChanDash:
       dbname   : 'fourChanDash'
-      user     : 'root'
+      driver   : 'pdo_mysql'
+      user     : 'phil'
+      password : 'manutd'
+      host     : 'localhost'
+    Blog:
+      dbname   : 'blog'
+      driver   : 'pdo_mysql'
+      user     : 'phil'
       password : 'manutd'
       host     : 'localhost'

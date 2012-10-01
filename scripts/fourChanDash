@@ -3,13 +3,23 @@
 
 $app = require 'index.php';
 
-use Symfony\Component\Console;
-use Application\Command\fourChanDash;
+use Application\Command\FourChanDash;
 
-$console = new Console\Application();
+$console = new Symfony\Component\Console\Application();
 
-$console->add(new fourChanDash\BoardsSyncCommand($app));
-$console->add(new fourChanDash\BoardsAddCommand($app));
-$console->add(new fourChanDash\BoardsUpdateCommand($app));
+$console->add(new FourChanDash\BoardsSyncCommand($app));
+$console->add(new FourChanDash\BoardsAddCommand($app));
+$console->add(new FourChanDash\BoardsUpdateCommand($app));
+
+$helpers = new \Symfony\Component\Console\Helper\HelperSet(array(
+  'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper(
+    $app['db.orm.em']['FourChanDash']->getConnection()
+  ),
+  'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper(
+    $app['db.orm.em']['FourChanDash']
+  ),
+));
+$console->setHelperSet($helpers);
+Doctrine\ORM\Tools\Console\ConsoleRunner::addCommands($console);
 
 $console->run();

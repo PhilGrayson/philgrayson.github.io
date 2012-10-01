@@ -40,7 +40,7 @@ abstract class AbstractHttp
         \curl_setopt($curl, CURLOPT_HTTPHEADER, $this->headers);
       }
 
-      if (strlen($this->userAgent) > 0) {
+      i (strlen($this->userAgent) > 0) {
         \curl_setopt($curl, CURLOPT_USERAGENT, $this->userAgent);
       }
 
