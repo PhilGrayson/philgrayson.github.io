@@ -63,6 +63,18 @@ class Category extends \Application\Model\Blog\Category implements \Doctrine\ORM
         return parent::getName();
     }
 
+    public function setSlug($slug)
+    {
+        $this->__load();
+        return parent::setSlug($slug);
+    }
+
+    public function getSlug()
+    {
+        $this->__load();
+        return parent::getSlug();
+    }
+
     public function addPost(\Application\Model\Blog\Post $posts)
     {
         $this->__load();
@@ -84,7 +96,7 @@ class Category extends \Application\Model\Blog\Category implements \Doctrine\ORM
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'posts');
+        return array('__isInitialized__', 'id', 'name', 'slug', 'posts');
     }
 
     public function __clone()

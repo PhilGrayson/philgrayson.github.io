@@ -8,6 +8,8 @@ Application\Model\Blog\Post:
   fields:
     title:
       type: string
+    slug:
+      type: string
     date:
       type: datetime
     blurb:

@@ -9,6 +9,9 @@ Application\Model\Blog\Category:
     name:
       type: string
       unique: true
+    slug:
+      type: string
+      unique: true
   oneToMany:
     posts:
       targetEntity: Post

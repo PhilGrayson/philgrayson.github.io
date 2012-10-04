@@ -20,6 +20,11 @@ class Post
     private $title;
 
     /**
+     * @var string $slug
+     */
+    private $slug;
+
+    /**
      * @var \DateTime $date
      */
     private $date;
@@ -71,6 +76,29 @@ class Post
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Post
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**

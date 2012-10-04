@@ -1,38 +1,31 @@
 {% extends "Blog/Blog.twig" %}
 
 {% block content %}
-  {% for year, yearPosts in posts %}
-    <div class="row">
-      <div class="span12">
-        <h1>{{ year }}</h1>
-
-        {% for month, monthPosts in yearPosts %}
-          {% for day, dayPosts in monthPosts %}
-            {% for post in dayPosts %}
-              <div class="row">
-                <div class="offset2 span6">
-                  <h1>
-                    <a href="{{ post.url }}">
-                      {{ post.title }}
-                    </a>
-                  </h1>
-                  <h3>Posted on {{ post.date.string }}</h3>
-                  {{ post.blurb | raw }}
-                  <hr />
-                </div>
-              </div>
-
-            {# End post loop #}
-            {% endfor %}
-
-          {# End day loop #}
-          {% endfor %}
-
-        {# End month loop #}
-        {% endfor %}
-
-      </div>
+  <div class="row">
+    <div class="span8">
+      {% for post in posts %}
+        <div class="row">
+          <div class="span12 post">
+            <h4 class="category">{{ post.category }}</h4>
+            <h1 class="title">
+              <a href="{{ post.date|date('Y/m/') }}{{ post.slug }}">{{ post.title }}</a>
+            </h1>
+            <h4 class="date">{{ post.date|date('d F \'y') }}</h4>
+            <p class="blurb">{{ post.blurb }}</p>
+          </div>
+        </div>
+      {% endfor %}
     </div>
-  {# End year loop #}
-  {% endfor %}
+    <div class="span4">
+      {% for category in categories %}
+        <div class="row">
+          <div class="span12">
+            <a class="lead" href="{{ category.slug }}">
+              {{ category.name }} ({{ category.count }})
+            <a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock %}

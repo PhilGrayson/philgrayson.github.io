@@ -1,7 +1,27 @@
 {% extends "Blog/Blog.twig" %}
 
 {% block content %}
-  <h1>{{ title }}</h1>
-  <h2>Posted on {{ date.string }}</h2>
-  {{ content | raw }}
+  <div class="row">
+    <div class="span8">
+      <div class="row">
+        <div class="post">
+          <h4 class="category">{{ post.category }}</h4>
+          <h1 class="title">
+            <a href="{{ post.date|date('Y/m/') }}{{ post.slug }}">{{ post.title }}</a>
+          </h1>
+          <h4 class="date">{{ post.date|date('d F \'y') }}</h4>
+          <p class="blurb">{{ post.contents|raw }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="span4">
+      {% for category in categories %}
+        <div class="row">
+          <div class="span12">
+            <p class="lead">{{ category.name }} ({{ category.count }})<p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock %}

@@ -54,8 +54,10 @@ class DoctrineORMServiceProvider implements ServiceProviderInterface
     {
         $app['db.orm.em'] = $app->share(function() use($app) {
             $ems = new \Pimple();
+
             foreach($app['dbs.config']->keys() as $name) {
-              $ems[$name] = EntityManager::create($app['dbs'][$name], $app['db.orm.config']($name));
+              $config = $app['db.orm.config']($name);
+              $ems[$name] = EntityManager::create($app['dbs'][$name], $config);
             }
 
             return $ems;
@@ -91,8 +93,18 @@ class DoctrineORMServiceProvider implements ServiceProviderInterface
         $app['db.orm.config'] = $app->protect(function($name) use($app) {
 
             $cache = $app['db.orm.cache'];
-            
+
             $config = new ORMConfiguration;
+
+            $config->addCustomNumericFunction(
+              'YEAR',
+              '\DoctrineExtensions\Query\Mysql\Year'
+            );
+            $config->addCustomNumericFunction(
+              'MONTH',
+              '\DoctrineExtensions\Query\Mysql\Month'
+            );
+
             $config->setMetadataCacheImpl($cache);
             $config->setQueryCacheImpl($cache);
 

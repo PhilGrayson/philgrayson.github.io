@@ -7,7 +7,9 @@
     "doctrine/common": "2.*",
     "doctrine/dbal": "2.*",
     "symfony/console": "dev-master",
-    "symfony/yaml": "dev-master"
+    "symfony/yaml": "dev-master",
+    "beberlei/DoctrineExtensions": "dev-master"
+
     },
   "autoload": {
     "psr-0": {
