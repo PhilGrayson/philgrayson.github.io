@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'dflydev\\markdown' => $vendorDir . '/dflydev/markdown/src',
     'Twig_' => $vendorDir . '/twig/twig/lib/',
     'Symfony\\Component\\Yaml\\' => $vendorDir . '/symfony/yaml/',
     'Symfony\\Component\\Routing' => $vendorDir . '/symfony/routing/',

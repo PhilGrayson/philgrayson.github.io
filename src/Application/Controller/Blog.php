@@ -146,12 +146,13 @@ class Blog implements \Silex\ControllerProviderInterface
 
   public static function formatPost(\Application\Model\Blog\Post $post)
   {
+    $markdown = new \dflydev\markdown\MarkdownParser;
     return array(
       'title' => $post->getTitle(),
       'slug' => $post->getSlug(),
       'date' => $post->getDate(),
       'blurb' => $post->getBlurb(),
-      'contents' => $post->getContents(),
+      'contents' => $markdown->transformMarkdown($post->getContents()),
       'category' => $post->getCategory()->getName()
     );
   }

@@ -17,15 +17,7 @@
       {% endfor %}
     </div>
     <div class="span4">
-      {% for category in categories %}
-        <div class="row">
-          <div class="span12">
-            <a class="lead" href="{{ category.slug }}">
-              {{ category.name }} ({{ category.count }})
-            <a>
-          </div>
-        </div>
-      {% endfor %}
+      {% include 'Blog/categories.twig' %}
     </div>
   </div>
 {% endblock %}
