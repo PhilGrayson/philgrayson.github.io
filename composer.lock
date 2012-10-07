@@ -1,5 +1,5 @@
 {
-    "hash": "405767d5c92a5ddcb508fa8593e878f9",
+    "hash": "7a9c7cbb5acb95a77232c2c0daaa27b0",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -499,37 +499,35 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "dev-master",
+            "version": "v2.1.2",
             "target-dir": "Symfony/Component/HttpFoundation",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation",
-                "reference": "f01f68eaf5c5bb2dfa24ec68734c1e01ac1d940d"
+                "reference": "v2.1.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/HttpFoundation/zipball/f01f68eaf5c5bb2dfa24ec68734c1e01ac1d940d",
-                "reference": "f01f68eaf5c5bb2dfa24ec68734c1e01ac1d940d",
+                "url": "https://github.com/symfony/HttpFoundation/zipball/v2.1.2",
+                "reference": "v2.1.2",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1349553479",
+            "time": "2012-09-18 16:09:52",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\HttpFoundation\\": ""
-                },
-                "classmap": [
-                    "Symfony/Component/HttpFoundation/Resources/stubs"
-                ]
+                    "Symfony\\Component\\HttpFoundation": "",
+                    "SessionHandlerInterface": "Symfony/Component/HttpFoundation/Resources/stubs"
+                }
             },
             "license": [
                 "MIT"
@@ -787,7 +785,6 @@
         "twig/twig": 20,
         "symfony/console": 20,
         "symfony/yaml": 20,
-        "symfony/http-foundation": 20,
         "beberlei/doctrineextensions": 20,
         "dflydev/markdown": 20
     }

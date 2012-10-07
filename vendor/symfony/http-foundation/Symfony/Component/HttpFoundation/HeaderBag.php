@@ -223,9 +223,7 @@ class HeaderBag implements \IteratorAggregate, \Countable
      * @param string    $key     The parameter key
      * @param \DateTime $default The default value
      *
-     * @return null|\DateTime The filtered value
-     *
-     * @throws \RuntimeException When the HTTP header is not parseable
+     * @return \DateTime The filtered value
      *
      * @api
      */

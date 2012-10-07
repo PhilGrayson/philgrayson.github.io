@@ -231,7 +231,7 @@ class Response
             $headers->remove('Content-Length');
         }
 
-        if ($request->isMethod('HEAD')) {
+        if ('HEAD' === $request->getMethod()) {
             // cf. RFC2616 14.13
             $length = $headers->get('Content-Length');
             $this->setContent(null);
@@ -259,7 +259,7 @@ class Response
         header(sprintf('HTTP/%s %s %s', $this->version, $this->statusCode, $this->statusText));
 
         // headers
-        foreach ($this->headers->allPreserveCase() as $name => $values) {
+        foreach ($this->headers->all() as $name => $values) {
             foreach ($values as $value) {
                 header($name.': '.$value, false);
             }
@@ -574,7 +574,7 @@ class Response
      */
     public function getDate()
     {
-        return $this->headers->getDate('Date', new \DateTime());
+        return $this->headers->getDate('Date');
     }
 
     /**

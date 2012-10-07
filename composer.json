@@ -8,7 +8,6 @@
     "doctrine/dbal": "2.*",
     "symfony/console": "dev-master",
     "symfony/yaml": "dev-master",
-    "symfony/http-foundation": "dev-master",
     "beberlei/DoctrineExtensions": "dev-master",
     "dflydev/markdown": "dev-master"
     },
