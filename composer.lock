@@ -1,6 +1,52 @@
 {
-    "hash": "7a9c7cbb5acb95a77232c2c0daaa27b0",
+    "hash": "a9b4c8e6e8a70511d01c428b9419065f",
     "packages": [
+        {
+            "name": "PasswordLib/PasswordLib",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ircmaxell/PHP-PasswordLib",
+                "reference": "35bb8edc09438be4f74e1e739bae2c07ff5cf1d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/ircmaxell/PHP-PasswordLib/zipball/35bb8edc09438be4f74e1e739bae2c07ff5cf1d0",
+                "reference": "35bb8edc09438be4f74e1e739bae2c07ff5cf1d0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "time": "1347999480",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "PasswordLib": "lib"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Ferrara",
+                    "email": "ircmaxell@php.net",
+                    "homepage": "http://blog.ircmaxell.com"
+                }
+            ],
+            "description": "A Password Hashing Library",
+            "homepage": "https://github.com/ircmaxell/PHP-PasswordLib",
+            "keywords": [
+                "password",
+                "hash",
+                "random",
+                "crypt",
+                "hashing",
+                "salt"
+            ]
+        },
         {
             "name": "beberlei/DoctrineExtensions",
             "version": "dev-master",
@@ -786,6 +832,7 @@
         "symfony/console": 20,
         "symfony/yaml": 20,
         "beberlei/doctrineextensions": 20,
-        "dflydev/markdown": 20
+        "dflydev/markdown": 20,
+        "passwordlib/passwordlib": 20
     }
 }

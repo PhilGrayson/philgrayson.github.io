@@ -10,7 +10,7 @@ all: install-packages install-node compile-less run-composer create-configs
 
 install-packages:
 	sudo apt-get install git-core apache2 nginx php5 php5-mysql php5-curl \
-  libapache2-mod-php5 php-pear mysql-server libyaml-dev uuid-dev
+  libapache2-mod-php5 php-pear mysql-server libyaml-dev uuid-dev php5-mcrypt
 
 install-node:
 	if [ ! -e $(shell which lessc) ]; then \

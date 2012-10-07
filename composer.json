@@ -9,7 +9,8 @@
     "symfony/console": "dev-master",
     "symfony/yaml": "dev-master",
     "beberlei/DoctrineExtensions": "dev-master",
-    "dflydev/markdown": "dev-master"
+    "dflydev/markdown": "dev-master",
+    "PasswordLib/PasswordLib": "dev-master"
     },
   "autoload": {
     "psr-0": {

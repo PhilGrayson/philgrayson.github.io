@@ -13,11 +13,13 @@ class User implements \Silex\ControllerProviderInterface
 
     $user->get('/', $this->redirectIndexAction($app));
     $user->get('/users', $this->indexAction($app));
-    $blog->get('/users/new', $this->createAction($app))->before($this->checkLoggedIn($app));
-    $blog->get('/users/login', $this->loginAction($app))->before($this->checkNotLoggedIn($app));
-    $blog->get('/users/logout', $this->logoutAction($app))->before($this->checkLoggedIn($app));
+    $user->post('/users', $this->createPostAction($app));
+    $user->get('/users/new', $this->createGetAction($app))->before($this->checkLoggedIn($app));
+    $user->get('/login', $this->loginGetAction($app))->before($this->checkNotLoggedIn($app));
+    $user->post('/login', $this->loginPostAction($app))->before($this->checkNotLoggedIn($app));
+    $user->get('/logout', $this->logoutAction($app));
 
-    return $blog;
+    return $user;
   }
 
   private function redirectIndexAction(\Silex\Application $app)
@@ -33,15 +35,15 @@ class User implements \Silex\ControllerProviderInterface
     return function() use($app)
     {
       try {
-        $postRepository = $app['db.orm.em']['Blog']->getRepository(
-          'Application\Model\Blog\User'
+        $usersRepository = $app['db.orm.em']['User']->getRepository(
+          'Application\Model\User\User'
         );
-        $posts = $postRepository->findAll();
+        $users = $usersRepository->findAll();
 
         return $app['twig']->render(
           'User/index.twig',
           array_merge($app['twig_user_vars'], array(
-            'users'      => $users
+            'users' => $users
           ))
         );
       } catch (\Exception $e) {
@@ -50,19 +52,72 @@ class User implements \Silex\ControllerProviderInterface
     };
   }
 
-  private function createAction(\Silex\Application $app)
+  private function createGetAction(\Silex\Application $app)
   {
     return function() use($app)
     {
-    
+      return $app['twig']->render(
+        'User/create.twig',
+        array_merge($app['twig_user_vars'], array())
+      );
     };
   }
 
-  private function loginAction(\Silex\Application $app)
+  private function createPostAction(\Silex\Application $app)
   {
     return function() use($app)
     {
-    
+    };
+  }
+
+  private function loginGetAction(\Silex\Application $app)
+  {
+    return function() use($app)
+    {
+      $vars = array();
+      if ($vars['login'] = $app['session']->get('login')) {
+        $app['session']->remove('login');
+      }
+
+      return $app['twig']->render(
+        'User/login.twig',
+        array_merge($app['twig_user_vars'], $vars)
+      );
+    };
+  }
+
+
+  private function loginPostAction(\Silex\Application $app)
+  {
+    return function() use($app)
+    {
+      $email   = $app['request']->request->get('_username');
+      $pass    = $app['request']->request->get('_password');
+
+      $repo = $app['db.orm.em']['User']->getRepository(
+        'Application\Model\User\User'
+      );
+
+      try {
+        $user = $repo->findOneBy(array('email' => $email));
+        if (!$user instanceOf \Application\Model\User\User) {
+          throw new \Exception();
+        }
+
+        $passlib = new \PasswordLib\PasswordLib;
+        if (!$passlib->verifyPasswordHash($pass, $user->getPassword())) {
+          throw new \Exception();
+        }
+
+        $app['session']->set('user', $user);
+        return $app->redirect('/users/users');
+      } catch (\Exception $e) {
+        $app['session']->set('login', array(
+          'last_email' => $email,
+          'error'      => 'Username and/or Password was not recognised'
+        ));
+        return $app->redirect('/users/login');
+      }
     };
   }
 
@@ -70,7 +125,8 @@ class User implements \Silex\ControllerProviderInterface
   {
     return function() use($app)
     {
-    
+      $app['session']->remove('user');
+      return $app->redirect('/users/users');
     };
   }
 
@@ -78,7 +134,7 @@ class User implements \Silex\ControllerProviderInterface
   {
     return function() use ($app)
     {
-      if (!$app['session']->has('user.id')) {
+      if (!$app['session']->has('user')) {
         return $app->redirect('/users/login');
       }
     };
@@ -88,8 +144,8 @@ class User implements \Silex\ControllerProviderInterface
   {
     return function() use ($app)
     {
-      if ($app['session']->has('user.id')) {
-        return $app->redirect('/users');
+      if ($app['session']->has('user')) {
+        return $app->redirect('/users/users');
       }
     };
   }

@@ -18,6 +18,7 @@ return array(
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs',
     'Server' => $baseDir . '/src/',
     'Pimple' => $vendorDir . '/pimple/pimple/lib/',
+    'PasswordLib' => $vendorDir . '/PasswordLib/PasswordLib/lib',
     'Doctrine\\ORM' => $vendorDir . '/doctrine/orm/lib/',
     'Doctrine\\DBAL' => $vendorDir . '/doctrine/dbal/lib/',
     'Doctrine\\Common' => $vendorDir . '/doctrine/common/lib/',

@@ -38,7 +38,9 @@ $app['twig'] = $app->share($app->extend('twig', function ($twig)
 }));
 
 // Setup Session Service
-$app->register(new \Silex\Provider\SessionServiceProvider());
+$app->Register(new \Silex\Provider\SessionServiceProvider(), array(
+  'session.storage.save_path' => $app['root_dir'] . '/data/sessions'
+));
 
 // Homepage/Blog routes
 $app->mount('/', new \Application\Controller\Blog());
@@ -49,6 +51,9 @@ $app->mount('/misc-tools', new \Application\Controller\MiscTools());
 
 // 4chan graph routes
 $app->mount('/fourchandash', new \Application\Controller\FourChanDash());
+
+// User account routes
+$app->mount('/users', new \Application\Controller\User());
 
 // Default error handler
 // This will most likey run when a NotFoundHttpException is thrown

@@ -785,5 +785,52 @@
         ],
         "description": "Symfony HttpFoundation Component",
         "homepage": "http://symfony.com"
+    },
+    {
+        "name": "PasswordLib/PasswordLib",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ircmaxell/PHP-PasswordLib",
+            "reference": "35bb8edc09438be4f74e1e739bae2c07ff5cf1d0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/ircmaxell/PHP-PasswordLib/zipball/35bb8edc09438be4f74e1e739bae2c07ff5cf1d0",
+            "reference": "35bb8edc09438be4f74e1e739bae2c07ff5cf1d0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "time": "2012-09-18 13:18:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "PasswordLib": "lib"
+            }
+        },
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Anthony Ferrara",
+                "email": "ircmaxell@php.net",
+                "homepage": "http://blog.ircmaxell.com"
+            }
+        ],
+        "description": "A Password Hashing Library",
+        "homepage": "https://github.com/ircmaxell/PHP-PasswordLib",
+        "keywords": [
+            "password",
+            "hash",
+            "random",
+            "crypt",
+            "hashing",
+            "salt"
+        ]
     }
 ]
