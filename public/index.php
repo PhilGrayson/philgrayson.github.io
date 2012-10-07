@@ -10,8 +10,9 @@ $app['app_config'] = \Symfony\Component\Yaml\Yaml::parse(
   root_dir . 'data/config/config.yaml'
 );
 
+// Setup Doctrine
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-  'dbs.options' => $app['app_config']['dev']['doctrine']
+  'dbs.options' => $app['app_config']['doctrine']
 ));
 
 $app->register(new Application\Provider\DoctrineORMServiceProvider(), array(
@@ -30,8 +31,18 @@ $app->register(new \Silex\Provider\TwigServiceProvider(), array(
   'twig.path' => root_dir . 'src/Application/Views'
 ));
 
+$app['twig'] = $app->share($app->extend('twig', function ($twig)
+{
+  $twig->addExtension(new \Application\Provider\TwigExtensions());
+  return $twig;
+}));
+
+// Setup Session Service
+$app->register(new \Silex\Provider\SessionServiceProvider());
+
 // Homepage/Blog routes
 $app->mount('/', new \Application\Controller\Blog());
+$app->mount('/blog', new \Application\Controller\Blog());
 
 // Misc tools routes
 $app->mount('/misc-tools', new \Application\Controller\MiscTools());
@@ -43,7 +54,6 @@ $app->mount('/fourchandash', new \Application\Controller\FourChanDash());
 // This will most likey run when a NotFoundHttpException is thrown
 $app->error(function(\Exception $e) use ($app)
 {
-  return $app->redirect('/');
 });
 
 $app['debug'] = true;

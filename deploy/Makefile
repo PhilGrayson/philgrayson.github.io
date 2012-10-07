@@ -10,7 +10,7 @@ all: install-packages install-node compile-less run-composer create-configs
 
 install-packages:
 	sudo apt-get install git-core apache2 nginx php5 php5-mysql php5-curl \
-  libapache2-mod-php5 php-pear mysql-server libyaml-dev uuid-dev couchdb
+  libapache2-mod-php5 php-pear mysql-server libyaml-dev uuid-dev
 
 install-node:
 	if [ ! -e $(shell which lessc) ]; then \
@@ -35,11 +35,11 @@ run-composer:
 create-configs:
 	cd ${ROOT_DIR}
 	sudo sh -c \
-	'sed -e s,{domain-name},${DOMAIN}, \
-      -e s,{root-dir},${ROOT_DIR}, < deploy/apache2.conf > /etc/apache2/sites-enabled/${DOMAIN}'
+	'sed -e s,{domain-name},${DOMAIN},g \
+      -e s,{root-dir},${ROOT_DIR},g < deploy/apache2.conf > /etc/apache2/sites-enabled/${DOMAIN}'
 	sudo sh -c \
-	'sed -e s,{domain-name},${DOMAIN}, \
-      -e s,{root-dir},${ROOT_DIR}, < deploy/nginx.conf > /etc/nginx/sites-enabled/${DOMAIN}'
+	'sed -e s,{domain-name},${DOMAIN},g \
+      -e s,{root-dir},${ROOT_DIR},g < deploy/nginx.conf > /etc/nginx/sites-enabled/${DOMAIN}'
 	sudo /etc/init.d/apache2 restart
 	sudo /etc/init.d/nginx restart
 

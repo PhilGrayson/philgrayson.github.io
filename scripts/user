@@ -7,10 +7,10 @@ $console = new Symfony\Component\Console\Application();
 
 $helpers = new \Symfony\Component\Console\Helper\HelperSet(array(
   'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper(
-    $app['db.orm.em']['Blog']->getConnection()
+    $app['db.orm.em']['User']->getConnection()
   ),
   'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper(
-    $app['db.orm.em']['Blog']
+    $app['db.orm.em']['User']
   ),
 ));
 $console->setHelperSet($helpers);

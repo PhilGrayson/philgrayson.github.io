@@ -7,37 +7,88 @@ class Blog implements \Silex\ControllerProviderInterface
   {
     $blog = $app['controllers_factory'];
 
-    /**
-     * index action
-     * display all blog posts
-     */
-    $blog->get('/', function() use($app)
+    $app['twig_blog_vars'] = array(
+      'title'      => 'Phil Grayson',
+      'categories' => $this->getAllCategories($app)
+    );
+
+    $blog->get('/', $this->postRedirectIndexAction($app));
+    $blog->get('/posts', $this->postIndexAction($app));
+    $blog->get('/posts/new', $this->postCreateAction($app))->before($this->checkLoggedIn($app));
+    $blog->get('/posts/{id}', $this->postShowAction($app));
+    $blog->get('/posts/{year}/{month}/{slug}', $this->postShowSlugAction($app));
+
+    $blog->get('/category/{id}', $this->categoryShowAction($app));
+
+    return $blog;
+  }
+
+  private function postRedirectIndexAction(\Silex\Application $app)
+  {
+    return function() use ($app)
+    {
+      return $app->redirect('/blog/posts');
+    };
+  }
+
+  private function postIndexAction(\Silex\Application $app)
+  {
+    return function() use($app)
     {
       try {
         $postRepository = $app['db.orm.em']['Blog']->getRepository(
           'Application\Model\Blog\Post'
         );
-        $postEntities = $postRepository->findBy(array(), array('date' => 'DESC'));
+        $posts = $postRepository->findBy(array(), array('date' => 'DESC'));
 
-        $posts = array_map('\Application\Controller\Blog::formatPost', $postEntities);
         return $app['twig']->render(
-          'Blog/index.twig',
-          array(
+          'Blog/post/index.twig',
+          array_merge($app['twig_blog_vars'], array(
             'title'      => 'Phil Grayson blog',
-            'posts'      => $posts,
-            'categories' => \Application\Controller\Blog::getAllCategories($app)
-          )
+            'posts'      => $posts
+          ))
         );
       } catch (\Exception $e) {
         error_log(__CLASS__ . ' : ' . $e->getMessage());
       }
-    });
+    };
+  }
 
-    /**
-     * Show action
-     * display an individual blog entry
-     */
-    $blog->get('/{year}/{month}/{slug}', function($year, $month, $slug) use ($app)
+  private function postCreateAction(\Silex\Application $app)
+  {
+    return function() use($app)
+    {
+    
+    };
+  }
+
+  private function postShowAction(\Silex\Application $app)
+  {
+    return function($id) use($app)
+    {
+      try {
+        $post = $app['db.orm.em']['Blog']->find('Application\Model\Blog\Post', $id);
+
+        if (!$post instanceOf \Application\Model\Blog\Post) {
+          throw new \Exception("Cannot find blog post with ID '$id'");
+        }
+
+        return $app['twig']->render(
+          'Blog/post/show.twig',
+          array_merge($app['twig_blog_vars'], array(
+            'title'      => 'Phil Grayson | ' . $post->getTitle(),
+            'post'       => $post,
+          ))
+        );
+      } catch (\Exception $e) {
+        error_log(__CLASS__ . ' : ' . $e->getMessage());
+      }
+    };
+  }
+
+  private function postShowSlugAction(\Silex\Application $app)
+  {
+    return function($year, $month, $slug) use ($app)
     {
       try {
         $qb = $app['db.orm.em']['Blog']->createQueryBuilder();
@@ -54,16 +105,14 @@ class Blog implements \Silex\ControllerProviderInterface
           ->setParameter('month', $month)
           ->setParameter('slug', $slug);
 
-        $post = \Application\Controller\Blog::formatPost(
-          $qb->getQuery()->getSingleResult()
-        );
+        $post = $qb->getQuery()->getSingleResult();
 
         return $app['twig']->render(
-          'Blog/show.twig',
+          'Blog/post/show.twig',
           array(
-            'title'      => 'Phil Grayson blog | ' . $post['title'],
+            'title'      => 'Phil Grayson | ' . $post['title'],
             'post'       => $post,
-            'categories' => \Application\Controller\Blog::getAllCategories($app)
+            'categories' => $getAllCategories($app)
           )
         );
 
@@ -71,89 +120,51 @@ class Blog implements \Silex\ControllerProviderInterface
         error_log($e->getMessage());
         throw new Exception\BlogException($e);
       }
-    });
+    };
+  }
 
-    $app->get('/{slug}', function($slug) use ($app)
+  private function categoryShowAction(\Silex\Application $app)
+  {
+    return function($id) use ($app)
     {
       try
       {
-        $categoryRepository = $app['db.orm.em']['Blog']->getRepository(
-          'Application\Model\Blog\Category'
-        );
+        $category = $app['db.orm.em']['Blog']->find('Application\Model\Blog\Category', $id);
 
-        $category = $categoryRepository->findOneBy(array('slug' => $slug));
-        $posts = array();
-        foreach($category->getPosts() as $post) {
-          $posts[] = \Application\Controller\Blog::formatPost($post);
+        if (!$category instanceOf \Application\Model\Blog\Category) {
+          throw new \Exception("Category $id doesn't not exist");
         }
 
         return $app['twig']->render(
-          'Blog/index.twig',
-          array(
-            'title'      => 'Phil Grayson blog',
-            'posts'      => $posts,
-            'categories' => \Application\Controller\Blog::getAllCategories($app)
-          )
+          'Blog/category/index.twig',
+          array_merge($app['twig_blog_vars'], array(
+            'title'      => 'Phil Grayson | ' . $category->getName(),
+            'category'   => $category
+          ))
         );
       } catch (\Exception $e) {
         error_log($e->getMessage());
         throw new Exception\BlogException($e);
       }
-
-    });
-
-    /**
-     * Eror handler
-     */
-    $app->error(function(Exception\BlogException $e) use($app)
-    {
-      $code = $e->getMessage();
-      switch ($code) {
-      case '404':
-        $vars = array('title' => 'I cannot find that post!');
-        break;
-      default:
-        $vars = array('title' => "It's all gone horribly wrong! I recommend panicing");
-      }
-
-      return $app['twig']->render('Blog/404.twig', $vars);
-    });
-
-    return $blog;
+    };
   }
 
-  public static function getAllCategories($app)
+  private function getAllCategories(\Silex\Application $app)
   {
     $categoryRepository = $app['db.orm.em']['Blog']->getRepository(
       'Application\Model\Blog\Category'
     );
 
-    $categoryEntities = $categoryRepository->findAll();
-    return array_map(
-      '\Application\Controller\Blog::formatCategory',
-      $categoryEntities
-    );
+    return $categoryRepository->findAll();
   }
 
-  public static function formatCategory(\Application\Model\Blog\Category $cat)
+  private function checkLoggedIn(\Silex\Application $app)
   {
-    return array(
-      'name' => $cat->getName(),
-      'slug' => $cat->getSlug(),
-      'count' => count($cat->getPosts())
-    );
-  }
-
-  public static function formatPost(\Application\Model\Blog\Post $post)
-  {
-    $markdown = new \dflydev\markdown\MarkdownParser;
-    return array(
-      'title' => $post->getTitle(),
-      'slug' => $post->getSlug(),
-      'date' => $post->getDate(),
-      'blurb' => $post->getBlurb(),
-      'contents' => $markdown->transformMarkdown($post->getContents()),
-      'category' => $post->getCategory()->getName()
-    );
+    return function() use ($app)
+    {
+      if (!$app['session']->has('userId')) {
+        return $app->redirect('/user/login');
+      }
+    };
   }
 }

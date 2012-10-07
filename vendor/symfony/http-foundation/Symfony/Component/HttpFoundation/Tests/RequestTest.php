@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation\Tests;
 
-
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
@@ -137,7 +136,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($request->isSecure());
 
         $request = Request::create('http://test:test@test.com');
-        $this->assertEquals('http://test:test@test.com/', $request->getUri());
+        $this->assertEquals('http://test.com/', $request->getUri());
         $this->assertEquals('/', $request->getPathInfo());
         $this->assertEquals('', $request->getQueryString());
         $this->assertEquals(80, $request->getPort());
@@ -147,7 +146,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($request->isSecure());
 
         $request = Request::create('http://testnopass@test.com');
-        $this->assertEquals('http://testnopass@test.com/', $request->getUri());
+        $this->assertEquals('http://test.com/', $request->getUri());
         $this->assertEquals('/', $request->getPathInfo());
         $this->assertEquals('', $request->getQueryString());
         $this->assertEquals(80, $request->getPort());
@@ -341,11 +340,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $server['PHP_AUTH_USER'] = 'fabien';
         $request->initialize(array(), array(), array(), array(), array(), $server);
-        $this->assertEquals('http://fabien@hostname:8080/ba%20se/index_dev.php/foo%20bar/in+fo?query=string', $request->getUri());
+        $this->assertEquals('http://hostname:8080/ba%20se/index_dev.php/foo%20bar/in+fo?query=string', $request->getUri());
 
         $server['PHP_AUTH_PW'] = 'symfony';
         $request->initialize(array(), array(), array(), array(), array(), $server);
-        $this->assertEquals('http://fabien:symfony@hostname:8080/ba%20se/index_dev.php/foo%20bar/in+fo?query=string', $request->getUri());
+        $this->assertEquals('http://hostname:8080/ba%20se/index_dev.php/foo%20bar/in+fo?query=string', $request->getUri());
     }
 
     /**
@@ -451,11 +450,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $server['PHP_AUTH_USER'] = 'fabien';
         $request->initialize(array(), array(), array(), array(), array(), $server);
-        $this->assertEquals('http://fabien@servername/some/path', $request->getUriForPath('/some/path'));
+        $this->assertEquals('http://servername/some/path', $request->getUriForPath('/some/path'));
 
         $server['PHP_AUTH_PW'] = 'symfony';
         $request->initialize(array(), array(), array(), array(), array(), $server);
-        $this->assertEquals('http://fabien:symfony@servername/some/path', $request->getUriForPath('/some/path'));
+        $this->assertEquals('http://servername/some/path', $request->getUriForPath('/some/path'));
     }
 
     /**
@@ -492,44 +491,65 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $server['PHP_AUTH_USER'] = 'fabien';
         $request->initialize(array(), array(), array(), array(), array(), $server);
-        $this->assertEquals('http://fabien@servername:90', $request->getSchemeAndHttpHost());
+        $this->assertEquals('http://servername:90', $request->getSchemeAndHttpHost());
 
         $server['PHP_AUTH_USER'] = '0';
         $request->initialize(array(), array(), array(), array(), array(), $server);
-        $this->assertEquals('http://0@servername:90', $request->getSchemeAndHttpHost());
+        $this->assertEquals('http://servername:90', $request->getSchemeAndHttpHost());
 
         $server['PHP_AUTH_PW'] = '0';
         $request->initialize(array(), array(), array(), array(), array(), $server);
-        $this->assertEquals('http://0:0@servername:90', $request->getSchemeAndHttpHost());
+        $this->assertEquals('http://servername:90', $request->getSchemeAndHttpHost());
     }
 
     /**
      * @covers Symfony\Component\HttpFoundation\Request::getQueryString
+     * @covers Symfony\Component\HttpFoundation\Request::normalizeQueryString
+     * @dataProvider getQueryStringNormalizationData
      */
-    public function testGetQueryString()
+    public function testGetQueryString($query, $expectedQuery, $msg)
     {
         $request = new Request();
 
-        $request->server->set('QUERY_STRING', 'foo');
-        $this->assertEquals('foo', $request->getQueryString(), '->getQueryString() works with valueless parameters');
+        $request->server->set('QUERY_STRING', $query);
+        $this->assertSame($expectedQuery, $request->getQueryString(), $msg);
+    }
 
-        $request->server->set('QUERY_STRING', 'foo=');
-        $this->assertEquals('foo=', $request->getQueryString(), '->getQueryString() includes a dangling equal sign');
+    public function getQueryStringNormalizationData()
+    {
+        return array(
+            array('foo', 'foo', 'works with valueless parameters'),
+            array('foo=', 'foo=', 'includes a dangling equal sign'),
+            array('bar=&foo=bar', 'bar=&foo=bar', '->works with empty parameters'),
+            array('foo=bar&bar=', 'bar=&foo=bar', 'sorts keys alphabetically'),
 
-        $request->server->set('QUERY_STRING', 'bar=&foo=bar');
-        $this->assertEquals('bar=&foo=bar', $request->getQueryString(), '->getQueryString() works when empty parameters');
+            // GET parameters, that are submitted from a HTML form, encode spaces as "+" by default (as defined in enctype application/x-www-form-urlencoded).
+            // PHP also converts "+" to spaces when filling the global _GET or when using the function parse_str.
+            array('him=John%20Doe&her=Jane+Doe', 'her=Jane%20Doe&him=John%20Doe', 'normalizes spaces in both encodings "%20" and "+"'),
 
-        $request->server->set('QUERY_STRING', 'foo=bar&bar=');
-        $this->assertEquals('bar=&foo=bar', $request->getQueryString(), '->getQueryString() sorts keys alphabetically');
+            array('foo[]=1&foo[]=2', 'foo%5B%5D=1&foo%5B%5D=2', 'allows array notation'),
+            array('foo=1&foo=2', 'foo=1&foo=2', 'allows repeated parameters'),
+            array('pa%3Dram=foo%26bar%3Dbaz&test=test', 'pa%3Dram=foo%26bar%3Dbaz&test=test', 'works with encoded delimiters'),
+            array('0', '0', 'allows "0"'),
+            array('Jane Doe&John%20Doe', 'Jane%20Doe&John%20Doe', 'normalizes encoding in keys'),
+            array('her=Jane Doe&him=John%20Doe', 'her=Jane%20Doe&him=John%20Doe', 'normalizes encoding in values'),
+            array('foo=bar&&&test&&', 'foo=bar&test', 'removes unneeded delimiters'),
+            array('formula=e=m*c^2', 'formula=e%3Dm%2Ac%5E2', 'correctly treats only the first "=" as delimiter and the next as value'),
 
-        $request->server->set('QUERY_STRING', 'him=John%20Doe&her=Jane+Doe');
-        $this->assertEquals('her=Jane%2BDoe&him=John%20Doe', $request->getQueryString(), '->getQueryString() normalizes encoding');
+            // Ignore pairs with empty key, even if there was a value, e.g. "=value", as such nameless values cannot be retrieved anyway.
+            // PHP also does not include them when building _GET.
+            array('foo=bar&=a=b&=x=y', 'foo=bar', 'removes params with empty key'),
+        );
+    }
 
-        $request->server->set('QUERY_STRING', 'foo[]=1&foo[]=2');
-        $this->assertEquals('foo%5B%5D=1&foo%5B%5D=2', $request->getQueryString(), '->getQueryString() allows array notation');
+    public function testGetQueryStringReturnsNull()
+    {
+        $request = new Request();
 
-        $request->server->set('QUERY_STRING', 'foo=1&foo=2');
-        $this->assertEquals('foo=1&foo=2', $request->getQueryString(), '->getQueryString() allows repeated parameters');
+        $this->assertNull($request->getQueryString(), '->getQueryString() returns null for non-existent query string');
+
+        $request->server->set('QUERY_STRING', '');
+        $this->assertNull($request->getQueryString(), '->getQueryString() returns null for empty query string');
     }
 
     /**
@@ -598,6 +618,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $request->setMethod('POST');
         $request->request->set('_method', 'purge');
+        $this->assertEquals('PURGE', $request->getMethod(), '->getMethod() returns the method from _method if defined and POST');
+
+        $request->setMethod('POST');
+        $request->request->remove('_method');
+        $request->query->set('_method', 'purge');
         $this->assertEquals('PURGE', $request->getMethod(), '->getMethod() returns the method from _method if defined and POST');
 
         $request->setMethod('POST');
@@ -888,7 +913,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $request = new Request();
         $request->headers->set('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7');
-        $this->assertEquals(array('ISO-8859-1', '*', 'utf-8'), $request->getCharsets());
+        $this->assertEquals(array('ISO-8859-1', 'utf-8', '*'), $request->getCharsets());
     }
 
     public function testGetAcceptableContentTypes()
@@ -900,7 +925,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $request = new Request();
         $request->headers->set('Accept', 'application/vnd.wap.wmlscriptc, text/vnd.wap.wml, application/vnd.wap.xhtml+xml, application/xhtml+xml, text/html, multipart/mixed, */*');
-        $this->assertEquals(array('multipart/mixed', '*/*', 'text/html', 'application/xhtml+xml', 'text/vnd.wap.wml', 'application/vnd.wap.xhtml+xml', 'application/vnd.wap.wmlscriptc'), $request->getAcceptableContentTypes());
+        $this->assertEquals(array('application/vnd.wap.wmlscriptc', 'text/vnd.wap.wml', 'application/vnd.wap.xhtml+xml', 'application/xhtml+xml', 'text/html', 'multipart/mixed', '*/*'), $request->getAcceptableContentTypes());
     }
 
     public function testGetLanguages()
@@ -912,6 +937,18 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request->headers->set('Accept-language', 'zh, en-us; q=0.8, en; q=0.6');
         $this->assertEquals(array('zh', 'en_US', 'en'), $request->getLanguages());
         $this->assertEquals(array('zh', 'en_US', 'en'), $request->getLanguages());
+
+        $request = new Request();
+        $request->headers->set('Accept-language', 'zh, en-us; q=0.6, en; q=0.8');
+        $this->assertEquals(array('zh', 'en', 'en_US'), $request->getLanguages()); // Test out of order qvalues
+
+        $request = new Request();
+        $request->headers->set('Accept-language', 'zh, en, en-us');
+        $this->assertEquals(array('zh', 'en', 'en_US'), $request->getLanguages()); // Test equal weighting without qvalues
+
+        $request = new Request();
+        $request->headers->set('Accept-language', 'zh; q=0.6, en, en-us; q=0.6');
+        $this->assertEquals(array('en', 'zh', 'en_US'), $request->getLanguages()); // Test equal weighting with qvalues
 
         $request = new Request();
         $request->headers->set('Accept-language', 'zh, i-cherokee; q=0.6');

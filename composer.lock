@@ -1,5 +1,5 @@
 {
-    "hash": "7a9c7cbb5acb95a77232c2c0daaa27b0",
+    "hash": "405767d5c92a5ddcb508fa8593e878f9",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -418,18 +418,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console",
-                "reference": "ed8cb0f43ad61ea29c13c671a2c1d7ee742748d5"
+                "reference": "3d40994abcbbfa9e69fc91bc48215109a4fc837a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/zipball/ed8cb0f43ad61ea29c13c671a2c1d7ee742748d5",
-                "reference": "ed8cb0f43ad61ea29c13c671a2c1d7ee742748d5",
+                "url": "https://github.com/symfony/Console/zipball/3d40994abcbbfa9e69fc91bc48215109a4fc837a",
+                "reference": "3d40994abcbbfa9e69fc91bc48215109a4fc837a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1349333089",
+            "time": "1349553479",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -504,30 +504,32 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation",
-                "reference": "f28a2ffa86ca77a83e56778ab290b0cd3005f36f"
+                "reference": "f01f68eaf5c5bb2dfa24ec68734c1e01ac1d940d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/HttpFoundation/zipball/f28a2ffa86ca77a83e56778ab290b0cd3005f36f",
-                "reference": "f28a2ffa86ca77a83e56778ab290b0cd3005f36f",
+                "url": "https://github.com/symfony/HttpFoundation/zipball/f01f68eaf5c5bb2dfa24ec68734c1e01ac1d940d",
+                "reference": "f01f68eaf5c5bb2dfa24ec68734c1e01ac1d940d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1341259877",
+            "time": "1349553479",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony\\Component\\HttpFoundation": "",
-                    "SessionHandlerInterface": "Symfony/Component/HttpFoundation/Resources/stubs"
-                }
+                    "Symfony\\Component\\HttpFoundation\\": ""
+                },
+                "classmap": [
+                    "Symfony/Component/HttpFoundation/Resources/stubs"
+                ]
             },
             "license": [
                 "MIT"
@@ -535,15 +537,11 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": null,
-                    "role": null
+                    "email": "fabien@symfony.com"
                 },
                 {
                     "name": "Symfony Community",
-                    "email": null,
-                    "homepage": "http://symfony.com/contributors",
-                    "role": null
+                    "homepage": "http://symfony.com/contributors"
                 }
             ],
             "description": "Symfony HttpFoundation Component",
@@ -689,18 +687,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml",
-                "reference": "f965c71d0edb97cef36c556f2bda25298fce7e69"
+                "reference": "1f7ba14c4b263dbf701e25705b0b2175a850a784"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Yaml/zipball/f965c71d0edb97cef36c556f2bda25298fce7e69",
-                "reference": "f965c71d0edb97cef36c556f2bda25298fce7e69",
+                "url": "https://github.com/symfony/Yaml/zipball/1f7ba14c4b263dbf701e25705b0b2175a850a784",
+                "reference": "1f7ba14c4b263dbf701e25705b0b2175a850a784",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1348817656",
+            "time": "1349553479",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -735,18 +733,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "120cde3fa54c31047edf1cd003752ca119dec9a8"
+                "reference": "5d7baaf767ec3b8f6599738e7c98bde6c25cf7c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/zipball/120cde3fa54c31047edf1cd003752ca119dec9a8",
-                "reference": "120cde3fa54c31047edf1cd003752ca119dec9a8",
+                "url": "https://github.com/fabpot/Twig/zipball/5d7baaf767ec3b8f6599738e7c98bde6c25cf7c1",
+                "reference": "5d7baaf767ec3b8f6599738e7c98bde6c25cf7c1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "1348936415",
+            "time": "1349508092",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -789,6 +787,7 @@
         "twig/twig": 20,
         "symfony/console": 20,
         "symfony/yaml": 20,
+        "symfony/http-foundation": 20,
         "beberlei/doctrineextensions": 20,
         "dflydev/markdown": 20
     }

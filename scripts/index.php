@@ -13,7 +13,7 @@ $app['app_config'] = \Symfony\Component\Yaml\Yaml::parse(
 
 // Setup Doctrine
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-  'dbs.options' => $app['app_config']['dev']['doctrine']
+  'dbs.options' => $app['app_config']['doctrine']
 ));
 
 $app->register(new Application\Provider\DoctrineORMServiceProvider(), array(

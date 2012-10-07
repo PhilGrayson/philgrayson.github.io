@@ -6,9 +6,9 @@
       {% for post in posts %}
         <div class="row">
           <div class="span12 post">
-            <h4 class="category">{{ post.category }}</h4>
+            <h4 class="category">{{ post.category.name }}</h4>
             <h1 class="title">
-              <a href="{{ post.date|date('Y/m/') }}{{ post.slug }}">{{ post.title }}</a>
+              <a href="/blog/posts/{{ post.id }}">{{ post.title }}</a>
             </h1>
             <h4 class="date">{{ post.date|date('d F \'y') }}</h4>
             <p class="blurb">{{ post.blurb }}</p>
