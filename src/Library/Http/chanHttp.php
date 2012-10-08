@@ -1,6 +1,6 @@
 <?pp
 
-namespace Server\Http;
+namespace Library\Http;
 
 class chanHttp extends AbstractHttp
 {

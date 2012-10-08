@@ -8,6 +8,7 @@
     "doctrine/dbal": "2.*",
     "symfony/console": "dev-master",
     "symfony/yaml": "dev-master",
+    "symfony/validator": "2.1.*",
     "beberlei/DoctrineExtensions": "dev-master",
     "dflydev/markdown": "dev-master",
     "PasswordLib/PasswordLib": "dev-master"
@@ -15,6 +16,7 @@
   "autoload": {
     "psr-0": {
       "Application": "src/",
+      "Library": "src/",
       "Server": "src/"
     }
   }

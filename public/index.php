@@ -38,9 +38,13 @@ $app['twig'] = $app->share($app->extend('twig', function ($twig)
 }));
 
 // Setup Session Service
-$app->Register(new \Silex\Provider\SessionServiceProvider(), array(
+$app->register(new \Silex\Provider\SessionServiceProvider(), array(
   'session.storage.save_path' => $app['root_dir'] . '/data/sessions'
 ));
+
+$app->register(new \Application\Provider\SecurityServiceProvider());
+
+$app->register(new \Silex\Provider\ValidatorServiceProvider());
 
 // Homepage/Blog routes
 $app->mount('/', new \Application\Controller\Blog());

@@ -1,6 +1,6 @@
 <?php
 
-namespace Server\Http;
+namespace Library\Http;
 
 abstract class AbstractHttp
 {

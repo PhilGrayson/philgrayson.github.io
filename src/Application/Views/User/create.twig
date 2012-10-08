@@ -4,13 +4,23 @@
   <div class="row">
     <div class="span12">
       <h1>New User</h1>
-      <form action="/users">
+      <form action="/users/users" method="post">
         <label>Name</label>
-        <input type="text" name="name">
+        {% if errors.name is defined %}
+          <div class="alert alert-error">{{ errors.name }}</div>
+        {% endif %}
+        <input type="text" name="_name" value="{% if vars.name is defined %}{{ vars.name }}{% endif %}">
         <label>Email</label>
-        <input type="text" name="email">
+        {% if errors.username is defined %}
+          <div class="alert alert-error">{{ errors.username }}</div>
+        {% endif %}
+        <input type="text" name="_username" value="{% if vars.username is defined %}{{ vars.username }}{% endif %}">
         <label>Password</label>
-        <input type="password" name="password">
+        {% if errors.password is defined %}
+          <div class="alert alert-error">{{ errors.password }}</div>
+        {% endif %}
+        <input type="password" name="_password1">
+        <input type="password" name="_password2">
         <button type="submit" class="btn">Create new user</button>
       </form>
     </div>
