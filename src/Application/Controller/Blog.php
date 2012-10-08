@@ -12,18 +12,19 @@ class Blog implements \Silex\ControllerProviderInterface
       'categories' => $this->getAllCategories($app)
     );
 
-    $blog->get('/', $this->postRedirectIndexAction($app));
-    $blog->get('/posts', $this->postIndexAction($app));
-    $blog->get('/posts/new', $this->postCreateAction($app))->before($this->checkLoggedIn($app));
-    $blog->get('/posts/{id}', $this->postShowAction($app));
-    $blog->get('/posts/{year}/{month}/{slug}', $this->postShowSlugAction($app));
+    $blog->get('/', $this->redirectIndexAction($app));
+    $blog->get('/posts', $this->indexAction($app));
+    $blog->post('/posts/', $this->postCreateAction($app))->before($this->checkLoggedIn($app));
+    $blog->get('/posts/new', $this->getCreateAction($app))->before($this->checkLoggedIn($app));
+    $blog->get('/posts/{id}', $this->showAction($app));
+    $blog->get('/posts/{year}/{month}/{slug}', $this->showSlugAction($app));
 
     $blog->get('/category/{id}', $this->categoryShowAction($app));
 
     return $blog;
   }
 
-  private function postRedirectIndexAction(\Silex\Application $app)
+  private function redirectIndexAction(\Silex\Application $app)
   {
     return function() use ($app)
     {
@@ -31,7 +32,7 @@ class Blog implements \Silex\ControllerProviderInterface
     };
   }
 
-  private function postIndexAction(\Silex\Application $app)
+  private function indexAction(\Silex\Application $app)
   {
     return function() use($app)
     {
@@ -54,6 +55,23 @@ class Blog implements \Silex\ControllerProviderInterface
     };
   }
 
+  private function getCreateAction(\Silex\Application $app)
+  {
+    return function() use($app)
+    {
+      if (null !== $vars = $app['session']->get('post.create')) {
+        $app['session']->remove('post.create');
+      } else {
+        $vars = array();
+      };
+
+      return $app['twig']->render(
+        'Blog/post/create.twig',
+        array_merge($app['twig_blog_vars'], $vars)
+      );
+    };
+  }
+
   private function postCreateAction(\Silex\Application $app)
   {
     return function() use($app)
@@ -62,7 +80,7 @@ class Blog implements \Silex\ControllerProviderInterface
     };
   }
 
-  private function postShowAction(\Silex\Application $app)
+  private function showAction(\Silex\Application $app)
   {
     return function($id) use($app)
     {
@@ -86,7 +104,7 @@ class Blog implements \Silex\ControllerProviderInterface
     };
   }
 
-  private function postShowSlugAction(\Silex\Application $app)
+  private function showSlugAction(\Silex\Application $app)
   {
     return function($year, $month, $slug) use ($app)
     {
@@ -162,8 +180,8 @@ class Blog implements \Silex\ControllerProviderInterface
   {
     return function() use ($app)
     {
-      if (!$app['session']->has('userId')) {
-        return $app->redirect('/user/login');
+      if (!$app['security']->isLoggedIn()) {
+        return $app->redirect('/users/login');
       }
     };
   }
