@@ -1,13 +1,13 @@
 <?php
 
-namespace Application\Model\Blog;
+namespace Application\Model\User;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Application\Model\Blog\Category
+ * Application\Model\User\Role
  */
-class Category
+class Role
 {
     /**
      * @var integer $id
@@ -20,21 +20,21 @@ class Category
     private $name;
 
     /**
-     * @var string $slug
+     * @var string $description
      */
-    private $slug;
+    private $description;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
-    private $posts;
+    private $users;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -51,7 +51,7 @@ class Category
      * Set name
      *
      * @param string $name
-     * @return Category
+     * @return Role
      */
     public function setName($name)
     {
@@ -71,58 +71,58 @@ class Category
     }
 
     /**
-     * Set slug
+     * Set description
      *
-     * @param string $slug
-     * @return Category
+     * @param string $description
+     * @return Role
      */
-    public function setSlug($slug)
+    public function setDescription($description)
     {
-        $this->slug = $slug;
+        $this->description = $description;
     
         return $this;
     }
 
     /**
-     * Get slug
+     * Get description
      *
      * @return string 
      */
-    public function getSlug()
+    public function getDescription()
     {
-        return $this->slug;
+        return $this->description;
     }
 
     /**
-     * Add posts
+     * Add users
      *
-     * @param Application\Model\Blog\Post $posts
-     * @return Category
+     * @param Application\Model\User\User $users
+     * @return Role
      */
-    public function addPost(\Application\Model\Blog\Post $posts)
+    public function addUser(\Application\Model\User\User $users)
     {
-        $this->posts[] = $posts;
+        $this->users[] = $users;
     
         return $this;
     }
 
     /**
-     * Remove posts
+     * Remove users
      *
-     * @param Application\Model\Blog\Post $posts
+     * @param Application\Model\User\User $users
      */
-    public function removePost(\Application\Model\Blog\Post $posts)
+    public function removeUser(\Application\Model\User\User $users)
     {
-        $this->posts->removeElement($posts);
+        $this->users->removeElement($users);
     }
 
     /**
-     * Get posts
+     * Get users
      *
      * @return Doctrine\Common\Collections\Collection 
      */
-    public function getPosts()
+    public function getUsers()
     {
-        return $this->posts;
+        return $this->users;
     }
 }

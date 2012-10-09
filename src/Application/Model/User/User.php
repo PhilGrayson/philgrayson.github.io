@@ -29,7 +29,19 @@ class User
      */
     private $password;
 
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $roles;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -107,5 +119,38 @@ class User
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * Add roles
+     *
+     * @param Application\Model\User\Role $roles
+     * @return User
+     */
+    public function addRole(\Application\Model\User\Role $roles)
+    {
+        $this->roles[] = $roles;
+    
+        return $this;
+    }
+
+    /**
+     * Remove roles
+     *
+     * @param Application\Model\User\Role $roles
+     */
+    public function removeRole(\Application\Model\User\Role $roles)
+    {
+        $this->roles->removeElement($roles);
+    }
+
+    /**
+     * Get roles
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getRoles()
+    {
+        return $this->roles;
     }
 }

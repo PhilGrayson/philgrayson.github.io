@@ -16,6 +16,8 @@ Application\Model\Blog\Post:
       type: string
     contents:
       type: text
+    active:
+      type: boolean
   manyToOne:
     category:
       targetEntity: Category

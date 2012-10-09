@@ -9,18 +9,18 @@
         {% if errors.name is defined %}
           <div class="alert alert-error">{{ errors.name }}</div>
         {% endif %}
-        <input type="text" name="_name" value="{% if vars.name is defined %}{{ vars.name }}{% endif %}">
+        <input type="text" name="name" value="{% if vars.name is defined %}{{ vars.name }}{% endif %}">
         <label>Email</label>
         {% if errors.username is defined %}
           <div class="alert alert-error">{{ errors.username }}</div>
         {% endif %}
-        <input type="text" name="_username" value="{% if vars.username is defined %}{{ vars.username }}{% endif %}">
+        <input type="text" name="username" value="{% if vars.username is defined %}{{ vars.username }}{% endif %}">
         <label>Password</label>
         {% if errors.password is defined %}
           <div class="alert alert-error">{{ errors.password }}</div>
         {% endif %}
-        <input type="password" name="_password1">
-        <input type="password" name="_password2">
+        <input type="password" name="password1">
+        <input type="password" name="password2">
         <button type="submit" class="btn">Create new user</button>
       </form>
     </div>

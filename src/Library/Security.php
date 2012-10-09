@@ -8,7 +8,7 @@ class Security
   private $app;
   private $session;
 
-  public function __construct(\Silex\Application $app)
+  public function __construct(\Silex\Application &$app)
   {
     $this->app = $app;
     $this->setSession($app['session']);
@@ -31,13 +31,18 @@ class Security
     return $lib->createPasswordHash($password, \PasswordLib\Password\Implementation\Blowfish::getPrefix());
   }
 
-  public function getUser($email)
+  public function getUser($id)
   {
-    $repo = $this->app['db.orm.em']['User']->getRepository(
-      'Application\Model\User\User'
-    );
+    if (is_numeric($id)) {
+      $user = $this->app['db.orm.em']['User']->find('Application\Model\User\User', $id);
+    } else {
+      $repo = $this->app['db.orm.em']['User']->getRepository(
+        'Application\Model\User\User'
+      );
 
-    $user = $repo->findOneBy(array('email' => $email));
+      $user = $repo->findOneBy(array('email' => $id));
+    }
+
     if (!$user instanceOf \Application\Model\User\User) {
       return false;
     }
@@ -75,21 +80,22 @@ class Security
       return false;
     }
 
-    $this->session->set('user', $user);
+    $this->session->set('user', $user->getId());
     return $user;
   }
 
-  public function isAuthorized($role)
+  public function isAuthorized(\Application\Model\User\Role $role)
   {
     if (!$this->isLoggedIn()) {
       return false;
     }
 
-    $user = $this->getSession()->get('user');
-    if (in_array($role, $user['roles'])) {
-      return true;
+    $user = $this->getUser($this->getSession()->get('user'));
+
+    if (!$user) {
+      return false;
     }
 
-    return false;
+    return $user->getRoles()->contains($role);
   }
 }

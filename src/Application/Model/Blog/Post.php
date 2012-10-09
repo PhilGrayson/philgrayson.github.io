@@ -40,6 +40,11 @@ class Post
     private $contents;
 
     /**
+     * @var boolean $active
+     */
+    private $active;
+
+    /**
      * @var Application\Model\Blog\Category
      */
     private $category;
@@ -168,6 +173,29 @@ class Post
     public function getContents()
     {
         return $this->contents;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Post
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 
     /**

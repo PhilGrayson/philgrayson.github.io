@@ -15,9 +15,9 @@ class User implements \Silex\ControllerProviderInterface
 
     $user->get('/', $this->redirectIndexAction($app));
     $user->get('/users', $this->indexAction($app));
-    $user->post('/users', $this->createPostAction($app));
+    $user->post('/users', $this->createPostAction($app))->before($this->checkIsAdmin($app));
     $user->get('/users/{id}', $this->showAction($app))->assert('id', '^\d+$');
-    $user->get('/users/new', $this->createGetAction($app))->before($this->checkLoggedIn($app));
+    $user->get('/users/new', $this->createGetAction($app))->before($this->checkIsAdmin($app));
     $user->get('/login', $this->loginGetAction($app));
     $user->post('/login', $this->loginPostAction($app));
     $user->get('/logout', $this->logoutAction($app));
@@ -95,14 +95,13 @@ class User implements \Silex\ControllerProviderInterface
     {
       $requestParams = $app['request']->request;
       $vars = array(
-        'name'     => $requestParams->get('_name'),
-        'username' => $requestParams->get('_username'),
-        'pass'     => $requestParams->get('_password1'),
-        'pass2'    => $requestParams->get('_password2')
+        'name'     => $requestParams->get('name'),
+        'username' => $requestParams->get('username'),
+        'pass'     => $requestParams->get('password1'),
+        'pass2'    => $requestParams->get('password2')
       );
 
       $validations = array();
-
       $validations['name']     = $app['validator']->validateValue($vars['name'], new Assert\NotBlank);
       $validations['username'] = $app['validator']->validateValue($vars['username'], new Assert\Email);
       $validations['password'] = $app['validator']->validateValue($vars['pass'], new Assert\NotBlank);
@@ -181,11 +180,15 @@ class User implements \Silex\ControllerProviderInterface
     };
   }
 
-  private function checkLoggedIn(\Silex\Application $app)
+  private function checkIsAdmin(\Silex\Application $app)
   {
     return function() use ($app)
     {
-      if(!$app['security']->isLoggedIn()) {
+      $repo = $app['db.orm.em']['User']->getRepository(
+        'Application\Model\User\Role'
+      );
+      $admin = $repo->findOneBy(array('name' => 'ADMIN'));
+      if(!$app['security']->isLoggedIn() || !$app['security']->isAuthorized($admin)) {
         return $app->redirect('/users/login');
       }
     };

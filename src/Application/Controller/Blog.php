@@ -1,6 +1,8 @@
 <?php
 namespace Application\Controller;
 
+use \Symfony\Component\Validator\Constraints as Assert;
+
 class Blog implements \Silex\ControllerProviderInterface
 {
   public function connect(\Silex\Application $app)
@@ -14,8 +16,8 @@ class Blog implements \Silex\ControllerProviderInterface
 
     $blog->get('/', $this->redirectIndexAction($app));
     $blog->get('/posts', $this->indexAction($app));
-    $blog->post('/posts/', $this->postCreateAction($app))->before($this->checkLoggedIn($app));
-    $blog->get('/posts/new', $this->getCreateAction($app))->before($this->checkLoggedIn($app));
+    $blog->post('/posts', $this->postCreateAction($app))->before($this->checkIsAdmin($app));
+    $blog->get('/posts/new', $this->getCreateAction($app))->before($this->checkIsAdmin($app));
     $blog->get('/posts/{id}', $this->showAction($app));
     $blog->get('/posts/{year}/{month}/{slug}', $this->showSlugAction($app));
 
@@ -76,7 +78,52 @@ class Blog implements \Silex\ControllerProviderInterface
   {
     return function() use($app)
     {
-    
+      $validateCategory = function($id) use ($app) {
+        return $app['db.orm.em']['Blog']->find('Application\Model\Blog\Category', $id);
+      };
+
+      $requestParams = $app['request']->request;
+      $vars = array(
+        'title'    => $requestParams->get('title'),
+        'date'     => $requestParams->get('date'),
+        'category' => $requestParams->get('category'),
+        'blurb'    => $requestParams->get('blurb'),
+        'contents' => $requestParams->get('contents')
+      );
+
+      $validations = array();
+      $validations['title']    = $app['validator']->validateValue($vars['title'], new Assert\NotBlank);
+      $validations['date']     = $app['validator']->validateValue(
+        $vars['date'] . ' ' . date('H:i:s'), new Assert\DateTime
+      );
+      $validations['category'] = $validateCategory($vars['category']) ? true : 'Select a valid category';
+      $validations['blurb']    = $app['validator']->validateValue($vars['blurb'], new Assert\NotBlank);
+      $validations['contents'] = $app['validator']->validateValue($vars['contents'], new Assert\NotBlank);
+
+      foreach ($validations as $key => $validation) {
+        if (count($validation) == 0 || $validation === true) {
+          unset($validations[$key]);
+        }
+      }
+
+      if (count($validations) > 0) {
+        $app['session']->set('post.create', array('errors' => $validations, 'vars' => $vars));
+        return $app->redirect('/blog/posts/new');
+      }
+
+      $post = new \Application\Model\Blog\Post;
+      $post->setActive(true);
+      $post->setTitle($vars['title']);
+      $post->setSlug(preg_replace('/[^A-Za-z0-9-]+/', '-', $vars['title']));
+      $post->setDate(new \Datetime($vars['date'] . date('H:i:s')));
+      $post->setCategory($validateCategory($vars['category']));
+      $post->setBlurb($vars['blurb']);
+      $post->setContents($vars['contents']);
+
+      $app['db.orm.em']['Blog']->persist($post);
+      $app['db.orm.em']['Blog']->flush();
+
+      return $app->redirect('/blog/posts/' . $post->getId());
     };
   }
 
@@ -176,11 +223,15 @@ class Blog implements \Silex\ControllerProviderInterface
     return $categoryRepository->findAll();
   }
 
-  private function checkLoggedIn(\Silex\Application $app)
+  private function checkIsAdmin(\Silex\Application $app)
   {
     return function() use ($app)
     {
-      if (!$app['security']->isLoggedIn()) {
+      $repo = $app['db.orm.em']['User']->getRepository(
+        'Application\Model\User\Role'
+      );
+      $admin = $repo->findOneBy(array('name' => 'ADMIN'));
+      if (!$app['security']->isLoggedIn() || !$app['security']->isAuthorized($admin)) {
         return $app->redirect('/users/login');
       }
     };
