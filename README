@@ -1,3 +1,10 @@
-Steps:
- 1. Update config/config.ini with relevant information
- 2. Run cd scripts/deploy && sudo phing
+philgrayson.com
+===============
+There isn't much really to say...
+
+Technologies
+------------
+- Silex
+- Doctrine ORM
+- Twitter Bootstrap + LESS
+- Symfony Console
