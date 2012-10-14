@@ -104,6 +104,10 @@ class DoctrineORMServiceProvider implements ServiceProviderInterface
               'MONTH',
               '\DoctrineExtensions\Query\Mysql\Month'
             );
+            $config->addCustomDateTimeFunction(
+              'DATE_FORMAT',
+              '\DoctrineExtensions\Query\Mysql\DateFormat'
+            );
 
             $config->setMetadataCacheImpl($cache);
             $config->setQueryCacheImpl($cache);

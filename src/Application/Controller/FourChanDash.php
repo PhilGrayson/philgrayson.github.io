@@ -8,64 +8,111 @@ class FourChanDash implements \Silex\ControllerProviderInterface
     $chanDash = $app['controllers_factory'];
 
     /**
-     * idex action
+     * index action
      * Povide controls to query the board post counts
      */
     $chanDash->get('/', function() use ($app)
     {
-      try {
-        $vars = array ('title' => 'Misc Tools',
-                       'boards' => \Application\Model\chanGraph::$boards);
-      } catch (\Exception $e) {
-        throw new Exception\chanGraphException('500');
+      $boardRepo = $app['db.orm.em']['FourChanDash']->getRepository(
+        'Application\Model\FourChanDash\Board'
+      );
+
+      $boards = $boardRepo->findBy(array(), array('name' => 'ASC'));
+      $sorted = array();
+
+      foreach($boards as $board) {
+        $sorted[$board->getBoardGroup()->getName()][] = $board;
       }
 
-      return $app['twig']->render('chanGraph/index.twig', $vars);
+      $vars = array (
+        'title'  => 'FourChanDash',
+        'boards' => $sorted
+      );
+
+      return $app['twig']->render('FourChanDash/index.twig', $vars);
     });
 
     $chanDash->get('/search', function() use ($app)
     {
-      try {
-        $boards = $app['request']->get('boards');
-        $boards = str_getcsv($boards);
+      $getPostCount = function($em, array $boards)
+      {
+        $counts = array();
+        $query = $em->createQuery('SELECT MAX(p.count) as count
+                                          Application\Model\FourChanDash\Post as p
+                               INNER JOIN p.board as b
+                                    WHERE b.name = :board');
+        foreach($boards as $board) {
+          $query->setParameter('board', $board);
+          $count = $query->getResult();
+          $counts[$board] = $count[0][1];
+        }
 
-        if (empty($boards)) {
-          // Get all boards
-          $boards = array();
-          foreach(\Application\Model\chanGraph::$boards as $category => $list) {
-            $boards = array_merge($boards, array_values($list));
+        return $counts;
+      };
+
+      $getPosts = function($em, array $boards, \DateTime $from, \DateTime $to)
+      {
+        $posts = array();
+        $delta = $from->diff($to);
+
+        if ($delta->y > 0 || $delta->m > 0) {
+          $date_format = '%Y-%m-%d';
+        } else {
+          $date_format = '%Y-%m-%d %H';
+        }
+
+        $query = $em->createQuery("SELECT MAX(p.count) - MIN(p.count) AS number,
+                                          MAX(p.timestamp) AS date,
+                                          DATE_FORMAT(p.timestamp, '$date_format') AS groupValue
+                                     FROM Application\Model\FourChanDash\Post as p
+                               INNER JOIN p.board as b
+                                    WHERE b.name = :board
+                                      AND p.timestamp > :from
+                                      AND p.timestamp < :to
+                                 GROUP BY groupValue
+                                 ORDER BY p.timestamp ASC");
+
+        foreach($boards as $board) {
+          $query->setParameter('board', $board);
+          $query->setParameter('from', $from);
+          $query->setParameter('to', $to);
+          $count = $query->getResult();
+          if (count($count) > 0) {
+            $posts[$board][] = array('number' => $count[0]['number'], 'date' => $count[0]['date']);
           }
         }
 
-        $from = new \DateTime($app['request']->get('from'));
-        $to   = new \DateTime($app['request']->get('to'));
+        return $posts;
+      };
 
-        if (!($from && $to)) {
-          // Set  default time range
-          $from = new \DateTime('1 day ago');
-          $to   = new \DateTime();
+      $boards = $app['request']->get('boards');
+      $boards = str_getcsv($boards);
+
+      if (empty($boards)) {
+        // Get all boards
+        $boards = array();
+        $boardRepo = $app['db.orm.em']['FourChanDash']->getRepository(
+          'Application\Model\FourChanDash\Board'
+        );
+
+        foreach($boardRepo->findAll() as $board) {
+          $boards[] = $board->getName();
         }
-      } catch (\Exception $e) {
-        $app['monolog']->addCritical($e->getMessage());
-        throw new Exception\chanGraphException('500');
       }
 
-      try {
-        $chanGraph = new \Application\Model\chanGraph($app['dbs']['chanGraph']);
-      } catch (\Exception $e) {
-        $app['monolog']->addCritical($e->getMessage());
-        throw new Exception\chanGraphException('500');
+      $from = new \DateTime($app['request']->get('from'));
+      $to   = new \DateTime($app['request']->get('to'));
+
+      if (!($from && $to)) {
+        // Set  default time range
+        $from = new \DateTime('1 day ago');
+        $to   = new \DateTime();
       }
 
-      $content   = array();
+      $content = array();
 
-      try {
-        $counts  = $chanGraph->getPostCount($boards);
-        $posts   = $chanGraph->getPosts($boards, $from, $to);
-      } catch (\Exception $e) {
-        $app['monolog']->addCritical($e->getMessage());
-        throw new Exception\chanGraphException('500');
-      }
+      $counts  = $getPostCount($app['db.orm.em']['FourChanDash'], $boards);
+      $posts   = $getPosts($app['db.orm.em']['FourChanDash'], $boards, $from, $to);
 
       // Build the response
       if (count($counts) > 0 && count($posts) > 0) {
@@ -75,14 +122,9 @@ class FourChanDash implements \Silex\ControllerProviderInterface
             }
         }
 
-        foreach($posts as $post) {
+        foreach($posts as $board => $post) {
           if (!empty($post)) {
-            $postData = array(
-              'count' => $post['number'],
-              'date' => $post['date']
-            );
-
-            $content['boards'][$post['board']]['posts'][] = $postData;
+            $content['boards'][$board]['posts'][] = $post;
           }
         }
       }
@@ -90,19 +132,6 @@ class FourChanDash implements \Silex\ControllerProviderInterface
       return $app->json($content);
     });
 
-    /**
-     * Error handler
-     */
-    $app->error(function(Exception\chanGraphException $e) use($app)
-    {
-      $code = $e->getMessage();
-      switch ($code) {
-      default:
-        $vars = array('title' => "It's all gone horribly wrong! I recommend panicing");
-      }
-
-      return $app['twig']->render('chanGraph/404.twig', $vars);
-    });
 
     return $chanDash;
   }
