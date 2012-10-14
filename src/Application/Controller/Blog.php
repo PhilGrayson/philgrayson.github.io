@@ -15,12 +15,15 @@ class Blog implements \Silex\ControllerProviderInterface
     );
 
     $blog->get('/', $this->redirectIndexAction($app));
-    $blog->get('/posts', $this->indexAction($app));
-    $blog->post('/posts', $this->postCreateAction($app))->before($this->checkIsAdmin($app));
-    $blog->get('/posts/new', $this->getCreateAction($app))->before($this->checkIsAdmin($app));
-    $blog->get('/posts/{id}', $this->showAction($app));
-    $blog->get('/posts/{year}/{month}/{slug}', $this->showSlugAction($app));
+    $blog->get('/posts', $this->postIndexAction($app));
+    $blog->post('/posts', $this->postPostCreateAction($app))->before($this->checkIsAdmin($app));
+    $blog->get('/posts/new', $this->postGetCreateAction($app))->before($this->checkIsAdmin($app));
+    $blog->get('/posts/{id}', $this->postShowAction($app));
+    $blog->get('/posts/{year}/{month}/{slug}', $this->postShowSlugAction($app));
 
+    $blog->get('/categories', $this->categoryIndexAction($app));
+    $blog->post('/categories', $this->categoryPostCreateAction($app))->before($this->checkIsAdmin($app));
+    $blog->get('/categories/new', $this->categoryGetCreateAction($app))->before($this->checkIsAdmin($app));
     $blog->get('/category/{id}', $this->categoryShowAction($app));
 
     return $blog;
@@ -34,7 +37,7 @@ class Blog implements \Silex\ControllerProviderInterface
     };
   }
 
-  private function indexAction(\Silex\Application $app)
+  private function postIndexAction(\Silex\Application $app)
   {
     return function() use($app)
     {
@@ -57,7 +60,7 @@ class Blog implements \Silex\ControllerProviderInterface
     };
   }
 
-  private function getCreateAction(\Silex\Application $app)
+  private function postGetCreateAction(\Silex\Application $app)
   {
     return function() use($app)
     {
@@ -74,7 +77,7 @@ class Blog implements \Silex\ControllerProviderInterface
     };
   }
 
-  private function postCreateAction(\Silex\Application $app)
+  private function postPostCreateAction(\Silex\Application $app)
   {
     return function() use($app)
     {
@@ -127,7 +130,7 @@ class Blog implements \Silex\ControllerProviderInterface
     };
   }
 
-  private function showAction(\Silex\Application $app)
+  private function postShowAction(\Silex\Application $app)
   {
     return function($id) use($app)
     {
@@ -151,7 +154,7 @@ class Blog implements \Silex\ControllerProviderInterface
     };
   }
 
-  private function showSlugAction(\Silex\Application $app)
+  private function postShowSlugAction(\Silex\Application $app)
   {
     return function($year, $month, $slug) use ($app)
     {
@@ -174,17 +177,84 @@ class Blog implements \Silex\ControllerProviderInterface
 
         return $app['twig']->render(
           'Blog/post/show.twig',
-          array(
+          array_merge($app['twig_blog_vars'], array(
             'title'      => 'Phil Grayson | ' . $post['title'],
             'post'       => $post,
-            'categories' => $getAllCategories($app)
-          )
+          ))
         );
 
       } catch (\Exception $e) {
         error_log($e->getMessage());
         throw new Exception\BlogException($e);
       }
+    };
+  }
+
+  private function categoryIndexAction(\Silex\Application $app)
+  {
+    return function() use ($app)
+    {
+      return $app['twig']->render(
+        'Blog/category/index.twig',
+        array_merge($app['twig_blog_vars'], array())
+      );
+    };
+  }
+
+  private function categoryGetCreateAction(\Silex\Application $app)
+  {
+    return function() use ($app)
+    {
+      if (null !== $vars = $app['session']->get('category.create')) {
+        $app['session']->remove('category.create');
+      } else {
+        $vars = array();
+      };
+
+      return $app['twig']->render(
+        'Blog/category/create.twig',
+        array_merge($app['twig_blog_vars'], $vars)
+      );
+    };
+  }
+
+  private function categoryPostCreateAction(\Silex\Application $app)
+  {
+    return function() use ($app)
+    {
+      $requestParams = $app['request']->request;
+      $vars = array(
+        'name' => $requestParams->get('name'),
+        'slug' => $requestParams->get('slug')
+      );
+
+      $validations = array();
+      $validations['name'] = $app['validator']->validateValue($vars['name'], new Assert\NotBlank);
+      $validations['slug'] = $app['validator']->validateValue($vars['slug'], new Assert\NotBlank);
+      
+      if (count($validations['slug']) == 0) {
+        $validations['slug'] = preg_match('/\s/',$vars['slug']) ? 'Whitespaces are not alowed in the slug' : null;
+      }
+
+      foreach ($validations as $key => $validation) {
+        if (count($validation) == 0 || $validation === true) {
+          unset($validations[$key]);
+        }
+      }
+
+      if (count($validations) > 0) {
+        $app['session']->set('category.create', array('errors' => $validations, 'vars' => $vars));
+        return $app->redirect('/blog/categories/new');
+      }
+
+      $cat = new \Application\Model\Blog\Category;
+      $cat->setName($vars['name']);
+      $cat->setSlug(preg_replace('/[^A-Za-z0-9-]+/', '-', $vars['slug']));
+
+      $app['db.orm.em']['Blog']->persist($cat);
+      $app['db.orm.em']['Blog']->flush();
+
+      return $app->redirect('/blog/category/' . $cat->getId());
     };
   }
 
@@ -201,7 +271,7 @@ class Blog implements \Silex\ControllerProviderInterface
         }
 
         return $app['twig']->render(
-          'Blog/category/index.twig',
+          'Blog/category/show.twig',
           array_merge($app['twig_blog_vars'], array(
             'title'      => 'Phil Grayson | ' . $category->getName(),
             'category'   => $category
