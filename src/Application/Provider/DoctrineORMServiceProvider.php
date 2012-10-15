@@ -106,7 +106,7 @@ class DoctrineORMServiceProvider implements ServiceProviderInterface
             );
             $config->addCustomDateTimeFunction(
               'DATE_FORMAT',
-              '\DoctrineExtensions\Query\Mysql\DateFormat'
+              '\Library\Doctrine\Extensions\Query\Mysql\DateFormat'
             );
 
             $config->setMetadataCacheImpl($cache);
