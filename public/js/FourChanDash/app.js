@@ -53,7 +53,7 @@ $(document).ready(function() {
 
       $.each(result.boards, function(index, board) {
         var series = board.posts.map(function(point) {
-          return [Date.parse(point.date), parseInt(point.count)];
+          return [Date.parse(point.date.date), parseInt(point.number)];
         });
 
         options.series.push({name: index, data: series});

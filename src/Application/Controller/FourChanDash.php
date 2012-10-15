@@ -62,13 +62,14 @@ class FourChanDash implements \Silex\ControllerProviderInterface
         }
 
         $query = 'SELECT MAX(p.count) - MIN(p.count) AS number, '.
-                        "DATE_FORMAT(p.timestamp, '$date_format') AS date ".
+                        'p.timestamp AS date, '.
+                        "DATE_FORMAT(p.timestamp, '$date_format') AS groupValue ".
                    'FROM Application\Model\FourChanDash\Post as p '.
              'INNER JOIN p.board as b '.
                   'WHERE b.name = :board '.
                     'AND p.timestamp > :from '.
                     'AND p.timestamp < :to '.
-               'GROUP BY date '.
+               'GROUP BY groupValue '.
                'ORDER BY p.timestamp ASC';
         $query = $em->createQuery($query);
 
@@ -111,20 +112,22 @@ class FourChanDash implements \Silex\ControllerProviderInterface
 
       $content = array();
 
-      $counts  = $getPostCount($app['db.orm.em']['FourChanDash'], $boards);
-      $posts   = $getPosts($app['db.orm.em']['FourChanDash'], $boards, $from, $to);
+      $counts = $getPostCount($app['db.orm.em']['FourChanDash'], $boards);
+      $all    = $getPosts($app['db.orm.em']['FourChanDash'], $boards, $from, $to);
 
       // Build the response
-      if (count($counts) > 0 && count($posts) > 0) {
+      if (count($counts) > 0 && count($all) > 0) {
         foreach ($counts as $board => $count) {
             if (!empty($count['number'])) {
               $content['boards'][$board]['total'] = $count;
             }
         }
 
-        foreach($posts as $board => $post) {
-          if (!empty($post)) {
-            $content['boards'][$board]['posts'][] = $post;
+        foreach($all as $board => $posts) {
+          foreach($posts as $post) {
+            if (!empty($post)) {
+              $content['boards'][$board]['posts'][] = $post;
+            }
           }
         }
       }
