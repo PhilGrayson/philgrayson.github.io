@@ -55,7 +55,7 @@ class DoctrineORMServiceProvider implements ServiceProviderInterface
         $app['db.orm.em'] = $app->share(function() use($app) {
             $ems = new \Pimple();
 
-            foreach($app['dbs.config']->keys() as $name) {
+            foreach(array_keys($app['dbs.options']) as $name) {
               $config = $app['db.orm.config']($name);
               $ems[$name] = EntityManager::create($app['dbs'][$name], $config);
             }
