@@ -9,15 +9,20 @@ DOMAIN   = dev.philgrayson.com
 all: install-packages install-node compile-less run-composer create-configs
 
 install-packages:
+	sudo apt-get update
 	sudo apt-get install git-core apache2 nginx php5 php5-mysql php5-curl \
   libapache2-mod-php5 php-pear mysql-server libyaml-dev uuid-dev php5-mcrypt
 
 install-node:
-	if [ ! -e $(shell which lessc) ]; then \
+	if [ ! -d ~/builds ]; then \
 	mkdir ~/builds; \
 	cd ~/builds; \
+	fi; \
+	if [ ! -d node ]; then \
 	git clone git://github.com/ry/node.git; \
 	cd node; \
+	fi; \
+	git pull; \
 	./configure; \
 	make; \
 	sudo make install; \

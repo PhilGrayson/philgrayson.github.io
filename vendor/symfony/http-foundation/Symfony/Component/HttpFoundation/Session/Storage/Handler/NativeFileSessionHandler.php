@@ -49,6 +49,7 @@ class NativeFileSessionHandler extends NativeSessionHandler
         }
 
         if ($baseDir && !is_dir($baseDir)) {
+            error_log($baseDir);
             mkdir($baseDir, 0777, true);
         }
 

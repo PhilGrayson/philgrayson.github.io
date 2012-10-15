@@ -27,6 +27,10 @@ $app->register(new Application\Provider\DoctrineORMServiceProvider(), array(
   ))
 ));
 
+$app->register(new \Silex\Provider\SessionServiceProvider(), array(
+  'session.storage.save_path' => $app['root_dir'] . '/data/sessions'
+));
+$app->register(new \Application\Provider\SecurityServiceProvider());
 $app->register(new Application\Provider\EventServiceProvider(), array());
 
 return $app;

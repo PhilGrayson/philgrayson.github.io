@@ -1,9 +1,8 @@
 #!/usr/bin/env php
 <?php
+use Application\Command\FourChanDash;
 
 $app = require 'index.php';
-
-use Application\Command\FourChanDash;
 
 $console = new Symfony\Component\Console\Application();
 

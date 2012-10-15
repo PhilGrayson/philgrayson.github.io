@@ -356,76 +356,6 @@
         ]
     },
     {
-        "name": "doctrine/orm",
-        "version": "2.3.0",
-        "version_normalized": "2.3.0.0",
-        "source": {
-            "type": "git",
-            "url": "git://github.com/doctrine/doctrine2.git",
-            "reference": "2.3.0"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://github.com/doctrine/doctrine2/zipball/2.3.0",
-            "reference": "2.3.0",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.2",
-            "ext-pdo": "*",
-            "doctrine/dbal": "2.3.*",
-            "symfony/console": "2.*"
-        },
-        "suggest": {
-            "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
-        },
-        "time": "2012-09-20 06:03:34",
-        "bin": [
-            "bin/doctrine",
-            "bin/doctrine.php"
-        ],
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.3.x-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "Doctrine\\ORM": "lib/"
-            }
-        },
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Jonathan Wage",
-                "email": "jonwage@gmail.com",
-                "homepage": "http://www.jwage.com/"
-            },
-            {
-                "name": "Guilherme Blanco",
-                "email": "guilhermeblanco@gmail.com"
-            },
-            {
-                "name": "Roman Borschel",
-                "email": "roman@code-factory.org"
-            },
-            {
-                "name": "Benjamin Eberlei",
-                "email": "kontakt@beberlei.de"
-            }
-        ],
-        "description": "Object-Relational-Mapper for PHP",
-        "homepage": "http://www.doctrine-project.org",
-        "keywords": [
-            "database",
-            "orm"
-        ]
-    },
-    {
         "name": "beberlei/DoctrineExtensions",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -608,53 +538,6 @@
         ],
         "description": "Symfony HttpFoundation Component",
         "homepage": "http://symfony.com"
-    },
-    {
-        "name": "PasswordLib/PasswordLib",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/ircmaxell/PHP-PasswordLib",
-            "reference": "35bb8edc09438be4f74e1e739bae2c07ff5cf1d0"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://github.com/ircmaxell/PHP-PasswordLib/zipball/35bb8edc09438be4f74e1e739bae2c07ff5cf1d0",
-            "reference": "35bb8edc09438be4f74e1e739bae2c07ff5cf1d0",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.2"
-        },
-        "time": "2012-09-18 13:18:00",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "PasswordLib": "lib"
-            }
-        },
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Anthony Ferrara",
-                "email": "ircmaxell@php.net",
-                "homepage": "http://blog.ircmaxell.com"
-            }
-        ],
-        "description": "A Password Hashing Library",
-        "homepage": "https://github.com/ircmaxell/PHP-PasswordLib",
-        "keywords": [
-            "password",
-            "hash",
-            "random",
-            "crypt",
-            "hashing",
-            "salt"
-        ]
     },
     {
         "name": "symfony/validator",
@@ -848,18 +731,18 @@
         "source": {
             "type": "git",
             "url": "git://github.com/fabpot/Twig.git",
-            "reference": "82334f876f06b76b28d60ef547ff0ccee8bc1de8"
+            "reference": "f48f23a34da75d11b26f250a3e491e7d6bab7981"
         },
         "dist": {
             "type": "zip",
-            "url": "https://github.com/fabpot/Twig/zipball/82334f876f06b76b28d60ef547ff0ccee8bc1de8",
-            "reference": "82334f876f06b76b28d60ef547ff0ccee8bc1de8",
+            "url": "https://github.com/fabpot/Twig/zipball/f48f23a34da75d11b26f250a3e491e7d6bab7981",
+            "reference": "f48f23a34da75d11b26f250a3e491e7d6bab7981",
             "shasum": ""
         },
         "require": {
             "php": ">=5.2.4"
         },
-        "time": "2012-10-13 12:01:24",
+        "time": "2012-10-15 00:38:17",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -889,6 +772,124 @@
         "homepage": "http://twig.sensiolabs.org",
         "keywords": [
             "templating"
+        ]
+    },
+    {
+        "name": "doctrine/orm",
+        "version": "2.3.0",
+        "version_normalized": "2.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "git://github.com/doctrine/doctrine2.git",
+            "reference": "2.3.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/doctrine/doctrine2/zipball/2.3.0",
+            "reference": "2.3.0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2",
+            "ext-pdo": "*",
+            "doctrine/dbal": "2.3.*",
+            "symfony/console": "2.*"
+        },
+        "suggest": {
+            "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
+        },
+        "time": "2012-09-19 23:03:34",
+        "bin": [
+            "bin/doctrine",
+            "bin/doctrine.php"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.3.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Doctrine\\ORM": "lib/"
+            }
+        },
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com",
+                "homepage": "http://www.jwage.com/"
+            },
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com",
+                "homepage": "http://www.instaclick.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            }
+        ],
+        "description": "Object-Relational-Mapper for PHP",
+        "homepage": "http://www.doctrine-project.org",
+        "keywords": [
+            "database",
+            "orm"
+        ]
+    },
+    {
+        "name": "PasswordLib/PasswordLib",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ircmaxell/PHP-PasswordLib",
+            "reference": "35bb8edc09438be4f74e1e739bae2c07ff5cf1d0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/ircmaxell/PHP-PasswordLib/zipball/35bb8edc09438be4f74e1e739bae2c07ff5cf1d0",
+            "reference": "35bb8edc09438be4f74e1e739bae2c07ff5cf1d0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "time": "2012-09-18 13:18:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "PasswordLib": "lib"
+            }
+        },
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Anthony Ferrara",
+                "email": "ircmaxell@php.net",
+                "homepage": "http://blog.ircmaxell.com"
+            }
+        ],
+        "description": "A Password Hashing Library",
+        "homepage": "https://github.com/ircmaxell/PHP-PasswordLib",
+        "keywords": [
+            "password",
+            "hash",
+            "random",
+            "crypt",
+            "hashing",
+            "salt"
         ]
     }
 ]
