@@ -10,6 +10,8 @@ $console->add(new FourChanDash\BoardsSyncCommand($app));
 $console->add(new FourChanDash\BoardsAddCommand($app));
 $console->add(new FourChanDash\BoardsUpdateCommand($app));
 
+$console->add(new FourChanDash\BoardsMigrateCommand($app));
+
 $helpers = new \Symfony\Component\Console\Helper\HelperSet(array(
   'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper(
     $app['db.orm.em']['FourChanDash']->getConnection()
