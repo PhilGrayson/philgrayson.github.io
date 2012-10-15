@@ -1,10 +1,12 @@
 #!/usr/bin/env php
 <?php
+use Application\Command\User;
 
 $app = require 'index.php';
 
 $console = new Symfony\Component\Console\Application();
 
+$console->add(new User\AddAdminAccountCommand($app));
 $helpers = new \Symfony\Component\Console\Helper\HelperSet(array(
   'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper(
     $app['db.orm.em']['User']->getConnection()
