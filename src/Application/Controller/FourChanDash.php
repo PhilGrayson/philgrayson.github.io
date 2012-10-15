@@ -61,24 +61,24 @@ class FourChanDash implements \Silex\ControllerProviderInterface
           $date_format = '%Y-%m-%d %H';
         }
 
-        $query = $em->createQuery("SELECT MAX(p.count) - MIN(p.count) AS number,
-                                          MAX(p.timestamp) AS date,
-                                          DATE_FORMAT(p.timestamp, '$date_format') AS groupValue
-                                     FROM Application\Model\FourChanDash\Post as p
-                               INNER JOIN p.board as b
-                                    WHERE b.name = :board
-                                      AND p.timestamp > :from
-                                      AND p.timestamp < :to
-                                 GROUP BY groupValue
-                                 ORDER BY p.timestamp ASC");
+        $query = 'SELECT MAX(p.count) - MIN(p.count) AS number, '.
+                        "DATE_FORMAT(p.timestamp, '$date_format') AS date ".
+                   'FROM Application\Model\FourChanDash\Post as p '.
+             'INNER JOIN p.board as b '.
+                  'WHERE b.name = :board '.
+                    'AND p.timestamp > :from '.
+                    'AND p.timestamp < :to '.
+               'GROUP BY date '.
+               'ORDER BY p.timestamp ASC';
+        $query = $em->createQuery($query);
 
         foreach($boards as $board) {
           $query->setParameter('board', $board);
           $query->setParameter('from', $from);
           $query->setParameter('to', $to);
-          $count = $query->getResult();
-          if (count($count) > 0) {
-            $posts[$board][] = array('number' => $count[0]['number'], 'date' => $count[0]['date']);
+          $records = $query->getResult();
+          foreach($records as $count) {
+            $posts[$board][] = array('number' => $count['number'], 'date' => $count['date']);
           }
         }
 
