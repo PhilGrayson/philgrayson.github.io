@@ -31,10 +31,11 @@ class BoardsMigrateCommand extends \Application\Command\Command
 
     try {
       $conn = new \PDO('mysql:host=localhost;dbname=4changraph', $user, $pass);
-      $stmt = $conn->prepare('p.number, p.date, b.handle FROM posts p INNER JOIN boards b ON p.board_id = b.id');
+      $stmt = $conn->prepare('SELECT p.number, p.date, b.handle FROM posts p INNER JOIN boards b ON p.board_id = b.id');
       $stmt->execute();
 
       while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+        error_log(print_r($row, 1));
         if (!isset($boardCache[$row['handle']])) {
           $board = $boardRepo->findOneBy(array('name' => $row['handle']));
 
@@ -47,12 +48,12 @@ class BoardsMigrateCommand extends \Application\Command\Command
 
         $post = new \Application\Model\FourChanDash\Post;
         $post->setCount($row['number']);
-        $post->setTimestamp(new \DateTime($row['timestamp']));
+        $post->setTimestamp(new \DateTime($row['date']));
         $post->setBoard($boardCache[$row['handle']]);
-        $app['db.orm.em']->persist($post);
+        $app['db.orm.em']['FourChanDash']->persist($post);
       }
 
-      $app['db.orm.em']->flush();
+      $app['db.orm.em']['FourChanDash']->flush();
     } catch (\Exception $e) {
       $output->writeln('<error>' . $e->getMessage() . '</error>');
     }
