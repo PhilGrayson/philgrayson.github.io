@@ -1,7 +1,7 @@
 <?php
-namespace Server;
+namespace Library;
 
-calss EventServer
+class EventServer
 {
   private $app;
   private $subUid = -1;

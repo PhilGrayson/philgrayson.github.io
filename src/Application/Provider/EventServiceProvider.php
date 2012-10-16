@@ -7,26 +7,10 @@ class EventServiceProvider implements \Silex\ServiceProviderInterface
   {
     $app['event'] = $app->share(function () use ($app)
     {
-      $event = new \Server\EventServer($app);
+      $server = new \Library\EventServer($app);
+      \Application\Event\EventAttacher::attach($server);
 
-      $dir = new \DirectoryIterator($app['root_dir'] . '/src/Server/Event');
-      foreach($dir as $file) {
-        $path = $file->getPathName();
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        if ($file->isDot() || 'php' != $type) {
-          continue;
-        }
-
-        $listener = require_once($path);
-
-        if (isset($listener['topic']) &&
-            isset($listener['function']) &&
-            is_callable($listener['function'])) {
-          $event->subscribe($listener['topic'], $listener['function']);
-        }
-      }
-
-      return $event;
+      return $server;
     });
   }
 
