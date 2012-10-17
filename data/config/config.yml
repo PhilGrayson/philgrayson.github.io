@@ -1,0 +1,33 @@
+environment:
+  active: 'dev'
+  live:
+  dev:
+    root  : '/home/phil/Documents/Programming/Web/philgrayson.com'
+    domain: 'dev.philgrayson.com'
+    errors:
+      file: 'data/logs/'
+      email:
+        to     : 'phil@localhost'
+        subject: 'Errors on philgrayson.com'
+        from   : 'phil@localhost'
+  all:
+    logs: '/data/logs'
+doctrine:
+  FourChanDash:
+    dbname   : 'fourChanDash'
+    driver   : 'pdo_mysql'
+    user     : 'phil'
+    password : 'manutd'
+    host     : '127.0.0.1'
+  Blog:
+    dbname   : 'blog'
+    driver   : 'pdo_mysql'
+    user     : 'phil'
+    password : 'manutd'
+    host     : '127.0.0.1'
+  User:
+    dbname   : 'user'
+    driver   : 'pdo_mysql'
+    user     : 'phil'
+    password : 'manutd'
+    host     : '127.0.0.1'
