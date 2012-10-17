@@ -1,4 +1,4 @@
-<?pp
+<?php
 
 namespace Library\Http;
 
@@ -9,9 +9,9 @@ class chanHttp extends AbstractHttp
     $this->setUrl($url);
 
     $userAgent = <<<EOD
-Wo: philgrayson.com/fourchandash
-Ifo: philgrayson.com/fourchandash/cr['FourChanDash']ler
-Emil: phil@philgrayson.com
+Who: philgrayson.com/fourchandash
+Ifno: philgrayson.com/fourchandash/cr['FourChanDash']ler
+Email: phil@philgrayson.com
 EOD;
 
     $this->setUserAgent(str_replace('\n', ' ', $userAgent));

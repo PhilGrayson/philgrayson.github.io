@@ -3,20 +3,22 @@
 define('root_dir', __DIR__ . '/../');
 require_once root_dir . 'vendor/autoload.php';
 
-$app = new Silex\Application();
+$app = new \Silex\Application();
 $app['root_dir'] = root_dir;
 
 // Application configs
 $app['app_config'] = \Symfony\Component\Yaml\Yaml::parse(
-  root_dir . 'data/config/config.yaml'
+  root_dir . 'data/config/config.yml'
 );
 
+$env = $app['app_config']['environment']['active'];
+
 // Setup Doctrine
-$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+$app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
   'dbs.options' => $app['app_config']['doctrine']
 ));
 
-$app->register(new Application\Provider\DoctrineORMServiceProvider(), array(
+$app->register(new \Application\Provider\DoctrineORMServiceProvider(), array(
   'db.orm.proxies_dir'           => $app['root_dir'] . 'data/doctrine/proxy',
   'db.orm.proxies_namespace'     => 'Application\Proxies',
   'db.orm.auto_generate_proxies' => true,
@@ -31,6 +33,35 @@ $app->register(new \Silex\Provider\SessionServiceProvider(), array(
   'session.storage.save_path' => $app['root_dir'] . '/data/sessions'
 ));
 $app->register(new \Application\Provider\SecurityServiceProvider());
-$app->register(new Application\Provider\EventServiceProvider());
+$app->register(new \Application\Provider\EventServiceProvider());
+
+$app->register(new \Application\Provider\MonologServiceProvider(), array(
+  'monolog.loggers' => array(
+    'FourChanDash'=> array (
+      'handlers' => array
+      (
+        new \Monolog\Handler\FingersCrossedHandler(
+          new \Monolog\Handler\BufferHandler(
+            new \Monolog\Handler\NativeMailerHandler(
+              $app['app_config']['environment'][$env]['errors']['email']['to'],
+              $app['app_config']['environment'][$env]['errors']['email']['subject'],
+              $app['app_config']['environment'][$env]['errors']['email']['from'],
+              \Monolog\Logger::INFO
+            ),
+            \Monolog\Logger::ERROR
+          ),
+          \Monolog\Logger::ERROR
+        ),
+        new \Monolog\Handler\FingersCrossedHandler(
+          new \Monolog\Handler\StreamHandler(
+            $app['root_dir'] . $app['app_config']['environment'][$env]['errors']['file'] . '/FourChanDash',
+            \Monolog\Logger::INFO
+          ),
+          \Monolog\Logger::WARNING
+        ),
+      ),
+    ),
+  )
+));
 
 return $app;

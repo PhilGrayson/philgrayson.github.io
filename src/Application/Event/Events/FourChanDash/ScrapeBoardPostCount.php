@@ -19,22 +19,16 @@ class ScrapeBoardPostCount implements \Application\Event\EventInterface
         throw new \Exception("Missing data key 'contents'");
       }
 
-      $dom = new \DomDocument();
-      @$dom->loadHTML($data['contents']);
-      $xpath = new \DomXPath($dom);
-      $query = "//*[contains(@class, 'post reply')]/@id";
+      $json = json_decode($data['contents']);
 
-      $postNumbers = @$xpath->query($query);
-
-      if (empty($postNumbers)) {
+      if (!$json) {
         throw new \Exception("Could not parse HTML for $board");
       }
 
       $count = 0;
-      foreach($postNumbers as $post) {
-        $post = substr($post->nodeValue, 1);
-        if ($post > $count) {
-          $count = $post;
+      foreach(array_pop($json->threads)->posts as $post) {
+        if ($post->no > $count) {
+          $count = $post->no;
         }
       }
 
@@ -48,11 +42,11 @@ class ScrapeBoardPostCount implements \Application\Event\EventInterface
         );
 
         $board = $boardsRepo->findOneByName($data['board']);
-        if (!($board instanceOf Application\Model\FourChanDash\Board)) {
-          throw \Exception('Error finding board /' . $data['board'] . '/ in ' . __FILE__);
+        if (!($board instanceOf \Application\Model\FourChanDash\Board)) {
+          throw new \Exception('Error finding board /' . $data['board'] . '/ in ' . __FILE__);
         }
 
-        $post = new Application\Model\FourChanDash\Post();
+        $post = new \Application\Model\FourChanDash\Post();
         $post->setBoard($board);
         $post->setCount($count);
         $post->setTimestamp(new \DateTime('now'));

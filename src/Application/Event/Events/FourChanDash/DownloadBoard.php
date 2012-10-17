@@ -12,8 +12,10 @@ class DownloadBoard implements \Application\Event\EventInterface
   {
     return function(\Silex\Application $app, $data)
     {
+      $app['monolog']['FourChanDash']->addInfo(__CLASS__ . ' handling BoardRequest' . "\n" . print_r($data, 1));
       if (!isset($data['board'])) {
-        throw new \Exception("Missing data key 'board'");
+        $app['monolog']['FourChanDash']->addError('Missing data key \'board\'');
+        return;
       }
 
       if (!isset($data['dry-run'])) {
@@ -25,12 +27,14 @@ class DownloadBoard implements \Application\Event\EventInterface
         'Application\Model\FourChanDash\Board'
       );
 
-      if (!$boardRepo->findOneByName($board) instanceOf Application\Model\FourChanDash\Board) {
-        throw new \Exception("'$board' is not a valid board");
+
+      if (!$boardRepo->findOneByName($board) instanceOf \Application\Model\FourChanDash\Board) {
+        $app['monolog']['FourChanDash']->addError("'$board' is not a valid board");
+        return;
       }
 
-      $url = "http://boards.4chan.org/$board/";
-      $http = new \Server\Http\chanHttp($url);
+      $url = "https://api.4chan.org/$board/0.json";
+      $http = new \Library\Http\chanHttp($url);
 
       $response = $http->sendRequest();
 

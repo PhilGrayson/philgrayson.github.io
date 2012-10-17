@@ -1,33 +1,32 @@
-ROOT_DIR = /home/phil/Documents/Programming/Web/philgrayson.com
-PUBLIC_DIR    = ${ROOT_DIR}/public
-BOOTSTRAP_DIR = ${ROOT_DIR}/data/bootstrap/less
-BOOTSTRAP      = ${PUBLIC_DIR}/css/bootstrap.css
-BOOTSTRAP_LESS = ${BOOTSTRAP_DIR}/bootstrap.less
-DOMAIN   = dev.philgrayson.com
-
+TOP      = $(dir $(lastword $(MAKEFILE_LIST)))
+ENV      = $(shell ${TOP}../scripts/read-config get environment.active)
+ROOT_DIR = $(shell ${TOP}../scripts/read-config get environment.${ENV}.root)
+DOMAIN   = $(shell ${TOP}../scripts/read-config get environment.${ENV}.domain)
+BOOTSTRAP      = ${ROOT_DIR}/public/css/bootstrap.css
+BOOTSTRAP_LESS = ${ROOT_DIR}/data/bootstrap/less/bootstrap.less
 
 all: install-packages install-node compile-less run-composer create-configs
 
 install-packages:
 	sudo apt-get update
 	sudo apt-get install git-core apache2 nginx php5 php5-mysql php5-curl \
-  libapache2-mod-php5 php-pear mysql-server libyaml-dev uuid-dev php5-mcrypt
+  libapache2-mod-php5 php-pear mysql-server libyaml-dev uuid-dev php5-mcrypt \
+  mail-server^
 
 install-node:
 	if [ ! -d ~/builds ]; then \
-	mkdir ~/builds; \
+	  mkdir ~/builds; \
+	fi; \
 	cd ~/builds; \
+	if [ ! -d ~/builds/node ]; then \
+	  git clone git://github.com/ry/node.git; \
 	fi; \
-	if [ ! -d node ]; then \
-	git clone git://github.com/ry/node.git; \
 	cd node; \
-	fi; \
 	git pull; \
 	./configure; \
 	make; \
 	sudo make install; \
-	sudo npm -g install less; \
-	fi
+	sudo npm install -g less; \
 
 compile-less:
 	lessc ${BOOTSTRAP_LESS} > ${BOOTSTRAP}

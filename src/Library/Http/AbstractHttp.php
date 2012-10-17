@@ -40,7 +40,7 @@ abstract class AbstractHttp
         \curl_setopt($curl, CURLOPT_HTTPHEADER, $this->headers);
       }
 
-      i (strlen($this->userAgent) > 0) {
+      if (strlen($this->userAgent) > 0) {
         \curl_setopt($curl, CURLOPT_USERAGENT, $this->userAgent);
       }
 
@@ -49,6 +49,6 @@ abstract class AbstractHttp
       return \curl_exec($curl);
     }
 
-    return '';
+    throw new \Exception($this->url . ' cannot be requested');
   }
 }

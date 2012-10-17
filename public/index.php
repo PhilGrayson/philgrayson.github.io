@@ -7,8 +7,12 @@ $app['root_dir'] = root_dir;
 
 // Application configs
 $app['app_config'] = \Symfony\Component\Yaml\Yaml::parse(
-  root_dir . 'data/config/config.yaml'
+  $app['root_dir'] . 'data/config/config.yml'
 );
+
+if ('dev' == $app['app_config']['environment']['active']) {
+  $app['debug'] = true;
+}
 
 // Setup Doctrine
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
@@ -65,5 +69,5 @@ $app->error(function(\Exception $e) use ($app)
 {
 });
 
-$app['debug'] = true;
+
 $app->run();

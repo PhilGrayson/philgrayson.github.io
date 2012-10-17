@@ -23,7 +23,10 @@ class EventServer
     $len         = $subscribers ? count($subscribers) : 0;
 
     while ($len--) {
-      $subscribers[$len]['function']($this->app, $args);
+      try {
+        $subscribers[$len]['function']($this->app, $args);
+      } catch(\Exception $e) {
+      }
     }
 
     return $this;

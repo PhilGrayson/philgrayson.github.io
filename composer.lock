@@ -1,5 +1,5 @@
 {
-    "hash": "4e21e15b3d50ada8eed12c9738a5334a",
+    "hash": "47e6180a1920248f481a796586141990",
     "packages": [
         {
             "name": "PasswordLib/PasswordLib",
@@ -335,6 +335,62 @@
             ]
         },
         {
+            "name": "monolog/monolog",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog",
+                "reference": "1.2.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/Seldaek/monolog/zipball/1.2.1",
+                "reference": "1.2.1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "mlehner/gelf-php": "1.0.*"
+            },
+            "suggest": {
+                "mlehner/gelf-php": "Allow sending log messages to a GrayLog2 server",
+                "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+                "ext-mongo": "Allow sending log messages to a MongoDB server"
+            },
+            "time": "2012-08-29 04:53:20",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-0": {
+                    "Monolog": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Logging for PHP 5.3",
+            "homepage": "http://github.com/Seldaek/monolog",
+            "keywords": [
+                "log",
+                "logging"
+            ]
+        },
+        {
             "name": "pimple/pimple",
             "version": "1.0.0",
             "source": {
@@ -465,18 +521,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console",
-                "reference": "4a74ab0170585fd25d925ff94582f68b0037f016"
+                "reference": "d214b141627b947ba16c7c8f8599e6823902d124"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/zipball/4a74ab0170585fd25d925ff94582f68b0037f016",
-                "reference": "4a74ab0170585fd25d925ff94582f68b0037f016",
+                "url": "https://github.com/symfony/Console/zipball/d214b141627b947ba16c7c8f8599e6823902d124",
+                "reference": "d214b141627b947ba16c7c8f8599e6823902d124",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1350206314",
+            "time": "1350379165",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -842,18 +898,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "f48f23a34da75d11b26f250a3e491e7d6bab7981"
+                "reference": "bac6bc7851c51692af1d855065e88b564e047b3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/zipball/f48f23a34da75d11b26f250a3e491e7d6bab7981",
-                "reference": "f48f23a34da75d11b26f250a3e491e7d6bab7981",
+                "url": "https://github.com/fabpot/Twig/zipball/bac6bc7851c51692af1d855065e88b564e047b3b",
+                "reference": "bac6bc7851c51692af1d855065e88b564e047b3b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "1350286697",
+            "time": "1350391198",
             "type": "library",
             "extra": {
                 "branch-alias": {
