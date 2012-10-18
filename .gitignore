@@ -1,4 +1,6 @@
 *.swp
 *.swo
+*~
 /Makefile
 data/logs/*
+config/config.yaml

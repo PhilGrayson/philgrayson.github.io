@@ -1,0 +1,51 @@
+{% extends "Blog/Blog.twig" %}
+
+{% block content %}
+  <div class="row">
+    <div class="span12">
+      <h1>New Post</h1>
+      <form action="/blog/posts" method="post">
+        <label>Title</label>
+        {% if errors.title is defined %}
+          <div class="alert alert-error">{{ errors.title }}</div>
+        {% endif %}
+        <input type="text" name="title" value="{% if vars.title is defined %}{{ vars.title }}{% endif %}">
+        <label>Date</label>
+        {% if errors.date is defined %}
+          <div class="alert alert-error">{{ errors.date }}</div>
+        {% endif %}
+        <input
+          type="text"
+          name="date"
+          value="{% if vars.date is defined %}{{ vars.date|date('Y-m-d') }}{% else %}{{ "now"|date('Y-m-d') }}{% endif %}">
+        <label>Category</label>
+        {% if errors.category is defined %}
+          <div class="alert alert-error">{{ errors.category }}</div>
+        {% endif %}
+        <select name="category">
+          {% for category in categories %}
+            <option
+              value="{{ category.id }}"
+              {% if vars.category is defined and vars.category == category.id %}
+                selected="selected"
+              {% endif %}
+            >
+              {{ category.name }}
+            </option>
+          {% endfor %}
+        </select>
+        <label>Blurb</label>
+        {% if errors.blurb is defined %}
+          <div class="alert alert-error">{{ errors.blurb }}</div>
+        {% endif %}
+        <textarea class="span8" type="text" name="blurb">{% if vars.blurb is defined %}{{ vars.blurb }}{% endif %}</textarea>
+        <label>Contents</label>
+        {% if errors.contents is defined %}
+          <div class="alert alert-error">{{ errors.contents }}</div>
+        {% endif %}
+        <textarea class="span8" rows="6" type="text" name="contents">{% if vars.contents is defined %}{{ vars.contents }}{% endif %}</textarea>
+        <button type="submit">Create</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

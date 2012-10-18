@@ -1,0 +1,18 @@
+Application\Model\Blog\Category:
+  type: entity
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+      type: string
+      unique: true
+    slug:
+      type: string
+      unique: true
+  oneToMany:
+    posts:
+      targetEntity: Post
+      mappedBy: category

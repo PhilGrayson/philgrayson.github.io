@@ -7,10 +7,17 @@ class MonologServiceProvider implements \Silex\ServiceProviderInterface
   {
     $app['monolog'] = $app->share(function () use ($app)
     {
-      $monolog = new \Monolog\Logger($app['monolog.name']);
-      $monolog->pushHandler($app['monolog.handler']);
+      $monologs = new \Pimple();
+      foreach($app['monolog.loggers'] as $name => $config) {
+        $monolog = new \Monolog\Logger($name);
+        foreach($config['handlers'] as $handler) {
+          $monolog->pushHandler($handler);
+        }
 
-      return $monolog;
+        $monologs[$name] = $monolog;
+      }
+
+      return $monologs;
     });
   }
 

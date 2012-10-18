@@ -1,0 +1,9 @@
+{% for category in categories %}
+  <div class="row">
+    <div class="span12">
+      <a class="lead" href="/blog/category/{{ category.id }}">
+        {{ category.name }} ({{ category.posts|length }})
+      </a>
+    </div>
+  </div>
+{% endfor %}
