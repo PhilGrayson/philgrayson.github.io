@@ -35,7 +35,6 @@ class BoardsMigrateCommand extends \Application\Command\Command
       $stmt->execute();
 
       while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-        error_log(print_r($row, 1));
         if (!isset($boardCache[$row['handle']])) {
           $board = $boardRepo->findOneBy(array('name' => $row['handle']));
 
