@@ -12,17 +12,23 @@ class ScrapeBoardPostCount implements \Application\Event\EventInterface
   {
     return function(\Silex\Application $app, $data)
     {
+      $app['monolog']['FourChanDash']->addInfo(__CLASS__ . " handling BoardLoad \n " . print_r($data, 1));
       if (!isset($data['board'])) {
-        throw new \Exception("Missing data key 'board'");
+        $app['monolog']['FourChanDash']->addError("Missing data key 'board'");
+        return;
       }
       if (!isset($data['contents'])) {
-        throw new \Exception("Missing data key 'contents'");
+        $app['monolog']['FourChanDash']->addError("Missing data key 'contents'");
+        return;
       }
+
+      $app['monolog']['FourChanDash']->addInfo("HTML contents : " . strlen($data['contents']) . " bytes");
 
       $json = json_decode($data['contents']);
 
       if (!$json) {
-        throw new \Exception("Could not parse HTML for $board");
+        $app['monolog']['FourChanDash']->addError("JSON string could not be parsed");
+        return;
       }
 
       $count = 0;
@@ -33,7 +39,8 @@ class ScrapeBoardPostCount implements \Application\Event\EventInterface
       }
 
       if ($count <= 0) {
-        throw new \Exception('Could not find any posts for ' . $data['board']);
+        $app['monolog']['FourChanDash']->addError("Could not find any posts for '" . $data['board'] . "'");
+        return;
       }
 
       if (!isset($data['dry-run']) || !$data['dry-run']) {
@@ -43,7 +50,8 @@ class ScrapeBoardPostCount implements \Application\Event\EventInterface
 
         $board = $boardsRepo->findOneByName($data['board']);
         if (!($board instanceOf \Application\Model\FourChanDash\Board)) {
-          throw new \Exception('Error finding board /' . $data['board'] . '/ in ' . __FILE__);
+          $app['monolog']['FourChanDash']->addError("Error finding board '" . $data['board'] . "' in the database");
+          return;
         }
 
         $post = new \Application\Model\FourChanDash\Post();
