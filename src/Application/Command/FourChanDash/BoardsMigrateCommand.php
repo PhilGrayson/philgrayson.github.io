@@ -18,6 +18,8 @@ class BoardsMigrateCommand extends \Application\Command\Command
       Console\Input\InputInterface $input,
       Console\Output\OutputInterface $output)
   {
+    set_time_limit(60 * 60 * 2);
+
     $app = $this->getDIC();
     $dialog = $this->getHelperSet()->get('dialog');
 
@@ -31,11 +33,11 @@ class BoardsMigrateCommand extends \Application\Command\Command
 
     try {
       $conn = new \PDO('mysql:host=localhost;dbname=4changraph', $user, $pass);
-      $stmt = $conn->prepare('SELECT p.number, p.date, b.handle FROM posts p INNER JOIN boards b ON p.board_id = b.id');
-      $stmt->execute();
+      $select = $conn->prepare('SELECT p.number, p.date, b.handle FROM posts p INNER JOIN boards b ON p.board_id = b.id');
+      $insert = $conn->prepare('INSERT INTO fourChanDash.Post (count, timestamp, board_id) VALUES(:count, :timestamp, :board)');
+      $select->execute();
 
-      while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-        error_log(print_r($row, 1));
+      while($row = $select->fetch(\PDO::FETCH_ASSOC)) {
         if (!isset($boardCache[$row['handle']])) {
           $board = $boardRepo->findOneBy(array('name' => $row['handle']));
 
@@ -45,15 +47,12 @@ class BoardsMigrateCommand extends \Application\Command\Command
 
           $boardCache[$row['handle']] = $board;
         }
-
-        $post = new \Application\Model\FourChanDash\Post;
-        $post->setCount($row['number']);
-        $post->setTimestamp(new \DateTime($row['date']));
-        $post->setBoard($boardCache[$row['handle']]);
-        $app['db.orm.em']['FourChanDash']->persist($post);
+        
+        $insert->bindParam(':count', $row['number']);
+	$insert->bindParam(':timestamp', $row['date']);
+        $insert->bindParam(':board', $boardCache[$row['handle']]->getId());
+        $insert->execute();
       }
-
-      $app['db.orm.em']['FourChanDash']->flush();
     } catch (\Exception $e) {
       $output->writeln('<error>' . $e->getMessage() . '</error>');
     }
