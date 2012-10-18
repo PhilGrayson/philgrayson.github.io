@@ -5,7 +5,7 @@ DOMAIN   = $(shell ${TOP}../scripts/read-config get environment.${ENV}.domain)
 BOOTSTRAP      = ${ROOT_DIR}/public/css/bootstrap.css
 BOOTSTRAP_LESS = ${ROOT_DIR}/data/bootstrap/less/bootstrap.less
 
-all: install-packages install-node compile-less run-composer create-configs
+all: install-packages install-node run-composer compile-less create-configs fix-perms
 
 install-packages:
 	sudo apt-get update
@@ -28,13 +28,13 @@ install-node:
 	sudo make install; \
 	sudo npm install -g less; \
 
-compile-less:
-	lessc ${BOOTSTRAP_LESS} > ${BOOTSTRAP}
-
 run-composer:
 	cd ${ROOT_DIR}
 	php composer.phar self-update
 	php composer.phar update
+
+compile-less:
+	lessc ${BOOTSTRAP_LESS} > ${BOOTSTRAP}
 
 create-configs:
 	cd ${ROOT_DIR}
@@ -47,5 +47,10 @@ create-configs:
 	sudo /etc/init.d/apache2 restart
 	sudo /etc/init.d/nginx restart
 
+fix-perms:
+	cd ${ROOT_DIR}
+	sudo chown www-data data/sessions
+	sudo chown www-data data/logs
+	sudo chown www-data data/doctrine/proxy
 
 .PHONY: all install-packages install-node install-phing compile-less run-composer create-configs
