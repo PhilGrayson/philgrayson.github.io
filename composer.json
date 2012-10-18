@@ -1,14 +1,24 @@
 {
   "require": {
+    "php": ">=5.3",
     "silex/silex": "dev-master",
-    "twig/twig": "1.8.2",
-    "doctrine/dbal": "2.2.*"
+    "twig/twig": "dev-master",
+    "doctrine/orm": "2.3",
+    "doctrine/common": "2.*",
+    "doctrine/dbal": "2.*",
+    "symfony/console": "dev-master",
+    "symfony/yaml": "dev-master",
+    "symfony/validator": "2.1.*",
+    "monolog/monolog": ">=1.0.0",
+    "beberlei/DoctrineExtensions": "dev-master",
+    "dflydev/markdown": "dev-master",
+    "PasswordLib/PasswordLib": "dev-master"
     },
   "autoload": {
     "psr-0": {
       "Application": "src/",
-      "Symfony\\Component\\Yaml": "vendor/symfony/yaml",
-      "Symfony\\Component\\Console": "vendor/symfony/console"
+      "Library": "src/",
+      "Server": "src/"
     }
   }
 }

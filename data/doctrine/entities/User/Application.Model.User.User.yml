@@ -1,0 +1,19 @@
+Application\Model\User\User:
+  type: entity
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+      type: string
+    email:
+      type: string
+      unique: true
+    password:
+      type: string
+  manyToMany:
+    roles:
+      targetEntity: Role
+      inversedBy: users

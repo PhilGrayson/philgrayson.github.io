@@ -1,0 +1,21 @@
+{% extends 'User/User.twig' %}
+
+{% block content %}
+  <div class="row">
+    <div class="span12">
+      <h1>Login</h1>
+      {% if login %}
+        <div class="alert alert-error">
+          {{ login.error }}
+        </div>
+      {% endif %}
+      <form action="/users/login" method="POST">
+        <label>Email</label>
+        <input type="text" name="_username" value="{% if login %}{{ login.last_email }}{% endif %}" />
+        <label>Password</label>
+        <input type="password" name="_password" />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

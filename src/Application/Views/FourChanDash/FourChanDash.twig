@@ -1,0 +1,12 @@
+{% extends "base.twig" %}
+
+{% block styles %}
+  {{ parent() }}
+  <link href="/css/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+{% endblock %}
+
+{% block scripts %}
+  {{ parent() }}
+  <script src="/js/jquery-ui-1.8.19.custom.min.js"></script>
+  <script src="/js/FourChanDash/app.js"></script>
+{% endblock %}

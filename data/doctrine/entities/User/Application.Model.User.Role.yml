@@ -1,0 +1,17 @@
+Application\Model\User\Role:
+  type: entity
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+      type: string
+      unique: true
+    description:
+      type: string
+  manyToMany:
+    users:
+      targetEntity: User
+      mappedBy: roles
