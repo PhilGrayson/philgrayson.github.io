@@ -1,7 +1,7 @@
 TOP      = $(dir $(lastword $(MAKEFILE_LIST)))
-ENV      = $(shell ${TOP}../scripts/read-config get environment.active)
-ROOT_DIR = $(shell ${TOP}../scripts/read-config get environment.${ENV}.root)
-DOMAIN   = $(shell ${TOP}../scripts/read-config get environment.${ENV}.domain)
+ENV      = $(shell ${TOP}/scripts/read-config get environment.active)
+ROOT_DIR = $(shell ${TOP}/scripts/read-config get environment.${ENV}.root)
+DOMAIN   = $(shell ${TOP}/scripts/read-config get environment.${ENV}.domain)
 BOOTSTRAP      = ${ROOT_DIR}/public/css/bootstrap.css
 BOOTSTRAP_LESS = ${ROOT_DIR}/data/bootstrap/less/bootstrap.less
 
@@ -53,4 +53,4 @@ fix-perms:
 	sudo chown www-data data/logs
 	sudo chown www-data data/doctrine/proxy
 
-.PHONY: all install-packages install-node install-phing compile-less run-composer create-configs
+.PHONY: all check-env install-packages install-node install-phing compile-less run-composer create-configs fix-perms

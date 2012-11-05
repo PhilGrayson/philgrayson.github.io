@@ -6,10 +6,14 @@ require_once root_dir . 'vendor/autoload.php';
 $app = new \Silex\Application();
 $app['root_dir'] = root_dir;
 
+$config = $app['root_dir'] . 'data/config/config.yml';
+
+if (!is_readable($config)) {
+  echo "Cannot read $config\n";
+  exit(1);
+}
 // Application configs
-$app['app_config'] = \Symfony\Component\Yaml\Yaml::parse(
-  root_dir . 'data/config/config.yml'
-);
+$app['app_config'] = \Symfony\Component\Yaml\Yaml::parse($config);
 
 $env = $app['app_config']['environment']['active'];
 

@@ -5,10 +5,15 @@ require_once root_dir . 'vendor/autoload.php';
 $app = new \Silex\Application();
 $app['root_dir'] = root_dir;
 
+$config = $app['root_dir'] . 'data/config/config.yml';
+
+if (!is_readable($config)) {
+  echo "Major error. Contact phil@philgrayson.com\n";
+  exit(1);
+}
+
 // Application configs
-$app['app_config'] = \Symfony\Component\Yaml\Yaml::parse(
-  $app['root_dir'] . 'data/config/config.yml'
-);
+$app['app_config'] = \Symfony\Component\Yaml\Yaml::parse($config);
 
 if ('dev' == $app['app_config']['environment']['active']) {
   $app['debug'] = true;
