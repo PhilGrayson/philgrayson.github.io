@@ -1,0 +1,46 @@
+body {
+  padding: 20px;
+  font-family: 'monospace', 'sans-serif';
+}
+
+.section {
+  margin-bottom:10px;
+}
+
+.section p {
+  padding:0;
+  margin:0;
+}
+
+.section p.content {
+  padding-left:40px;
+}
+
+.section table.content {
+  padding:10px 0 0 80px;
+}
+
+table {
+  display:block;
+  width:70%;
+}
+
+table th,
+table td {
+  text-align:left;
+  vertical-align:top;
+  border-top:1px solid #ddd;
+  padding:5px 5px 0 10px;
+}
+
+table thead:first-child tr:first-child th {
+  border-top:0;
+}
+
+table th {
+  font-weight:normal;
+}
+
+td p {
+  padding:3px 0;
+}
