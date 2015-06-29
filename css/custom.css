@@ -1,5 +1,7 @@
 body {
-  padding: 20px;
+  font-size:1em;
+  padding: 30px;
+  max-width:
   font-family: monospace, sans-serif;
 }
 
@@ -12,17 +14,14 @@ body {
   margin:0;
 }
 
-.section p.content {
-  padding-left:40px;
-}
-
-.section table.content {
-  padding:10px 0 0 80px;
+.section p.content, 
+.section ul, 
+.section table {
+  padding-left: 5%;
 }
 
 table {
   display:block;
-  width:70%;
 }
 
 table th,
@@ -30,7 +29,16 @@ table td {
   text-align:left;
   vertical-align:top;
   border-top:1px solid #ddd;
-  padding:5px 5px 0 10px;
+  padding:0.2em;
+}
+
+ul li {
+  padding:0.6em 0;
+  line-height:1.5;
+}
+
+ul li ul li {
+  padding-bottom:0;
 }
 
 table thead:first-child tr:first-child th {

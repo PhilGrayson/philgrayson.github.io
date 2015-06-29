@@ -16,6 +16,45 @@
         </p>
       </div>
       <div class="section">
+        <p class="title">EXTERNAL LINKS</p>
+        <p class="content">
+          <a href="http://github.com/PhilGrayson">Github</a>
+        </p>
+      </div>
+      <div class="section">
+        <p class="title">WORK</p>
+        <p class="content">
+          PHP Developer at <a href="http://ebuyer.com">Ebuyer.com</a>, July 2013 - present<br />
+          Undergraduate IT Developer at <a href="http://ebuyer.com">Ebuyer.com</a>, July 2011 - August 2012
+          <ul>
+            <li>
+Intergrated three different product search and navigation systems using HTTP. Two of which are systems maintained in house. Developed a competing in-house search system that acts as an automated backup when the primary system fails. The system was written using ElasticSearch and also serves Search as you Type results.
+            </li>
+            <li>
+Helped to introduce Infrastructure as Code using Puppet. Using centralised configuration and the <a href="https://puppetlabs.com/presentations/designing-puppet-rolesprofiles-pattern">Roles and Profile</a> pattern to provide units of code that are shared across different nodes. Development environments are created by combining the units of code and executed on a local virtual machine.
+              <ul>
+                  <li>
+Developed a custom Puppet function to serialize a <a href="https://docs.puppetlabs.com/hiera/1/index.html">Hiera</a> hash of application configuration into a PHP file. These files are generated during deploy and are used by Zend Framework 2 to recursively merged them on bootstrap.
+                  </li>
+              </ul>
+            </li>
+            <li>
+Integrated <a href="https://jenkins-ci.org/">Jenkins</a> to provide an automated build and deployment server. Unit and integration tests are ran automatically when a developer pushes code using git. Developers are notifed when their branches fail the automated tests. 
+            </li>
+            <li>
+Involved with application benchmarking. Replayed Apache log traffic to identify performance bottlenecks in a new customer facing website. Metrics analysed using newly setup tools such as <a href="http://graphite.wikidot.com/">Graphite</a> and <a href="https://www.elastic.co/products/kibana">Kibana</a>. PHP benchmarking done through <a href="http://pecl.php.net/package/xhprof">xhprof</a>.
+              <ul>
+                <li>
+Identified poor performance in <a href="http://www.php.net/manual/en/function.strtr.php">strtr</a> that was improved by reverting <a href="https://github.com/php/php-src/commit/ccf15cf2dc92d11f92ee30c97e2d86b07f81e030">this patch</a>. <a href="http://markmail.org/message/w6lez2c6vlgaupay">Background</a>.
+<br />
+Further modification to PHP's source by forcing <a href="http://www.php.net/manual/en/function.json_encode.php">json_encode()</a> to return a partial json output when serializing arrays with incorrect UTF-8 strings (for example, Windows 1251).
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </p>
+      </div>
+      <div class="section">
         <p class="title">EDUCATION</p>
         <p class="content">
           First-Class Bachelor of Science in Software Development at University of Huddersfield<br />
@@ -25,7 +64,6 @@
             <tr>
               <th>NAME</th>
               <th>DESCRIPTION</th>
-              <th>GRADE</th>
               <th>LINK</th>
             </tr>
           </thead>
@@ -37,7 +75,6 @@
                 <p>I created a web service which centralises the configuration, embedding and reporting of the affiliate HTML on a merchant’s website. The service is functionally similar to commerical products like Tagman and Google Tag Manager.
                 </p>
               </td>
-              <td>85%</td>
               <td><a href="https://github.com/PhilGrayson/graytags.com">PhilGrayson/graytags.com</a></td>
             </tr>
             <tr>
@@ -47,7 +84,6 @@
                 <p>My reports describe and demonstrate techniques to recover digital artifacts such as deleted files, emails and internet usage records. The NTFS and FAT file system metatdata is described from the point of view of deleted file recovery and worked examples showing the differences are given.
                 </p>
               </td>
-              <td>85%</td>
               <td>
                 <a href="https://github.com/PhilGrayson/university/raw/master/year4/CHS2580-Investigative-Techniques/assignment-1/report/report.pdf">Report 1</a><br />
                 <a href="https://github.com/PhilGrayson/university/raw/master/year4/CHS2580-Investigative-Techniques/assignment-2/report.pdf">Report 2</a>
@@ -61,7 +97,6 @@
                 </p>
                 <p>For the two player game coursework, I created a Reversi game in prolog using a provided MiniMax algorithm implementation</p>
               </td>
-              <td>80%</td>
               <td><a href="http://github.com/Philgrayson/reversi">PhilGrayson/reversi</a></td>
             </tr>
             <tr>
@@ -74,26 +109,12 @@
                 To demonstrate the application of tuple-space I created a chat-room program that provides functionality similar to IRC. The <a href="https://river.apache.org">Apache River</a> library was uses to distribute Java Objects between clients. A contrived early warning flood detection system was built to demonsatate the use of CORBA in both a Java desktop program and Python web application.
                 </p>
               </td>
-              <td>71%</td>
               <td>
                 <a href="https://github.com/PhilGrayson/university/tree/master/year4/CHS2546-Distributed-and-Client-Server-Systems/assignment-1">Chatroom</a><br />
                 <a href="https://github.com/PhilGrayson/university/tree/master/year4/CHS2546-Distributed-and-Client-Server-Systems/assignment-2">Flood Detection System</a>
               </td>
           </tbody>
         </table>
-        </p>
-      </div>
-      <div class="section">
-        <p class="title">WORK</p>
-        <p class="content">
-          IT Developer at <a href="http://ebuyer.com">Ebuyer.com</a> (July 2013 - present)<br />
-          Undergraduate IT Developer at <a href="http://ebuyer.com">Ebuyer.com</a> (July 2011 - August 2012)
-        </p>
-      </div>
-      <div class="section">
-        <p class="title">EXTERNAL LINKS</p>
-        <p class="content">
-          <a href="http://github.com/PhilGrayson">Github</a>
         </p>
       </div>
     </body>

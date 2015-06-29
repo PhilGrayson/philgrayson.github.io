@@ -1,0 +1,221 @@
+<html>
+<head>
+    <link href="src/prettify.css" type="text/css" rel="stylesheet" />
+    <script src="src/prettify.js" type="text/javascript"></script>
+<style>
+li.L0, li.L1, li.L2, li.L3,
+li.L5, li.L6, li.L7, li.L8
+{ list-style-type: decimal !important }
+</style>
+</head>
+<body>
+	<h3>What a rabbit cluster is</h3>
+	<ul>
+		<li>A grouping of Erlang nodes. Each node is running a RabbitMQ application.</li>
+		<li>Nodes in a cluster form a single broker where virtual hosts, exchanges, users, and permissions are automatically mirrored</li>
+		<li>Basically like a single node from the point of view of a client</li>
+		<li>Client connect to any node in a cluster. Simple round-robin load balancer will suffice</li> 
+		<li>Queues have to be configured to be mirrored</li>
+	</ul>
+	<h3>Cluster setup</h3>
+	<h4>Share the erlang cookie to all nodes</h4>
+	<pre>
+ubuntu@<b>rabbitmq-1</b>:~$ scp /var/lib/rabbitmq/.erlang.cookie ubuntu@<b><i>rabbitmq-2</i></b>:/var/lib/rabbitmq/.erlang.cookie </pre>
+	<h4>Start rabbit and connect <b><i>rabbitmq-2</i></b> to <b>rabbitmq-1</b></h4>
+	<pre>
+ubuntu@<b>rabbitmq-1</b>:~$ sudo service rabbitmq-server start
+ubuntu@<b><i>rabbitmq-2</i></b>:~$ sudo service rabbitmq-server start
+ubuntu@<b><i>rabbitmq-2</i></b>:~$ sudo rabbitmqctl stop_app
+ubuntu@<b><i>rabbitmq-2</i></b>:~$ sudo rabbitmqctl join_cluster rabbit@<b>rabbitmq-1</b>
+	Clustering node 'rabbit@<b><i>rabbitmq-2</i></b>' with 'rabbit@<b>rabbitmq-1</b>' ...
+	...done.
+ubuntu@<b><i>rabbitmq-2</i></b>:~$ sudo rabbitmqctl start_app
+	Starting node 'rabbit@<b><i>rabbitmq-2</i></b>' ...
+	...done.</pre>
+	<h4>Check cluster config</h4>
+	<pre>
+ubuntu@<b>rabbitmq-1</b>:~$ sudo rabbitmqctl cluster_status
+	Cluster status of node 'rabbit@<b>rabbitmq-1</b>' ...
+	[{nodes,[{disc,['rabbit@<b>rabbitmq-1</b>','rabbit@<b><i>rabbitmq-2</i></b>']}]},
+	 {running_nodes,['rabbit@<b><i>rabbitmq-2</i></b>','rabbit@<b>rabbitmq-1</b>']},
+	 {partitions,[]}]
+	...done.
+
+ubuntu@<b><i>rabbitmq-2</i></b>:~$ sudo rabbitmqctl cluster_status
+	Cluster status of node 'rabbit@<b><i>rabbitmq-2</i></b>' ...
+	[{nodes,[{disc,['rabbit@<b>rabbitmq-1</b>','rabbit@<b><i>rabbitmq-2</i></b>']}]},
+	 {running_nodes,['rabbit@<b>rabbitmq-1</b>','rabbit@<b><i>rabbitmq-2</i></b>']},
+	 {partitions,[]}]
+	...done.  </pre>
+	<h4>Setting up mirrored queues</h4>
+
+	<h3>Achieving reliability</h3>
+	<h4>Handing failure on the broker</h4>
+	<ul>
+		<li>Cluster nodes together. This means any queues created on one node is accesible through others, although the messages only live on one node</li>
+		<li>Mirror queues. You can choose to mirror specific queues (using the same binding flexibility as exchanges) n number of times.</li>
+		<li>Distribute clusters with mirrored queues to increase throughput<sup>Reference? Further details required</sup></li>
+		<ul>
+			<li>Throwing in more nodes onto a cluster with mirrored queues will decrease throughput as the message must be synchronized to each slave queue before consumption</li>
+		</ul>
+	</ul>
+	<h4>Handing failure on the producer-side</h4>
+	<ul>
+		<li>Make the queue durable (survive rabbitmq restart)</li>
+		<li>Make the messages persistant (saved to disk)</li>
+		<ul>
+			<li>fsync isn't called on every publish for performance reasons. Persistant messages are not a strong guarantee that messages won't be lost</li>
+		</ul>
+		<li>Use transactions.</li>
+		<ul>
+			<li><a href="http://www.rabbitmq.com/confirms.html">transactions decrease throughput by a factor of 250</a>. Also, <a href="http://www.rabbitmq.com/blog/2011/02/10/introducing-publisher-confirms/">It takes a bit more than 4 minutes to publish 10000 messages</a></li>
+			<li>Who cares about speed, we're talking about orders here</li>
+		</ul>
+		<li>Use mandatory bit to ensure a message has been written to a queue</li>
+		<li>Use immediate bit to ensure a message can be routed to a consumer (not available in rabbitmq 3?!)</li>
+		<ul>
+			<li>What happens if a consumer can accept the message but is currently busy with another message?</li>
+		</ul> 
+		<li>Use confirms, aka asynchronous transactions to ensure a message has been written to disk or consumed</li>
+	</ul>
+	<h4>Handing failure on consumer-side</h4>
+	<ul>
+		<li>Exeception thrown when a connection is unresponsive. Client must reconnect to the broker</li> 
+		<li>Acknowledge message after processing. If the consumer dies, the message is resent to another consumer</li>
+		<li>Overall defensive programming. ie, domain specific rules to check when consuming</li>
+		<ul>
+			<li>Preventing clients from placing orders within 30 seconds of each other should protect against messages being queued more than once or multiple consumers picking up the same order</li>
+			<li>mysql: unique index on clientId and orderDate</li>
+		</ul>
+	</ul>
+	<h3>Pros</h3>
+	<ul>
+
+		<li><a href="http://www.rabbitmq.com/amqp-0-9-1-reference.html">Good AMQP documentation</a></li>
+	</ul>
+	<h3>Cons</h3>
+	<ul>
+		<li>Overall not great PHP documentation. Reading code is needed</li>
+		<li>What if the recommended PHP library stops being maintained?</li>
+		<ul>
+			<li>There is an AMQP PHP extension in PECL</li>
+		</ul>
+		<li>Not sure how much to <a 
+href="http://www.rabbitmq.com/semantics.html">trust transactions</a></li>
+
+	</ul>
+	<h3>Code</h3>
+	<h4>send.php</h4>
+<pre class="prettyprint lang-php linenums">
+&lt;?php
+require_once __DIR__.'/vendor/autoload.php';
+use PhpAmqpLib\Connection\AMQPConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
+$lb = 'rabbit-lb-1624452121.us-east-1.elb.amazonaws.com';
+$connection = new AMQPConnection($lb, 5672, 'guest', 'guest');
+$channel = $connection-&gt;channel();
+
+$channel->queue_declare(
+  'orders',
+  false, // Passive     - Don't raise an error if a queue already exists
+  true,  // Durable     - Queue remains active when the broker restarts
+  false, // Exclusive   - Queue can be accessed by any conenction and will not
+         //               be deleted when the connection closes
+  false, // auto-delete - The queue is not deleted when all consumers have disconnected
+  false  // no-wait     - Make the server respond to this method
+);
+
+$time = microtime(true);
+$count = 1000;
+
+echo "Creating $count orders...\n";
+
+for ($i = 1; $i &lt;= $count; $i++)
+{
+  $order = [
+    'id'       => $i,
+    'client'   => rand(1, 100),
+    'net'      => rand(400, 100000),
+    'shipping' => rand(0, 10000),
+  ];
+
+  $order = json_encode($order, JSON_PRETTY_PRINT);
+  $channel->basic_publish(
+    new AMQPMessage($order, ['delivery_mode' => 2]), // 2 = persistant message
+    '',      // Exhange name
+    'orders' // Queue name
+  );
+}
+
+$time = microtime(true) - $time;
+echo "Took $time ms\n";
+
+$channel-&gt;close();
+$connection-&gt;close();
+</pre>
+
+<h4>receive.php</h4>
+
+<pre class="prettyprint lang-php linenums">
+u&lt;?php
+re_once __DIR__.'/vendor/autoload.php';
+use PhpAmqpLib\Connection\AMQPConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
+$lb = 'rabbit-lb-1624452121.us-east-1.elb.amazonaws.com';
+$connection = new AMQPConnection($lb, 5672, 'guest', 'guest');
+$channel = $connection-&gt;channel();
+
+$channel-&gtqueue_declare(
+  'orders', // Queue name
+  false,    // Passive     - Don't raise an error if a queue already exists
+  true,     // Durable     - Queue remains active when the broker restarts
+  false,    // Exclusive   - Queue can be accessed by any conenction and will not
+            //               be deleted when the connection closes
+  false,    // Auto Delete - The queue is not deleted when all consumers have disconnected
+  false     // No Wait     - Make the server respond to this method
+);
+
+$channel-&gt;basic_qos(
+  null, // prefetch size  - Specifies the prefetch window size in octets. This allows messages
+        //                  to be sent in advance so that when the client finishes processing
+        //                  a message, the following message is already held locally
+  1,    // prefetch count - Specifies a prefetch window in terms of whole messages
+  null  // global         - Apply QOS to just the current channel instead of the entire connection
+);
+
+$i = 0;
+
+$channel-&gt;basic_consume(
+  'orders', // Queue Name
+  '',       // Consumer Tag - Specifies the identifier for the consumer
+  false,    // No Local     - The server will send messages to the connection that published them
+  false,    // No Ack       - Make the server expect acknowledgements for messages
+  false,    // Exclusive    - Allow other consumers access to this queue
+  false,    // No Wait      - Make the server respond to this method
+  function($msg) use(&$i) {
+    $i++;
+    if (0 === $i % 100) {
+      echo "Recieved $i messages...\n";
+    }
+    $msg-&gt;delivery_info['channel']-&gt;basic_ack($msg-&gt;delivery_info['delivery_tag']);
+  }
+);
+
+
+$time = microtime(true);
+// Block here
+while(count($channel-&gt;callbacks)) {
+    $channel-&gt;wait();
+}
+
+$time = microtime(true) - $time;
+echo "Revieved $i orders in $time ms\n";
+
+$channel-&gt;close();
+$connection-&gt;close();
+</pre>
+<script src="src/run_prettify.js"></script>
+</body>
+</html>
