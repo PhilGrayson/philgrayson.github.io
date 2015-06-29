@@ -1,8 +1,9 @@
 body {
   font-size:1em;
   padding: 30px;
-  max-width:
-  font-family: monospace, sans-serif;
+  max-width: 1000px;
+  margin:0 auto;
+  font-family: sans-serif;
 }
 
 .section {
@@ -24,12 +25,37 @@ table {
   display:block;
 }
 
+table tr {
+  border-bottom: 1px solid grey;
+  margin-bottom:1em;
+  display:block;
+}
+
+table tr td.title {
+  width:100px;
+  padding-right:2em;
+}
+
+table h1,
+table h2,
+table h3,
+table h4,
+table h5 {
+  margin-top:0;
+}
+
+table h4 {
+  margin-bottom:10px;
+}
+
+table .title h5 {
+  text-align: right;
+}
+
 table th,
 table td {
   text-align:left;
   vertical-align:top;
-  border-top:1px solid #ddd;
-  padding:0.2em;
 }
 
 ul li {
@@ -51,4 +77,5 @@ table th {
 
 td p {
   padding:3px 0;
+  line-height:1.7;
 }
