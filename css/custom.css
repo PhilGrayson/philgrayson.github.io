@@ -6,19 +6,8 @@ body {
   font-family: sans-serif;
 }
 
-.section {
-  margin-bottom:10px;
-}
-
-.section p {
-  padding:0;
-  margin:0;
-}
-
-.section p.content, 
-.section ul, 
-.section table {
-  padding-left: 5%;
+.name {
+  padding-bottom:20px;
 }
 
 table {
@@ -34,6 +23,32 @@ table tr {
 table tr td.title {
   width:100px;
   padding-right:2em;
+}
+
+@media only screen and (max-width : 640px) {
+  body {
+    font-size:0.8em;
+  }
+
+  .name {
+    text-align:center;
+  }
+
+  table tr td.title {
+    display:inline-block;
+    width:100%;
+  }
+
+  table .title h5 {
+    text-transform: uppercase;
+    text-align:center !important;
+  }
+}
+
+@media only screen and (min-width : 640px) {
+  table tr td.title {
+    display:table-cell;
+  }
 }
 
 table h1,
@@ -58,6 +73,11 @@ table td {
   vertical-align:top;
 }
 
+ul {
+  margin-left:5%;
+  padding:0;
+}
+
 ul li {
   padding:0.6em 0;
   line-height:1.5;
@@ -67,15 +87,6 @@ ul li ul li {
   padding-bottom:0;
 }
 
-table thead:first-child tr:first-child th {
-  border-top:0;
-}
-
 table th {
   font-weight:normal;
-}
-
-td p {
-  padding:3px 0;
-  line-height:1.7;
 }

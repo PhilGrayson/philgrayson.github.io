@@ -10,17 +10,11 @@
     </head>
     <body>
       <div class="section">
-        <h2 class="content">
+        <h2 class="name">
           Phil Grayson <a href="mailto:phil@philgrayson.com">phil@philgrayson.com</a>
         </h2>
       </div>
       <table>
-        <tr>
-          <td class="title"><h5>Links</h5></td>
-          <td>
-            https://github.com/PhilGrayson
-          </td>
-        </tr>
         <tr>
           <td class="title"><h5>Experience</h5></td>
           <td>
@@ -28,24 +22,24 @@
             <h4>Undergraduate IT Developer at Ebuyer.com, July 2011 - August 2012</h4>
             <ul>
               <li>
-Intergrated three different product search and navigation systems using HTTP. Two of which are systems maintained in house. Developed a competing in-house search system that acts as an automated backup when the primary system fails. The system was written using ElasticSearch and also serves Search as you Type results.
+Integrated three different product search and navigation systems using HTTP. Two of which are systems maintained in house. Developed a competing in-house search system that acts as an automated backup when the primary system fails. The system was written using ElasticSearch and also serves Search as you Type results.
               </li>
               <li>
-Helped to introduce Infrastructure as Code using Puppet. Using centralised configuration and the <a href="https://puppetlabs.com/presentations/designing-puppet-rolesprofiles-pattern">Roles and Profile</a> pattern to provide units of code that are shared across different nodes. Development environments are created by combining the units of code and executed on a local virtual machine.
+Helped to introduce Infrastructure as Code using Puppet. Using centralised configuration and the Roles and Profile pattern to provide units of code that are shared across different nodes. Development environments are created by combining the units of code and executed on a local virtual machine.
                 <ul>
                     <li>
-Developed a custom Puppet function to serialize a <a href="https://docs.puppetlabs.com/hiera/1/index.html">Hiera</a> hash of application configuration into a PHP file. These files are generated during deploy and are used by Zend Framework 2 to recursively merged them on bootstrap.
+Developed a custom Puppet function to serialize a Hiera hash of application configuration into a PHP file. These files are generated during deploy and are used by Zend Framework 2 to recursively merged them on bootstrap.
                     </li>
                 </ul>
               </li>
               <li>
-Integrated <a href="https://jenkins-ci.org/">Jenkins</a> to provide an automated build and deployment server. Unit and integration tests are ran automatically when a developer pushes code using git. Developers are notifed when their branches fail the automated tests. 
+Integrated Jenkins to provide an automated build and deployment server. Unit and integration tests are ran automatically when a developer pushes code using git. Developers are notified when their branches fail the automated tests. 
               </li>
               <li>
-Worked with four others to develop a new Payment processing system. Designed new HTTP API for legacy system intergration. Migrated hundreds of thousands of sensitive card details. Particular care taken to handle various errors and failiures without losing information. Designed redundancy has helped us recover when things go wrong. Used RabbitMQ in a worker pattern to distribute jobs and save data temporarly in case of database failiure. 
+Worked with four others to develop a new Payment processing system. Designed new HTTP API for legacy system integration. Migrated hundreds of thousands of sensitive card details. Particular care taken to handle various errors and failures without losing information. Designed redundancy has helped us recover when things go wrong. Used RabbitMQ in a worker pattern to distribute jobs and save data temporarily in case of database failure. 
               </li>
               <li>
-Involved with application benchmarking. Replayed Apache log traffic to identify performance bottlenecks in a new customer facing website. Metrics analysed using newly setup tools such as <a href="http://graphite.wikidot.com/">Graphite</a> and <a href="https://www.elastic.co/products/kibana">Kibana</a>. PHP benchmarking done through <a href="http://pecl.php.net/package/xhprof">xhprof</a>.
+Involved with application benchmarking. Replayed Apache log traffic to identify performance bottlenecks in a new customer facing website. Metrics analysed using newly setup tools such as Graphite and Kibana. PHP benchmarking done through xhprof.
                 <ul>
                   <li>
 Identified poor performance in <code>strtr</code> that was improved by reverting a previous patch to the php source code. <a href="http://markmail.org/message/w6lez2c6vlgaupay">http://goo.gl/kYBQ74</a>.
@@ -63,8 +57,16 @@ Further modification to PHP's source by forcing <code>json_encode()</code> to re
             <h4>University of Huddersfield, 2009 - 2013</h4>
             <h5>BSc in Software Development, First-Class</h5>
             <p>Modules include Algorithms in Java, Client and Server programming in Java and C, Logic/AI in Prolog, Digital Forensics and and Web/Database development in Ruby and MySQL.</p>
-            <p>Final year project was a web Tag Management system, inspired by Google Tag Manager. Embedded Javascript would retrieve a list of Tags to injected by performing ajax requests to the Tag Manager server. Included an admin UI section to add and edit Tags to be injected on different URLs. A reporting suite displayed basic Tag hits for analytic purposes. Developed in Symfony2. Additional focus on homogonous devlopment and production environments, demonstrating the use of Puppet to maintain machine state.</p>
+            <p>Final year project was a web Tag Management system, inspired by Google Tag Manager. Embedded Javascript would retrieve a list of Tags to injected by performing ajax requests to the Tag Manager server. Included an admin UI section to add and edit Tags to be injected on different URLs. A reporting suite displayed basic Tag hits for analytic purposes. Developed in Symfony2. Additional focus on homogeneous development and production environments, demonstrating the use of Puppet to maintain machine state.</p>
             <h4>3 A Levels, 11 GCSEs A to C</h4>
+          </td>
+        </tr>
+        <tr>
+          <td class="title"><h5>Links</h5></td>
+          <td>
+            <ul>
+              <li><a href="https://github.com/PhilGrayson">https://github.com/PhilGrayson</a></li>
+            </ul>
           </td>
         </tr>
       </table>
