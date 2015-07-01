@@ -78,9 +78,10 @@ ul {
   padding:0;
 }
 
-ul li {
+ul li,
+p {
   padding:0.6em 0;
-  line-height:1.5;
+  line-height:1.7;
 }
 
 ul li ul li {
