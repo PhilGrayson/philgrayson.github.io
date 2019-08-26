@@ -1,16 +1,8 @@
 {
-  "addons": [
-
-  ],
-  "buildpacks": [
-
-  ],
-  "env": {
-  },
-  "formation": {
-  },
   "name": "philgrayson.github.io",
-  "scripts": {
-  },
-  "stack": "heroku-18"
+  "buildpacks": [{
+    "url": "heroku/ruby"
+  }, {
+    "url": "https://github.com/heroku/heroku-buildpack-static"
+  }]
 }
