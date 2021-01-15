@@ -56,7 +56,7 @@ The contents of `databasechangelog` are database product specific. If you copy
 rows from the MySQL database, Bitbucket will fail to start up.
 
 The contents of `databasechangeloglock` are not specific, and actually might
-not need migrating at all. But for completness sake I wanted to migrate it.
+not need migrating at all. But for completeness sake I wanted to migrate it.
 The way I used `pgloader` means it cannot automatically migrate the contents
 from MySQL because the table name changed from upper case in MySQL to lower case
 in PostgreSQL. Only these two table are renamed for some reason.
