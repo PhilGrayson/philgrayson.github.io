@@ -3,7 +3,7 @@ layout: post
 title:  "Shortening the downtime of a MySQL to PostgreSQL migration for Bitbucket"
 ---
 
-*From 2 hours of downtime to 3 minutes.*
+*From 2.5 hours of downtime to 5 minutes.*
 
 I've been working on migrating an installation of Bitbucket Server to the "Data
 Center" licence. MySQL appears to [not be supported](https://confluence.atlassian.com/bitbucketserver/connecting-bitbucket-server-to-mysql-776640382.html)
@@ -14,8 +14,8 @@ The database migration tool built into Bitbucket is really slow though. It took
 
 ![1 hour into a migration](/assets/images/bitbucket-migration-unavailable.png)
 It's possible to have a much shorter migration time using [pgloader](https://github.com/dimitri/pgloader).
-In my experience, using pgloader turned the 2 hours of Bitbucket downtime to
-3 minutes of downtime.
+In my experience, using pgloader turned the 2.5 hours of Bitbucket downtime to
+5 minutes of downtime.
 
 ## Steps
 ### 1. Get a PostgreSQL schema for your Bitbucket installation
@@ -99,6 +99,21 @@ A bunch of warnings will print about data type casting, but since pgloader
 is only migrating rows and not building a schema, the warnings don't impact
 the accuracy of the migration.
 
+Here is the last output of pgloader, showing it migrated 2.1GB of rows in 4m32s.
+```
+                             table name     errors       rows      bytes      total time
+---------------------------------------  ---------  ---------  ---------  --------------
+[...]
+---------------------------------------  ---------  ---------  ---------  --------------
+                COPY Threads Completion          0          4                  3m55.702s
+                        Reset Sequences          0         60                     0.228s
+                    Create Foreign Keys          0        137                    36.924s
+                       Install Comments          0         26                     0.019s
+---------------------------------------  ---------  ---------  ---------  --------------
+                      Total import time          ✓   25660619     2.1 GB       4m32.873s
+```
+
+
 Update the bitbucket.properties file to point to the new PostgreSQL database:
 ```
 jdbc.driver=org.postgresql.Driver
@@ -167,5 +182,5 @@ between the time the migration finished and Bitbucket shutting down.
 1. A missing `MigrationSucceededEvent` row in `AO_C77861_AUDIT_ENTITY` table.
 This row is written during the built in migration **to the new database**, not
 the old database.
-1. Some changes in `cwd_membership`, `cwd_group`, `cwd_tombstone` etc if a Crowd
-sync has made some group changes.
+1. Some changes in `cwd_membership`, `cwd_group`, `cwd_tombstone` etc if an external
+user directory sync has made some changes.
