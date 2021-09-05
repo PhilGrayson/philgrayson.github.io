@@ -1,3 +1,9 @@
 entries:
   - title: posts
     post_list: true
+  - about:
+    title: about
+    entries:
+      - title: "email: website-at-philgrayson.com"
+      - title: linkedin
+        url: https://www.linkedin.com/in/phil-grayson-10567524/
