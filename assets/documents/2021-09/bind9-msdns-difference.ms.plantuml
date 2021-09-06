@@ -1,0 +1,27 @@
+@startuml
+title
+Confluent Cloud Kafka: resolving bootstrap and broker FQDNs via AWS/Azure Private Link
+<size 13>Bootstrap FQDN: <color green>lkc-djn5o</color><color red>-4ygw7.</color><color blue>eu-west-1.aws</color><color purple>.glb</color><color blue>.confluent.cloud</color></size>
+<size 12>↳ is CNAME-ed to <color green>lkc-djn5o.</color><color red>4ygw7.</color><color blue>eu-west-1.aws.confluent.cloud</color>.</size>
+<size 13>Example broker FQDN: <color brown>e-2c28-euw1-az2</color><color red>-4ygw7.</color><color blue>eu-west-1.aws</color><color purple>.glb</color><color blue>.confluent.cloud</color></size>
+<size 12>↳ is CNAME-ed to <color brown>e-2c28.euw1-az2.</color><color red>4ygw7.</color><color blue>eu-west-1.aws.confluent.cloud</color>.</size>
+
+end title
+
+entity "Kafka Client\n" as client
+entity "Microsoft DNS\n<size 12>primary DNS server</size>" as pDNS
+entity "BIND 9 DNS\n<size 12>forwarded DNS server</size>" as sDNS
+entity "Public DNS\n" as pubDNS
+
+client -> pDNS : Lookup <color green>lkc-djn5o</color><color red>-4ygw7.</color><color blue>eu-west-1.aws</color><color purple>.glb</color><color blue>.confluent.cloud</color>
+activate client
+activate pDNS
+pDNS -> pubDNS : Forward lookup
+activate pubDNS
+pubDNS --> pDNS : Returns\n  CNAME <color green>lkc-djn5o.</color><color red>4ygw7.</color><color blue>eu-west-1.aws.confluent.cloud.</color>\n  ↳A 1.1.1.1
+deactivate pubDNS
+deactivate sDNS
+pDNS --> client : Return\n  CNAME <color green>lkc-djn5o.</color><color red>4ygw7.</color><color blue>eu-west-1.aws.confluent.cloud.</color>\n  ↳A 1.1.1.1   
+deactivate pDNS
+deactivate client
+@enduml
