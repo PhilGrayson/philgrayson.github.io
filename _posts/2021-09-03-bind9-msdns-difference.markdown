@@ -68,9 +68,11 @@ The following activity diagrams may help aid you to understand in the difference
 
 ### Looking up via BIND 9
 [![BIND 9 lookup activity diagram](/assets/images/2021-09/bind9-msdns-difference.bind9.png)](/assets/images/2021-09/bind9-msdns-difference.bind9.png)
+The diagram is generated using PlantUML with [this markup](/assets/documents/2021-09/bind9-msdns-difference.bind9.plantuml).
 
 ### Looking up via Microsoft DNS
 [![MS DNS lookup activity diagram](/assets/images/2021-09/bind9-msdns-difference.ms.png)](/assets/images/2021-09/bind9-msdns-difference.ms.png)
+The diagram is generated using PlantUML with [this markup](/assets/documents/2021-09/bind9-msdns-difference.ms.plantuml).
 
 
 #### When the A record expires
