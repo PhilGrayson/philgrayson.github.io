@@ -19,7 +19,7 @@ required DNS settings.
 
 **Why chose Microsoft DNS?** It is simply the on-premise DNS server used at $dayjob.
 
-**Why chose AWS Route 53?** Since this is about integration AWS, Route 53 is
+**Why chose AWS Route 53?** Since this is about integrating AWS, Route 53 is
 available to use and works well.
 
 **Why not setup a new zone in Microsoft DNS?** The DNS server admins at $dayjob
