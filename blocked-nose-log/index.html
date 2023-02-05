@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="user">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>Blocked Nose Tracker</title>
+    <meta name="description" content="Site description">
+
+    <!-- Recommended minimum -->
+    <meta property="og:title" content="Blocked Nose Tracker">
+    <meta property="og:description" content="Log your nose blockness levels">
+    <meta property="og:image" content="img/site-image.jpg">
+
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <main>
+      <section class="observation-input">
+        <aside>
+          <h3>Left</h3>
+          <select id="left" size="4">
+            <option>Completely clear</option>
+            <option>Mostly clear</option>
+            <option>Somewhat blocked</option>
+            <option>Mostly blocked</option>
+            <option>Completely blocked</option>
+          </select>
+        </aside>
+
+        <aside class="observation-input">
+          <h3>Right</h3>
+          <select id="right" size="4">
+            <option>Completely clear</option>
+            <option>Mostly clear</option>
+            <option>Somewhat blocked</option>
+            <option>Mostly blocked</option>
+            <option>Completely blocked</option>
+          </select>
+        </aside>
+      </section>
+
+        <aside class="observation-input">
+          <label for="notes">Notes: </label>
+          <input id="notes" />
+        </aside>
+      </section>
+
+
+      <div id="observation-log">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Left</th>
+              <th scope="col">Right</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <aside id="observation-stats">
+      </aside>
+    </main>
+  </body>
+
+  <script src="script.js"></script>
+</html>

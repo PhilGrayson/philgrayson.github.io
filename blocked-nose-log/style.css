@@ -1,0 +1,70 @@
+body {
+  width: 70%;
+  max-width: 960px;
+  margin: 20px auto;
+}
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+aside {
+  flex: 1;
+}
+
+select {
+  width: 95%;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+option {
+  padding: 5px;
+  border-bottom: 1px solid black;
+}
+
+option:last-of-type {
+  border-bottom: none;
+}
+
+.observation-input,
+.observation-input option {
+  text-align: center;
+}
+
+#notes {
+  width: 80%;
+  padding: 5px;
+}
+
+#observation-log {
+  text-align: left;
+}
+
+#observation-log table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+#observation-log th,
+#observation-log td {
+  padding: 5px;
+}
+
+#observation-log thead tr {
+  background-color: #e5e5e5;
+}
+
+#observation-log tbody tr:nth-child(odd) {
+  background-color: #f5f4f2;
+}
+
+#observation-log tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
