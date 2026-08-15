@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Philip Grayson</title>
+
+  <!-- Design Tokens (inlined) -->
+  <style>
+    
+    :root {
+      --resume-font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --resume-font-serif: Cambria, Georgia, "Times New Roman", serif;
+      --resume-font-mono: "Courier New", Courier, monospace;
+
+      --resume-size-name: 36px;
+      --resume-size-heading: 16px;
+      --resume-size-subheading: 14px;
+      --resume-size-body: 11px;
+      --resume-size-small: 10px;
+
+      --resume-weight-normal: 400;
+      --resume-weight-medium: 500;
+      --resume-weight-semibold: 600;
+      --resume-weight-bold: 700;
+
+      --resume-line-height-tight: 1.2;
+      --resume-line-height-normal: 1.5;
+      --resume-line-height-relaxed: 1.75;
+
+      --resume-color-primary: #1a1a1a;
+      --resume-color-secondary: #4a4a4a;
+      --resume-color-accent: #2563eb;
+      --resume-color-background: #ffffff;
+      --resume-color-border: #e5e7eb;
+
+      --resume-space-section: 24px;
+      --resume-space-item: 16px;
+      --resume-space-tight: 8px;
+      --resume-space-margin: 48px;
+
+      --resume-max-width: 660px;
+      --resume-column-gap: 24px;
+
+      --resume-radius-sm: 4px;
+      --resume-radius-md: 8px;
+      --resume-radius-lg: 12px;
+
+      --resume-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --resume-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="modern"] {
+      --resume-color-primary: #0f172a;
+      --resume-color-secondary: #475569;
+      --resume-color-accent: #8b5cf6;
+      --resume-font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    [data-theme="classic"] {
+      --resume-color-primary: #000000;
+      --resume-color-secondary: #333333;
+      --resume-color-accent: #0066cc;
+      --resume-font-sans: Georgia, "Times New Roman", serif;
+    }
+
+    [data-theme="minimal"] {
+      --resume-color-primary: #18181b;
+      --resume-color-secondary: #71717a;
+      --resume-color-accent: #000000;
+      --resume-space-section: 32px;
+      --resume-space-item: 20px;
+    }
+
+    [data-theme="high-contrast"] {
+      --resume-color-primary: #000000;
+      --resume-color-secondary: #000000;
+      --resume-color-accent: #0000ff;
+      --resume-color-background: #ffffff;
+      --resume-color-border: #000000;
+    }
+
+    @media print {
+      :root {
+        --resume-space-section: 18px;
+        --resume-space-item: 12px;
+      }
+
+      .resume-section {
+        page-break-inside: avoid;
+      }
+
+      .resume-item {
+        break-inside: avoid;
+      }
+
+      p, li {
+        widows: 3;
+        orphans: 3;
+      }
+
+      .resume-description {
+        hyphens: auto;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    [dir="rtl"] {
+      text-align: right;
+    }
+
+    [dir="rtl"] .resume-item {
+      padding-left: 0;
+      padding-right: var(--resume-space-tight);
+    }
+  
+  </style>
+
+  <!-- Styled Components CSS -->
+  <style data-styled="true" data-styled-version="6.1.19">.lbEOJK{margin-bottom:var(--resume-space-section, 2rem);}/*!sc*/
+@media print{.lbEOJK{page-break-inside:avoid;}}/*!sc*/
+data-styled.g2[id="sc-bRKDuR"]{content:"lbEOJK,"}/*!sc*/
+.duyNib{font-size:var(--resume-size-heading, 16pt);font-weight:600;color:var(--resume-color-primary, #000);margin:0 0 var(--resume-space-item, 1rem) 0;padding-bottom:4px;border-bottom:2px solid var(--resume-color-accent, #0066cc);}/*!sc*/
+@media print{.duyNib{page-break-after:avoid;}}/*!sc*/
+data-styled.g3[id="sc-hvigdm"]{content:"duyNib,"}/*!sc*/
+.fijwpr{margin-bottom:var(--resume-space-item, 1rem);}/*!sc*/
+@media print{.fijwpr{page-break-inside:avoid;}}/*!sc*/
+data-styled.g5[id="sc-ggWZvA"]{content:"fijwpr,"}/*!sc*/
+.frzMDi{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}/*!sc*/
+data-styled.g6[id="sc-dTvVRJ"]{content:"frzMDi,"}/*!sc*/
+.hwqjmD{font-weight:600;color:var(--resume-color-primary, #000);font-size:var(--resume-size-body, 11pt);}/*!sc*/
+data-styled.g7[id="sc-jwTyAe"]{content:"hwqjmD,"}/*!sc*/
+.cuVvnw{color:var(--resume-color-secondary, #333);margin-bottom:4px;}/*!sc*/
+data-styled.g8[id="sc-hjsuWn"]{content:"cuVvnw,"}/*!sc*/
+.dzMzLV{display:flex;gap:12px;font-size:var(--resume-size-small, 10pt);color:var(--resume-color-tertiary, #666);margin-bottom:8px;}/*!sc*/
+data-styled.g9[id="sc-jJLAfE"]{content:"dzMzLV,"}/*!sc*/
+.dlucgH{margin:8px 0;line-height:1.6;}/*!sc*/
+data-styled.g10[id="sc-hwkwBN"]{content:"dlucgH,"}/*!sc*/
+.iaCsOu{margin:8px 0;padding-left:20px;list-style-type:disc;}/*!sc*/
+.iaCsOu li{margin:4px 0;line-height:1.5;}/*!sc*/
+data-styled.g11[id="sc-kNOymR"]{content:"iaCsOu,"}/*!sc*/
+.gItRmV{font-size:var(--resume-size-small, 10pt);color:var(--resume-color-tertiary, #666);white-space:nowrap;}/*!sc*/
+data-styled.g12[id="sc-dYwGCk"]{content:"gItRmV,"}/*!sc*/
+.cMmUrW{display:inline-block;padding:4px 12px;border-radius:var(--resume-radius-sm, 4px);font-size:10pt;font-weight:500;background:var(--resume-color-muted, #f5f5f5);color:var(--resume-color-primary, #000);}/*!sc*/
+@media print{.cMmUrW{background:#f5f5f5;color:#000;}}/*!sc*/
+data-styled.g13[id="sc-lgpSej"]{content:"cMmUrW,"}/*!sc*/
+.cAUIqj{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;}/*!sc*/
+data-styled.g14[id="sc-eqYatC"]{content:"cAUIqj,"}/*!sc*/
+.earDMT{max-width:var(--resume-max-width, 660px);margin:0 auto;padding:40px 20px;font-family:var(
+    --resume-font-sans,
+    'Helvetica Neue',
+    Helvetica,
+    Arial,
+    sans-serif
+  );font-size:var(--resume-size-body, 11pt);line-height:1.6;color:var(--resume-color-primary, #000);}/*!sc*/
+data-styled.g382[id="sc-flkahu"]{content:"earDMT,"}/*!sc*/
+.ipTkZB{text-align:center;margin-bottom:var(--resume-space-section, 2rem);}/*!sc*/
+data-styled.g383[id="sc-bNShyZ"]{content:"ipTkZB,"}/*!sc*/
+.iYkRzC{font-size:var(--resume-size-name, 28pt);font-weight:700;margin:0 0 8px 0;color:var(--resume-color-primary, #000);}/*!sc*/
+data-styled.g384[id="sc-duKOXo"]{content:"iYkRzC,"}/*!sc*/
+.pXWCa{font-size:var(--resume-size-heading, 16pt);color:var(--resume-color-secondary, #333);margin:0 0 16px 0;}/*!sc*/
+data-styled.g385[id="sc-cHijrb"]{content:"pXWCa,"}/*!sc*/
+.fOsrAr{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;font-size:var(--resume-size-body, 11pt);}/*!sc*/
+.fOsrAr a{color:var(--resume-color-accent, #0066cc);text-decoration:none;}/*!sc*/
+.fOsrAr a:hover{text-decoration:underline;}/*!sc*/
+data-styled.g386[id="sc-eoaQPq"]{content:"fOsrAr,"}/*!sc*/
+.hdZFmk{text-align:center;margin:16px 0;color:var(--resume-color-secondary, #333);}/*!sc*/
+data-styled.g387[id="sc-QIYgV"]{content:"hdZFmk,"}/*!sc*/
+.efTEwS{margin-bottom:12px;}/*!sc*/
+.efTEwS strong{margin-right:8px;}/*!sc*/
+data-styled.g388[id="sc-cxBFFk"]{content:"efTEwS,"}/*!sc*/
+</style>
+
+  <style>
+    
+    /*
+     * Global Styles
+     * Base styles that complement @jsonresume/core design tokens
+     */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+  
+  </style>
+</head>
+<body>
+  <main class="sc-flkahu earDMT"><header class="sc-bNShyZ ipTkZB"><h1 class="sc-duKOXo iYkRzC">Philip Grayson</h1><p class="sc-cHijrb pXWCa">Principal Engineer / Tech Lead - DevOps, Java, AWS &amp; Kafka</p><div class="sc-eoaQPq fOsrAr"><a href="mailto:phil@philgrayson.com">phil@philgrayson.com</a><span>Leeds, England, GB</span><a href="https://www.linkedin.com/in/phil-grayson-10567524/" target="_blank" rel="noopener noreferrer">LinkedIn</a></div><p class="sc-QIYgV hdZFmk">Java and DevOps specialist who owns software end to end: designing, developing, testing, deploying, instrumenting, and debugging. A decade building and running high-throughput event pipelines, software systems, and AWS infrastructure.</p></header><section id="work" class="sc-bRKDuR lbEOJK resume-section"><h2 class="sc-hvigdm duyNib resume-section-title">Work Experience</h2><div class="sc-ggWZvA fijwpr resume-item"><div class="sc-dTvVRJ frzMDi resume-item-header"><div class="sc-jwTyAe hwqjmD resume-item-title">Tech Lead / Principal Engineer</div></div><div class="sc-hjsuWn cuVvnw resume-item-subtitle">PokerStars (Flutter Entertainment)</div><div class="sc-jJLAfE dzMzLV resume-item-meta"><span class="resume-date"><span class="sc-dYwGCk gItRmV resume-date-range">Apr 2024</span></span></div><p class="sc-hwkwBN dlucgH resume-description">Built and maintained ETL systems using Kafka and Kafka Streams in Java. Focus on performance, multi-tenancy, and observability. Ran a team of ~3 developers and ~2 QA developers.</p><ul class="sc-kNOymR iaCsOu resume-highlights"><li>Owned the team&#x27;s technical decisions and software development. Worked with Product Owner and Architecture to turn requirements into solutions. Maintained team&#x27;s work pipeline (planning, elaboration, estimation, unblocking).</li><li>Hands-on across design, development, and test: implemented critical functionality, unit/integration tests, and BDD (gherkin). Designed deployment pipelines to AWS EKS, with strong focus on IAM (cross-account, principle of least privilege).</li><li>Designed and implemented a 5x increase in Kafka record throughput through batching, while maintaining at-least-once delivery semantics; including developing load testing software and ~RFC documentation.</li><li>Integrated with Prometheus/Grafana/AlertManager and stood up a self-service Kafka-UI instance for staff to inspect topic data directly.</li><li>Performed Kafka capacity planning (using AWS MSK Open Monitoring), identifying CPU throttling (burstable T instances), and a needed 10x increase in storage capacity to handle a new feature.</li></ul></div><div class="sc-ggWZvA fijwpr resume-item"><div class="sc-dTvVRJ frzMDi resume-item-header"><div class="sc-jwTyAe hwqjmD resume-item-title">Principal Engineer / DevOps</div></div><div class="sc-hjsuWn cuVvnw resume-item-subtitle">PokerStars (Flutter Entertainment)</div><div class="sc-jJLAfE dzMzLV resume-item-meta"><span class="resume-date"><span class="sc-dYwGCk gItRmV resume-date-range">Nov 2021 - Apr 2024</span></span></div><p class="sc-hwkwBN dlucgH resume-description">Deploying, maintaining, scaling software systems to process sporting event updates, to drive bet pricing and settlement. Peak 2,500+ updates per second.</p><ul class="sc-kNOymR iaCsOu resume-highlights"><li>Focus on event processing latency, since any delays could allow customers to bet on known outcomes. Visualisation and monitoring of latency SLIs (using percentiles), and built break-glass emergency processes in case of unacceptable latency.</li><li>Became the department&#x27;s primary escalation point for Apache Storm and Apache Cassandra, covering capacity planning, scaling, and version upgrades.</li><li>Described software deployments and redeployment strategies (~immutable EC2 instances, stateful data migration, EBS volume management) using AWS SDK (CloudFormation).</li><li>Led investigation and remediation of several incidents, often requiring close examination of application logs (from distributed systems), metrics and reading software source code. Non-production incidents were treated in the same way to help drive operational excellence. Root causes included Java GC pauses, DNS caching, Apache Storm internals, NTP backward time shift.</li><li>Developed extensive written and diagrammatic systems documentation, guides, and presentations, to help share knowledge with other technical members.</li><li>Coaching on software systems and incident investigation, including members outside my immediate team.</li></ul></div><div class="sc-ggWZvA fijwpr resume-item"><div class="sc-dTvVRJ frzMDi resume-item-header"><div class="sc-jwTyAe hwqjmD resume-item-title">Automation Engineer / Tech Lead / Principal Infrastructure Engineer</div></div><div class="sc-hjsuWn cuVvnw resume-item-subtitle">Sky Betting &amp; Gaming</div><div class="sc-jJLAfE dzMzLV resume-item-meta"><span class="resume-date"><span class="sc-dYwGCk gItRmV resume-date-range">Sep 2015 - Nov 2021</span></span></div><p class="sc-hwkwBN dlucgH resume-description">Managing platform infrastructure like Confluence, Jira, Bitbucket, Jenkins, Kafka, Artifactory, Chef.</p><ul class="sc-kNOymR iaCsOu resume-highlights"><li>Built and maintained several Apache Kafka clusters - including custom-written infrastructure-as-code (in Chef), user documentation, monitoring and automated alerting, version upgrades. 2+ billion records a day, 10+TB storage used.</li><li>Planned and performed high risk stateful system migrations and upgrades (for Confluence, Jira, Bitbucket). Optimising migration speed (reduced a planned Bitbucket downtime from 2.5 hours to 5 minutes). Built staging environments to practice migrations using production data set.</li><li>Progressed to tech lead and became responsible for the operational running and technical vision of services maintained by the team, advising on squad roadmap, handling incidents, building user relationships, and mentoring more junior team members in programming.</li><li>Developed custom Kubernetes Operator for Percona XtraDB clusters. Authored impact assessment and HLD for a 40+TB Elasticsearch deployment.</li></ul></div><div class="sc-ggWZvA fijwpr resume-item"><div class="sc-dTvVRJ frzMDi resume-item-header"><div class="sc-jwTyAe hwqjmD resume-item-title">Junior Developer / Developer</div></div><div class="sc-hjsuWn cuVvnw resume-item-subtitle">Ebuyer</div><div class="sc-jJLAfE dzMzLV resume-item-meta"><span class="resume-date"><span class="sc-dYwGCk gItRmV resume-date-range">Aug 2011 - Sep 2015</span></span></div><p class="sc-hwkwBN dlucgH resume-description">Frontend (HTML, XSL, jQuery) and backend (PHP, SQL) developer</p><ul class="sc-kNOymR iaCsOu resume-highlights"><li>Migrated payments backend, replacing cardholder data with tokenisation for PCI DSS.</li><li>Lead developer on various frontend (customer facing) navigation changes, including header, banners and faceted search.</li><li>Build backoffice reports to visualise various data, with interactive graphs and data tables.</li><li>Tool 1 year off to complete my BSc Software Development degree.</li></ul></div></section><section id="skills" class="sc-bRKDuR lbEOJK resume-section"><h2 class="sc-hvigdm duyNib resume-section-title">Skills</h2><div class="sc-cxBFFk efTEwS"><strong>Languages<!-- -->:</strong><div class="sc-eqYatC cAUIqj resume-badge-list"><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Java</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Shell</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Previously used Go / Ruby / Python</span></div></div><div class="sc-cxBFFk efTEwS"><strong>Frameworks &amp; Data<!-- -->:</strong><div class="sc-eqYatC cAUIqj resume-badge-list"><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Spring Boot</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Kafka (Server and Client, Self-hosted, AWS MSK, Confluent Cloud)</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Databases (SQL, Cassandra, Elasticsearch)</span></div></div><div class="sc-cxBFFk efTEwS"><strong>Cloud &amp; Infrastructure<!-- -->:</strong><div class="sc-eqYatC cAUIqj resume-badge-list"><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">AWS (SysOps Associate)</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Kubernetes (AWS EKS, Operators)</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Helm/Kustomize</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Terraform</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Docker</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Linux</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">GitHub Actions</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Jenkins</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Git (inc. advanced usage like rebase, cherrypick, reflog)</span></div></div><div class="sc-cxBFFk efTEwS"><strong>Reliability &amp; Observability<!-- -->:</strong><div class="sc-eqYatC cAUIqj resume-badge-list"><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Prometheus</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Grafana</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Capacity planning</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Incident investigation</span></div></div><div class="sc-cxBFFk efTEwS"><strong>Soft skills<!-- -->:</strong><div class="sc-eqYatC cAUIqj resume-badge-list"><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Communication: Written / oral / visual</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Independent working</span><span class="sc-lgpSej cMmUrW resume-badge resume-badge-default">Fast learning of software systems / libraries / languages</span></div></div></section><section id="certificates" class="sc-bRKDuR lbEOJK resume-section"><h2 class="sc-hvigdm duyNib resume-section-title">Certificates</h2><div class="sc-ggWZvA fijwpr resume-item"><div class="sc-dTvVRJ frzMDi resume-item-header"><div class="sc-jwTyAe hwqjmD resume-item-title">AWS Certified SysOps Administrator - Associate</div></div><div class="sc-jJLAfE dzMzLV resume-item-meta"><span class="resume-date">2025-01</span></div><p class="sc-hwkwBN dlucgH resume-description"><a href="https://cp.certmetrics.com/amazon/en/public/verify/credential/a1342da045754cbeac5c1afd6296426b" target="_blank" rel="noopener noreferrer">https://cp.certmetrics.com/amazon/en/public/verify/credential/a1342da045754cbeac5c1afd6296426b</a></p></div><div class="sc-ggWZvA fijwpr resume-item"><div class="sc-dTvVRJ frzMDi resume-item-header"><div class="sc-jwTyAe hwqjmD resume-item-title">BSc (Hons) Software Development, University of Huddersfield</div></div><div class="sc-jJLAfE dzMzLV resume-item-meta"><span class="resume-date">2013</span></div></div></section></main>
+</body>
+</html>
